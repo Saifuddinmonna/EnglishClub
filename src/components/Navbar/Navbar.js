@@ -5,46 +5,46 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useApp } from '../../context/AppContext';
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
+  { name: 'Home', to: '/', current: true },
   { 
     name: 'Vocabulary', 
-    href: '#',
+    to: '/vocabulary',
     dropdown: [
-      { name: 'Strong verb and Week Verb', href: '/documents/3-forms-of-verb' },
-      { name: 'Vocabulary for Connectors', href: '/vocabulary-connectors' },
-      { name: 'Others', href: '/vocabulary-others' }
+      { name: 'Strong verb and Week Verb', to: '/vocabulary/3-forms-of-verb' },
+      { name: 'Vocabulary for Connectors', to: '/vocabulary/connectors' },
+      { name: 'Others', to: '/vocabulary/others' }
     ]
   },
   { 
     name: 'Grammar', 
-    href: '#',
+    to: '/grammar',
     dropdown: [
-      { name: 'Sentences', href: '/grammar/sentences' },
-      { name: 'Auxiliary verb', href: '/grammar/auxiliary-verb' },
-      { name: 'Tense in one page', href: '/grammar/tense' },
-      { name: 'Case', href: '/grammar/case' }
+      { name: 'Sentences', to: '/grammar/sentences' },
+      { name: 'Auxiliary verb', to: '/grammar/auxiliary-verb' },
+      { name: 'Tense in one page', to: '/grammar/tense' },
+      { name: 'Case', to: '/grammar/case' }
     ]
   },
   { 
     name: 'Writing', 
-    href: '#',
+    to: '/writing',
     dropdown: [
-      { name: 'Paragraph malty', href: '/writing/paragraph' },
-      { name: 'Padma Bridge - Paragraph', href: '/writing/padma-bridge' },
-      { name: 'Covid-19 Paragraph', href: '/writing/covid19' },
-      { name: 'Application', href: '/writing/application' }
+      { name: 'Paragraph malty', to: '/writing/paragraph' },
+      { name: 'Padma Bridge - Paragraph', to: '/writing/padma-bridge' },
+      { name: 'Covid-19 Paragraph', to: '/writing/covid19' },
+      { name: 'Application', to: '/writing/application' }
     ]
   },
   { 
     name: 'Syllabus', 
-    href: '#',
+    to: '/syllabus',
     dropdown: [
-      { name: 'HSC', href: '/syllabus/hsc' },
-      { name: 'SSC', href: '/syllabus/ssc' },
-      { name: 'JSC', href: '/syllabus/jsc' }
+      { name: 'HSC', to: '/syllabus/hsc' },
+      { name: 'SSC', to: '/syllabus/ssc' },
+      { name: 'JSC', to: '/syllabus/jsc' }
     ]
   },
-  { name: 'Courses', href: '/courses', current: false },
+  { name: 'Courses', to: '/courses', current: false },
 ];
 
 function classNames(...classes) {
@@ -91,14 +91,17 @@ export default function Navbar() {
                       <div key={item.name} className="relative group">
                         {item.dropdown ? (
                           <div className="relative">
-                            <button className="text-white hover:bg-blue-700 rounded-md px-3 py-2 text-sm font-medium">
+                            <Link
+                              to={item.to}
+                              className="text-white hover:bg-blue-700 rounded-md px-3 py-2 text-sm font-medium"
+                            >
                               {item.name}
-                            </button>
+                            </Link>
                             <div className="absolute hidden group-hover:block w-48 bg-white rounded-md shadow-lg py-1 z-50">
                               {item.dropdown.map((dropItem) => (
                                 <Link
                                   key={dropItem.name}
-                                  to={dropItem.href}
+                                  to={dropItem.to}
                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
                                   {dropItem.name}
@@ -108,7 +111,7 @@ export default function Navbar() {
                           </div>
                         ) : (
                           <Link
-                            to={item.href}
+                            to={item.to}
                             className={classNames(
                               item.current ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700',
                               'rounded-md px-3 py-2 text-sm font-medium'
@@ -210,7 +213,7 @@ export default function Navbar() {
                         {item.dropdown.map((dropItem) => (
                           <Link
                             key={dropItem.name}
-                            to={dropItem.href}
+                            to={dropItem.to}
                             className="text-white hover:bg-blue-700 block rounded-md px-3 py-2 text-sm"
                           >
                             {dropItem.name}
@@ -221,7 +224,7 @@ export default function Navbar() {
                   ) : (
                     <Disclosure.Button
                       as={Link}
-                      to={item.href}
+                      to={item.to}
                       className={classNames(
                         item.current ? 'bg-blue-700 text-white' : 'text-white hover:bg-blue-700',
                         'block rounded-md px-3 py-2 text-base font-medium'
