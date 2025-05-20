@@ -4,6 +4,7 @@ import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import Grammar from './pages/Grammar/Grammar';
+import CaseGrammarPage from './pages/Grammar/Case';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/vocabulary" element={<div className="container section">Vocabulary Page</div>} />
               <Route path="/grammar" element={<Grammar />} />
+              <Route path="/grammar/case" element={<CaseGrammarPage />} />
               <Route path="/writing" element={<div className="container section">Writing Page</div>} />
               <Route path="/syllabus" element={<div className="container section">Syllabus Page</div>} />
               <Route path="/courses" element={<div className="container section">Courses Page</div>} />
