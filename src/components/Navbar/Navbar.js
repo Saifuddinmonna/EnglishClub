@@ -54,6 +54,7 @@ const Navbar = () => {
     },
     { name: 'Courses', href: '/courses' },
     { name: 'Study Materials', href: '/documents' },
+    { name: 'AI Assistant', href: '/ai-assistant' },
   ];
 
   return (

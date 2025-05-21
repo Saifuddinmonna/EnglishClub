@@ -2,29 +2,22 @@ import React from 'react';
 import { useAuth } from '../../pages/Authentication/AuthContext';
 import Navbar from '../Navbar/Navbar';
 import DashboardLayout from './DashboardLayout';
+import AIButton from '../AIAssistant/AIButton';
 
 const MainLayout = ({ children }) => {
   const { user } = useAuth();
 
-  // If user is authenticated, wrap content with DashboardLayout
-  if (user) {
-    return (
-      <div className="min-h-screen bg-gray-100">
-        <Navbar />
-        <DashboardLayout>{children}</DashboardLayout>
-      </div>
-    );
-  }
-
-  // If user is not authenticated, show only Navbar and content
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <main className="flex-1">
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      {user ? (
+        <DashboardLayout>{children}</DashboardLayout>
+      ) : (
+        <main className="pt-16">
           {children}
-        </div>
-      </main>
+        </main>
+      )}
+      <AIButton />
     </div>
   );
 };

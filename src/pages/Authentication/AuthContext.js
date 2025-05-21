@@ -1,4 +1,13 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged,
+  updateProfile
+} from 'firebase/auth';
+import { auth, db } from '../../config/firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext(null);
 
@@ -7,32 +16,83 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Get additional user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        const userData = userDoc.data();
+        
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          firstName: userData?.firstName || '',
+          lastName: userData?.lastName || '',
+          role: userData?.role || 'student'
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+  const signup = async (email, password, firstName, lastName, role) => {
+    try {
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Update user profile
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`
+      });
+
+      // Store additional user data in Firestore
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
+        firstName,
+        lastName,
+        email,
+        role,
+        createdAt: new Date().toISOString()
+      });
+
+      return userCredential.user;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const signin = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      return userCredential.user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const value = {
     user,
-    login,
-    logout,
     loading,
+    signup,
+    signin,
+    logout
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {

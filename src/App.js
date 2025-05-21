@@ -10,6 +10,7 @@ import StudentPanel from './pages/Authentication/StudentPanel';
 import TeacherPanel from './pages/Authentication/TeacherPanel';
 import GuestPanel from './pages/Authentication/GuestPanel';
 import Home from './pages/Home/Home';
+import AIAssistant from './components/AIAssistant/AIAssistant';
 
 // Import all page components
 import Vocabulary from './pages/Vocabulary/Vocabulary';
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/" element={<MainLayout><Home /></MainLayout>} />
             <Route path="/signin" element={<MainLayout><SignIn /></MainLayout>} />
             <Route path="/signup" element={<MainLayout><SignUp /></MainLayout>} />
+            <Route path="/ai-assistant" element={<MainLayout><AIAssistant /></MainLayout>} />
 
             {/* Content routes */}
             <Route path="/vocabulary/*" element={<MainLayout><Vocabulary /></MainLayout>} />
