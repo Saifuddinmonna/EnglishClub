@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import toast, { Toaster } from 'react-hot-toast';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ const SignUp = () => {
     e.preventDefault();
     
     if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
       return setError('Passwords do not match');
     }
 
@@ -25,15 +27,19 @@ const SignUp = () => {
       setError('');
       setLoading(true);
       await signup(email, password, firstName, lastName, role);
-      navigate('/');
+      toast.success('Account created successfully!');
+      navigate('/dashboard');
     } catch (error) {
-      setError('Failed to create an account: ' + error.message);
+      const errorMessage = 'Failed to create an account: ' + error.message;
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
     setLoading(false);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <Toaster position="top-center" />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Create your account

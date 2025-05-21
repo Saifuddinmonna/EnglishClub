@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../pages/Authentication/AuthContext';
 import { useApp } from '../../context/AppContext';
@@ -7,6 +7,7 @@ import {
   XMarkIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -57,8 +58,18 @@ const Navbar = () => {
     { name: 'AI Assistant', href: '/ai-assistant' },
   ];
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('Successfully signed out!');
+    } catch (error) {
+      toast.error('Failed to sign out. Please try again.');
+    }
+  };
+
   return (
     <nav className="bg-white shadow">
+      <Toaster position="top-center" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -110,7 +121,7 @@ const Navbar = () => {
                   Welcome, {user.firstName || user.email}
                 </span>
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                 >
                   Sign out
@@ -201,7 +212,7 @@ const Navbar = () => {
                   </div>
                 </div>
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                 >
                   Sign out

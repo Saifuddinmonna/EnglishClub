@@ -1,123 +1,60 @@
 // src/services/aiService.js
-import { auth } from '../config/firebase'; // নিশ্চিত করুন আপনার firebase.js থেকে auth এক্সপোর্ট করা আছে
+import { GEMINI_API_KEY, GEMINI_API_URL } from '../config/aiConfig';
 
-// Netlify Functions এর জন্য পাথ
-const API_BASE_PATH = '/.netlify/functions';
-const FUNCTION_NAME = 'generateAiResponse'; // আপনার Netlify Function ফাইলের নাম (netlify/functions/generateAiResponse.js)
-const MAX_RETRIES = 2;
-const RETRY_DELAY = 1000; // 1 second
-
-// Get Firebase ID Token with retry logic
-const getAuthToken = async (retryCount = 0) => {
+const generateAIResponse = async (prompt) => {
   try {
-    const user = auth.currentUser;
-    if (!user) {
-      throw new Error('Please sign in to use the AI assistant');
-    }
-    return await user.getIdToken(true); // Force refresh token
-  } catch (error) {
-    console.error('Error getting auth token:', error);
-    if (retryCount < MAX_RETRIES) {
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-      return getAuthToken(retryCount + 1);
-    }
-    throw new Error('Authentication failed. Please try signing in again.');
-  }
-};
-
-// Generic API call function with retry logic
-const callApi = async (payload, retryCount = 0) => {
-  try {
-    const token = await getAuthToken();
-    const response = await fetch(`${API_BASE_PATH}/${FUNCTION_NAME}`, {
+    const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: prompt
+          }]
+        }]
+      })
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      // If unauthorized and we haven't retried yet, try again
-      if (response.status === 401 && retryCount < MAX_RETRIES) {
-        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-        return callApi(payload, retryCount + 1);
-      }
-      throw new Error(errorData.error || errorData.details || 'Failed to get AI response');
+      throw new Error('Failed to generate AI response');
     }
 
     const data = await response.json();
-    if (!data.result) {
-      throw new Error('Invalid response from AI service');
-    }
-    return data.result;
+    return data.candidates[0].content.parts[0].text;
   } catch (error) {
-    console.error('API call error:', error);
-    if (retryCount < MAX_RETRIES) {
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-      return callApi(payload, retryCount + 1);
-    }
-    throw new Error(error.message || 'Failed to communicate with AI service');
+    console.error('AI Service Error:', error);
+    throw error;
   }
 };
 
-// Grammar correction
-export const generateGrammarCorrection = async (input) => {
-  if (!input || typeof input !== 'string') {
-    throw new Error('Please provide valid text for grammar correction');
-  }
-  return await callApi({
-    mode: 'grammar',
-    input: input.trim()
-  });
+export const generateGrammarCorrection = async (text) => {
+  const prompt = `Please correct the grammar in the following text and explain the corrections: ${text}`;
+  return generateAIResponse(prompt);
 };
 
-// Vocabulary suggestions
-export const generateVocabularySuggestions = async (input) => {
-  if (!input || typeof input !== 'string') {
-    throw new Error('Please provide valid text for vocabulary suggestions');
-  }
-  return await callApi({
-    mode: 'vocabulary',
-    input: input.trim()
-  });
+export const generateVocabularySuggestions = async (text) => {
+  const prompt = `Please suggest better vocabulary words for the following text and explain why they are better: ${text}`;
+  return generateAIResponse(prompt);
 };
 
-// Writing improvement
-export const generateWritingImprovement = async (input) => {
-  if (!input || typeof input !== 'string') {
-    throw new Error('Please provide valid text for writing improvement');
-  }
-  return await callApi({
-    mode: 'writing',
-    input: input.trim()
-  });
+export const generateWritingImprovement = async (text) => {
+  const prompt = `Please improve the following text to make it more professional and engaging: ${text}`;
+  return generateAIResponse(prompt);
 };
 
-// Practice questions
 export const generatePracticeQuestions = async (topic, level) => {
-  if (!topic || typeof topic !== 'string') {
-    throw new Error('Please provide a valid topic');
-  }
-  if (!level || !['beginner', 'intermediate', 'advanced'].includes(level)) {
-    throw new Error('Please select a valid difficulty level');
-  }
-  return await callApi({
-    mode: 'practice',
-    topic: topic.trim(),
-    level
-  });
+  const prompt = `Generate 5 practice questions about ${topic} for ${level} level English learners. Include the answers.`;
+  return generateAIResponse(prompt);
 };
 
-// Test AI connection
 export const testAIConnection = async () => {
-  return await callApi({
-    mode: 'test'
-  });
+  try {
+    await generateAIResponse('Test connection');
+    return true;
+  } catch (error) {
+    console.error('AI Connection Test Failed:', error);
+    throw new Error('Failed to connect to AI service');
+  }
 };
-
-// handleAIError ফাংশনটি আর সরাসরি ক্লায়েন্ট-সাইডে SDK এরর হ্যান্ডেল করবে না,
-// কারণ এররগুলো এখন নেটওয়ার্ক/API কল থেকে আসবে।
-// callApi ফাংশনের ভেতরের এরর হ্যান্ডলিং এবং প্রতিটি ফাংশনের catch ব্লক এটি প্রতিস্থাপন করবে।

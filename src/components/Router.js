@@ -10,7 +10,7 @@ import SyllabusLayout from './Layouts/SyllabusLayout';
 import CoursesLayout from './Layouts/CoursesLayout';
 import Home from '../pages/Home/Home';
 import Grammar from '../pages/Grammar/Grammar';
-import CaseGrammarPage from '../pages/Grammar/Case';
+import CaseGrammarPage from '../pages/grammar/Case';
 import Students from '../pages/Students/Students';
 import Documents from '../pages/Documents/Documents';
 
