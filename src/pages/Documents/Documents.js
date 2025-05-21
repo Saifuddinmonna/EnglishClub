@@ -1,111 +1,64 @@
-import React, { useState } from 'react';
-import DocumentViewer from '../../components/DocumentViewer/DocumentViewer';
+import React from 'react';
+import { DocumentTextIcon, AcademicCapIcon, BookOpenIcon } from '@heroicons/react/24/outline';
 
 const Documents = () => {
-  const [selectedDocument, setSelectedDocument] = useState(null);
-
-  const documents = [
+  const studyMaterials = [
     {
       id: 1,
-      title: 'Cv',
+      title: 'Grammar Guide',
       description: 'Comprehensive guide to English grammar rules and usage',
-      type: 'doc',
-      url: 'https://docs.google.com/document/d/1mPULAHvmf0eTkjd-ltx5aDlEt_S_A6hL/edit?usp=sharing&ouid=106856683926414141088&rtpof=true&sd=true'
+      icon: DocumentTextIcon,
+      category: 'Grammar'
     },
     {
       id: 2,
-      title: '3 Forms of Verb',
-      description: 'Complete list of verb forms for practice',
-      type: 'docx',
-      url: '/documents/3 forms of verb verbs for freehand writing (Expanded List).docx'
+      title: 'Vocabulary Lists',
+      description: 'Essential vocabulary for different proficiency levels',
+      icon: BookOpenIcon,
+      category: 'Vocabulary'
     },
     {
       id: 3,
-      title: 'Writing Tips',
-      description: 'Tips and tricks for better English writing',
-      type: 'pdf',
-      url: '/documents/writing-tips.pdf'
+      title: 'Writing Templates',
+      description: 'Templates and examples for different types of writing',
+      icon: AcademicCapIcon,
+      category: 'Writing'
     }
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Study Materials</h1>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Document List */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Available Documents</h2>
-            <div className="space-y-4">
-              {documents.map((doc) => (
-                <button
-                  key={doc.id}
-                  onClick={() => setSelectedDocument(doc)}
-                  className={`w-full text-left p-4 rounded-lg transition-colors ${
-                    selectedDocument?.id === doc.id
-                      ? 'bg-blue-50 border-blue-500'
-                      : 'bg-gray-50 hover:bg-gray-100 border-transparent'
-                  } border-2`}
-                >
-                  <div className="flex items-center">
-                    <div className={`p-2 rounded-lg mr-3 ${
-                      doc.type === 'pdf' ? 'bg-red-100' : 'bg-blue-100'
-                    }`}>
-                      <svg
-                        className={`w-6 h-6 ${
-                          doc.type === 'pdf' ? 'text-red-600' : 'text-blue-600'
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">{doc.title}</h3>
-                      <p className="text-sm text-gray-600">{doc.description}</p>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
+            Study Materials
+          </h1>
+          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+            Access our comprehensive collection of study materials to enhance your English learning journey.
+          </p>
         </div>
 
-        {/* Document Viewer */}
-        <div className="lg:col-span-2">
-          {selectedDocument ? (
-            <DocumentViewer documentUrl={selectedDocument.url} />
-          ) : (
-            <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-              <svg
-                className="w-16 h-16 text-gray-400 mx-auto mb-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Select a Document
-              </h3>
-              <p className="text-gray-600">
-                Choose a document from the list to view its contents
-              </p>
-            </div>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {studyMaterials.map((material) => {
+            const Icon = material.icon;
+            return (
+              <div key={material.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Icon className="h-8 w-8 text-blue-600 mr-3" />
+                    <h3 className="text-xl font-bold text-gray-900">{material.title}</h3>
+                  </div>
+                  <p className="text-gray-600 mb-4">{material.description}</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-blue-600 font-medium">{material.category}</span>
+                    <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                      Download
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
