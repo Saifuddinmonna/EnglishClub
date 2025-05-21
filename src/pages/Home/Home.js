@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { FaGraduationCap, FaUsers, FaCertificate, FaGlobe } from 'react-icons/fa';
-import StudentProfiles from '../../components/StudentProfiles/StudentProfiles';
+import StudentProfiles from '../Students/StudentProfiles/StudentProfiles';
 
 const carouselItems = [
   {

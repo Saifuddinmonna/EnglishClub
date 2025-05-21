@@ -45,6 +45,7 @@ const navigation = [
     ]
   },
   { name: 'Courses', to: '/courses', current: false },
+  { name: 'Study Materials', to: '/documents', current: false },
 ];
 
 function classNames(...classes) {

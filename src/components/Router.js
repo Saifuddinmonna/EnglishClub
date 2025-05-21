@@ -11,6 +11,8 @@ import CoursesLayout from './Layouts/CoursesLayout';
 import Home from '../pages/Home/Home';
 import Grammar from '../pages/Grammar/Grammar';
 import CaseGrammarPage from '../pages/Grammar/Case';
+import Students from '../pages/Students/Students';
+import Documents from '../pages/Documents/Documents';
 
 const AppRouter = () => {
   return (
@@ -69,6 +71,12 @@ const AppRouter = () => {
             <Route path="/courses" element={<CoursesLayout />}>
               <Route index element={<div className="container section">Courses Page</div>} />
             </Route>
+
+            {/* Students Route */}
+            <Route path="/students" element={<Students />} />
+
+            {/* Documents Route */}
+            <Route path="/documents" element={<Documents />} />
           </Route>
         </Routes>
       </Router>
