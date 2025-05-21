@@ -1,0 +1,27 @@
+@font-face {
+	font-family: SutonnyMJ Regular;
+	src: url(SutonnyMJ\ Regular.ttf);
+}
+body .succecfull-students-thumbanail div img {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+}
+.courses-cards div img {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+}
+.student-feedback .light-golden {
+	color: #e5d68a;
+}
+pre {
+	overflow:;
+}
+.img-resize {
+	min-width: 100px;
+}
+
+#contaienr-id{
+	
+}
