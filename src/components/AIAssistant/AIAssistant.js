@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   generateGrammarCorrection,
   generateVocabularySuggestions,
@@ -8,6 +9,7 @@ import {
 } from '../../services/aiService';
 
 const AIAssistant = () => {
+  const { currentUser } = useAuth();
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,8 +20,13 @@ const AIAssistant = () => {
   const [aiStatus, setAiStatus] = useState('checking');
 
   useEffect(() => {
-    testAI();
-  }, []);
+    if (currentUser) {
+      testAI();
+    } else {
+      setAiStatus('error');
+      setError('Please sign in to use the AI assistant');
+    }
+  }, [currentUser]);
 
   const testAI = async () => {
     try {
@@ -36,6 +43,11 @@ const AIAssistant = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      setError('Please sign in to use the AI assistant');
+      return;
+    }
+    
     setLoading(true);
     setError('');
     setOutput('');
