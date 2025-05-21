@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { FaGraduationCap, FaUsers, FaCertificate, FaGlobe } from 'react-icons/fa';
+import StudentProfiles from '../../components/StudentProfiles/StudentProfiles';
 
 const carouselItems = [
   {
@@ -33,15 +34,7 @@ const courses = [
     price: 6000,
     image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=60'
   },
-  {
-    id: 2,
-    title: "Business English",
-    level: "Intermediate",
-    duration: "12 weeks",
-    description: "Master English for professional settings",
-    price: 12000,
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop&q=60'
-  },
+  
   {
     id: 3,
     title: "Advanced Communication",
@@ -68,6 +61,24 @@ const courses = [
     description: "Advanced English course for HSC students. Focus on advanced grammar, literature, and composition.",
     price: 10000,
     image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 6,
+    title: "BCS English",
+    level: "Advanced",
+    duration: "6 months",
+    description: "Specialized English course for BCS exam preparation. Focus on grammar, vocabulary, and comprehension skills.",
+    price: 15000,
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 7,
+    title: "Academic English",
+    level: "Advanced",
+    duration: "4 months",
+    description: "Prepare for higher education with our academic English course. Perfect for university-bound students.",
+    price: 18000,
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=60'
   }
 ];
 
@@ -76,6 +87,41 @@ const stats = [
   { icon: FaUsers, value: '50+', label: 'Expert Teachers' },
   { icon: FaCertificate, value: '95%', label: 'Success Rate' },
   { icon: FaGlobe, value: '15+', label: 'Countries' }
+];
+
+const studentTestimonials = [
+  {
+    id: 1,
+    name: "Rahima Akter",
+    achievement: "IELTS 7.5",
+    image: "/images/student/student-1.jpg",
+    quote: "The personalized attention and expert guidance helped me achieve my dream IELTS score. The teachers are incredibly supportive!",
+    course: "IELTS Preparation"
+  },
+  {
+    id: 2,
+    name: "Mohammad Fahim",
+    achievement: "BCS Cadre",
+    image: "/images/student/student-2.jpg",
+    quote: "The BCS English course was comprehensive and well-structured. It played a crucial role in my BCS success.",
+    course: "BCS English"
+  },
+  {
+    id: 3,
+    name: "Tahmina Rahman",
+    achievement: "HSC A+",
+    image: "/images/student/student-3.jpg",
+    quote: "The HSC English course helped me understand complex literature and improve my writing skills significantly.",
+    course: "HSC English"
+  },
+  {
+    id: 4,
+    name: "Sakib Hasan",
+    achievement: "SSC A+",
+    image: "/images/student/student-4.jpg",
+    quote: "The structured approach and regular practice tests made English my strongest subject in SSC.",
+    course: "SSC English"
+  }
 ];
 
 export default function Home() {
@@ -225,6 +271,8 @@ export default function Home() {
             Explore All Courses
           </button>
         </div>
+
+        <StudentProfiles />
       </section>
     </div>
   );
