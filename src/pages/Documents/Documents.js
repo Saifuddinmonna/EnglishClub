@@ -6,6 +6,7 @@ import { DocumentTextIcon, AcademicCapIcon, BookOpenIcon } from '@heroicons/reac
 const Documents = () => {
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [showAddDocument, setShowAddDocument] = useState(false);
+  const [expandedDocuments, setExpandedDocuments] = useState({});
   const [studyMaterials, setStudyMaterials] = useState([
     {
       id: 1,
@@ -26,10 +27,10 @@ const Documents = () => {
     {
       id: 3,
       title: 'Completing a Story',
-      description: 'Story completion exercise and examples',
+      description: 'Collection of stories with Bengali translations and vocabulary tables',
       icon: DocumentTextIcon,
       category: 'Writing',
-      documentUrl: '/documents/vocabularyPdfs/Completing a Story (AutoRecovered).xml'
+      documentUrl: '/documents/writings/copletingStory.html'
     },
     {
       id: 4,
@@ -48,37 +49,17 @@ const Documents = () => {
       documentUrl: '/documents/vocabularyPdfs/Completing a Story (AutoRecovered).htm'
     },
     {
-      id: 6,
-      title: 'Vocabulary Lists',
-      description: 'Essential vocabulary for different proficiency levels',
-      icon: BookOpenIcon,
-      category: 'Vocabulary',
-      documentUrl: 'https://example.com/vocabulary-lists.pdf'
-    },
-    {
-      id: 7,
-      title: 'Writing Templates',
-      description: 'Templates and examples for different types of writing',
-      icon: AcademicCapIcon,
+      id: 5,
+      title: '3 form of verbs',
+      description: 'HTML version of the story completion exercise',
+      icon: DocumentTextIcon,
       category: 'Writing',
-      documentUrl: 'https://example.com/writing-templates.docx'
+      documentUrl: '/documents/vocabularyPdfs/3formOfVerbs.html'
     },
-    {
-      id: 8,
-      title: 'English Grammar PDF',
-      description: 'Complete English grammar guide in PDF format',
-      icon: BookOpenIcon,
-      category: 'PDF',
-      documentUrl: '/documents/english-grammar.pdf'
-    },
-    {
-      id: 9,
-      title: 'Vocabulary Practice PDF',
-      description: 'Practice exercises for vocabulary building',
-      icon: BookOpenIcon,
-      category: 'PDF',
-      documentUrl: '/documents/vocabulary-practice.pdf'
-    }
+
+   
+ 
+ 
   ]);
 
   const handleFileUpload = (event) => {
@@ -112,6 +93,13 @@ const Documents = () => {
   const handleAddDocument = (newDocument) => {
     setStudyMaterials([...studyMaterials, newDocument]);
     setShowAddDocument(false);
+  };
+
+  const toggleDescription = (id) => {
+    setExpandedDocuments(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
   };
 
   return (
@@ -155,22 +143,39 @@ const Documents = () => {
                 return (
                   <div
                     key={material.id}
-                    className={`bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transition-all duration-200 ${
+                    className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-200 ${
                       selectedDocument?.id === material.id
                         ? 'ring-2 ring-blue-500'
                         : 'hover:shadow-xl'
                     }`}
-                    onClick={() => setSelectedDocument(material)}
                   >
                     <div className="p-6">
                       <div className="flex items-center mb-4">
                         <Icon className="h-8 w-8 text-blue-600 mr-3" />
                         <h3 className="text-xl font-bold text-gray-900">{material.title}</h3>
                       </div>
-                      <p className="text-gray-600 mb-4">{material.description}</p>
+                      {expandedDocuments[material.id] && (
+                        <p className="text-gray-600 mb-4">{material.description}</p>
+                      )}
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-blue-600 font-medium">{material.category}</span>
-                        <span className="text-sm text-gray-500">Click to view</span>
+                        <div className="flex space-x-3">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleDescription(material.id);
+                            }}
+                            className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                          >
+                            {expandedDocuments[material.id] ? 'Hide details' : 'Show details'}
+                          </button>
+                          <button
+                            onClick={() => setSelectedDocument(material)}
+                            className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors"
+                          >
+                            View
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
