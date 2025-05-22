@@ -18,6 +18,13 @@ const DashboardLayout = ({ children }) => {
     return <Navigate to="/signin" />;
   }
 
+  // Ensure user has a role, default to 'guest' if not
+  const userRole = user?.role || 'guest';
+  const firstName = user?.firstName || '';
+  const lastName = user?.lastName || '';
+  const email = user?.email || '';
+  const userInitial = (firstName?.charAt(0) || email?.charAt(0) || 'U').toUpperCase();
+
   const navigation = {
     admin: [
       { name: 'Dashboard', icon: ChartBarIcon, path: '/admin' },
@@ -49,7 +56,7 @@ const DashboardLayout = ({ children }) => {
     ],
   };
 
-  const roleNavigation = navigation[user.role] || navigation.guest;
+  const roleNavigation = navigation[userRole] || navigation.guest;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -59,7 +66,7 @@ const DashboardLayout = ({ children }) => {
           <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
               <h1 className="text-2xl font-bold text-gray-900">
-                {user.role.charAt(0).toUpperCase() + user.role.slice(1)} Portal
+                {userRole.charAt(0).toUpperCase() + userRole.slice(1)} Portal
               </h1>
             </div>
             <nav className="mt-5 flex-1 px-2 space-y-1">
@@ -83,13 +90,13 @@ const DashboardLayout = ({ children }) => {
                 <div>
                   <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
                     <span className="text-lg font-medium leading-none text-white">
-                      {user.firstName?.charAt(0) || user.email?.charAt(0)}
+                      {userInitial}
                     </span>
                   </div>
                 </div>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                    {user.firstName} {user.lastName}
+                    {firstName} {lastName}
                   </p>
                   <button
                     onClick={logout}

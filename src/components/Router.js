@@ -1,99 +1,98 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from '../context/AppContext';
+import { AuthProvider } from '../pages/Authentication/AuthContext';
 import MainLayout from './Layouts/MainLayout';
-import HomeLayout from './Layouts/HomeLayout';
-import GrammarLayout from './Layouts/GrammarLayout';
-import VocabularyLayout from './Layouts/VocabularyLayout';
-import WritingLayout from './Layouts/WritingLayout';
-import SyllabusLayout from './Layouts/SyllabusLayout';
-import CoursesLayout from './Layouts/CoursesLayout';
+import AIAssistantLayout from './Layouts/AIAssistantLayout';
+import SignIn from '../pages/Authentication/SignIn';
+import SignUp from '../pages/Authentication/SignUp';
+import AdminPanel from '../pages/Authentication/AdminPanel';
+import StudentPanel from '../pages/Authentication/StudentPanel';
+import TeacherPanel from '../pages/Authentication/TeacherPanel';
+import GuestPanel from '../pages/Authentication/GuestPanel';
 import Home from '../pages/Home/Home';
-import Grammar from '../pages/Grammar/Grammar';
-import CaseGrammarPage from '../pages/Grammar/Case';
-import Students from '../pages/Students/Students';
-import Documents from '../pages/Documents/Documents';
+import AIAssistant from './AIAssistant/AIAssistant';
 import ProtectedRoute from './ProtectedRoute';
+import SpecialStudentRoute from './SpecialStudentRoute';
+
+// Import all page components
+import Vocabulary from '../pages/Vocabulary/Vocabulary';
+import Grammar from '../pages/Grammar/Grammar';
+import Writings from '../pages/Writing/Writings';
+import Syllabus from '../pages/Syllabus/Syllabus';
+import Courses from '../pages/Courses/Courses';
+import Documents from '../pages/Documents/Documents';
 
 const AppRouter = () => {
   return (
-    <AppProvider>
-      <Router>
-        <Routes>
-          <Route element={<MainLayout />}>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/syllabus" element={<SyllabusLayout />}>
-              <Route index element={<div className="container section">Syllabus Page</div>} />
-              <Route path="hsc" element={<div className="container section">HSC Syllabus</div>} />
-              <Route path="ssc" element={<div className="container section">SSC Syllabus</div>} />
-              <Route path="jsc" element={<div className="container section">JSC Syllabus</div>} />
-            </Route>
-            <Route path="/courses" element={<CoursesLayout />}>
-              <Route index element={<div className="container section">Courses Page</div>} />
-            </Route>
+    <AuthProvider>
+      <AppProvider>
+        <Router>
+          <Routes>
+            {/* Public routes - no authentication required */}
+            <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+            <Route path="/signin" element={<MainLayout><SignIn /></MainLayout>} />
+            <Route path="/signup" element={<MainLayout><SignUp /></MainLayout>} />
+            <Route path="/syllabus/*" element={<MainLayout><Syllabus /></MainLayout>} />
+            <Route path="/courses/*" element={<MainLayout><Courses /></MainLayout>} />
 
-            {/* Protected Routes */}
-            <Route path="/vocabulary" element={
+            {/* Protected routes - authentication required */}
+            <Route path="/vocabulary/*" element={
               <ProtectedRoute>
-                <VocabularyLayout />
+                <MainLayout><Vocabulary /></MainLayout>
               </ProtectedRoute>
-            }>
-              <Route index element={<div className="container section">
-                <h2>Vocabulary</h2>
-                <div className="vocabulary-content">
-                  <h3>Strong Verbs and Weak Verbs</h3>
-                  <p>Learn about different types of verbs and their forms.</p>
-                  <h3>Connectors</h3>
-                  <p>Important vocabulary for connecting ideas in sentences.</p>
-                  <h3>Other Vocabulary</h3>
-                  <p>Additional vocabulary resources and exercises.</p>
-                </div>
-              </div>} />
-              <Route path="3-forms-of-verb" element={<div className="container section">Strong verb and Week Verb</div>} />
-              <Route path="connectors" element={<div className="container section">Vocabulary for Connectors</div>} />
-              <Route path="others" element={<div className="container section">Other Vocabulary</div>} />
-            </Route>
-
-            <Route path="/grammar" element={
+            } />
+            <Route path="/grammar/*" element={
               <ProtectedRoute>
-                <GrammarLayout />
+                <MainLayout><Grammar /></MainLayout>
               </ProtectedRoute>
-            }>
-              <Route index element={<Grammar />} />
-              <Route path="sentences" element={<div className="container section">Sentences</div>} />
-              <Route path="auxiliary-verb" element={<div className="container section">Auxiliary Verbs</div>} />
-              <Route path="tense" element={<div className="container section">Tense in one page</div>} />
-              <Route path="case" element={<CaseGrammarPage />} />
-            </Route>
-
-            <Route path="/writing" element={
+            } />
+            <Route path="/writing/*" element={
               <ProtectedRoute>
-                <WritingLayout />
+                <MainLayout><Writings /></MainLayout>
               </ProtectedRoute>
-            }>
-              <Route index element={<div className="container section">Writing Page</div>} />
-              <Route path="paragraph" element={<div className="container section">Paragraph malty</div>} />
-              <Route path="padma-bridge" element={<div className="container section">Padma Bridge - Paragraph</div>} />
-              <Route path="covid19" element={<div className="container section">Covid-19 Paragraph</div>} />
-              <Route path="application" element={<div className="container section">Application</div>} />
-            </Route>
+            } />
+            <Route path="/documents/*" element={
+              <SpecialStudentRoute>
+                <MainLayout><Documents /></MainLayout>
+              </SpecialStudentRoute>
+            } />
 
-            <Route path="/students" element={
+            {/* AI Assistant route */}
+            <Route path="/ai-assistant" element={
               <ProtectedRoute>
-                <Students />
+                <AIAssistantLayout><AIAssistant /></AIAssistantLayout>
               </ProtectedRoute>
             } />
 
-            <Route path="/documents" element={
+            {/* Protected panel routes */}
+            <Route path="/admin/*" element={
               <ProtectedRoute>
-                <Documents />
+                <MainLayout><AdminPanel /></MainLayout>
               </ProtectedRoute>
             } />
-          </Route>
-        </Routes>
-      </Router>
-    </AppProvider>
+            <Route path="/student/*" element={
+              <ProtectedRoute>
+                <MainLayout><StudentPanel /></MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/teacher/*" element={
+              <ProtectedRoute>
+                <MainLayout><TeacherPanel /></MainLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/guest/*" element={
+              <ProtectedRoute>
+                <MainLayout><GuestPanel /></MainLayout>
+              </ProtectedRoute>
+            } />
+
+            {/* Fallback route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AppProvider>
+    </AuthProvider>
   );
 };
 
