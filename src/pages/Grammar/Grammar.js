@@ -4,6 +4,7 @@ const Grammar = () => {
   const [selectedCategory, setSelectedCategory] = useState('basic');
   const [selectedFile, setSelectedFile] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -116,27 +117,46 @@ const Grammar = () => {
       }
     ],
     advanced: [
-      { name: 'Advanced Tenses', file: 'tense details 2.html' },
-      { name: 'Conditional Sentences', file: 'CONDITIONAL SENTENCE & CORRECT FORM OF VERBS.html' },
-      { name: 'Relative Clauses', file: 'RELATIVE PRONOUN.html' },
-      { name: 'Causative Verbs', file: 'CAUSATIVE VERB এর ব্যবহার.html' }
+      {
+        category: "Advanced Grammar",
+        items: [
+          { name: 'Advanced Tenses', file: 'tense details 2.html' },
+          { name: 'Conditional Sentences', file: 'CONDITIONAL SENTENCE & CORRECT FORM OF VERBS.html' },
+          { name: 'Relative Clauses', file: 'RELATIVE PRONOUN.html' },
+          { name: 'Causative Verbs', file: 'CAUSATIVE VERB এর ব্যবহার.html' }
+        ]
+      }
     ],
     academic: [
-      { name: 'Academic Writing', file: 'academic_writing.html' },
-      { name: 'Research Paper Grammar', file: 'research_grammar.html' }
+      {
+        category: "Academic Grammar",
+        items: [
+          { name: 'Academic Writing', file: 'academic_writing.html' },
+          { name: 'Research Paper Grammar', file: 'research_grammar.html' }
+        ]
+      }
     ]
   };
 
   return (
     <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-0'}`}>
       {!isFullScreen && (
-        <h1 className="text-3xl font-bold mb-6">English Grammar</h1>
+        <div className="mb-6">
+          <h1 className="flex text-3xl mr-4 font-bold">English Grammar <span className="text-lg text-gray-500"> {hoveredItem && (
+            // <div className="  bg-gray-50 rounded-md">
+            //   <p className="text-gray-700 text-lg">
+                <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
+            //   </p>
+            // </div>
+          )}</span></h1>
+         
+        </div>
       )}
       
       {/* Categories at the top */}
       {!isFullScreen && (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="flex space-x-3">
+        <div className="bg-white rounded-lg shadow-md p-2 mb-4">
+          <div className="flex space-x-2">
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -144,7 +164,7 @@ const Grammar = () => {
                   setSelectedCategory(category.id);
                   setSelectedFile(null);
                 }}
-                className={`px-6 py-2 rounded-md transition-colors ${
+                className={`px-3 py-1 rounded-md transition-colors ${
                   selectedCategory === category.id
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
@@ -158,22 +178,24 @@ const Grammar = () => {
       )}
 
       {/* Main content area */}
-      <div className={`flex gap-2 ${isFullScreen ? 'h-screen' : ''}`}>
+      <div className={`flex gap-4 ${isFullScreen ? 'h-screen' : ''}`}>
         {/* Left side - File list (20%) */}
         {!isFullScreen && (
           <div className="w-1/5">
             <div className="bg-white rounded-lg shadow-md p-2">
-              <h2 className="text-lg font-semibold mb-4">Topics</h2>
-              <div className="space-y-0 max-h-[700px] overflow-y-auto">
+              <h2 className="text-xl font-semibold mb-2">Topics</h2>
+              <div className="space-y-2 max-h-[600px] overflow-y-auto">
                 {documents[selectedCategory]?.map((category, index) => (
                   <div key={index} className="space-y-1">
-                    <h3 className="font-medium text-gray-700">{category.category}</h3>
-                    <div className="space-y-0">
+                    <h3 className="font-medium text-gray-700 text-sm">{category.category}</h3>
+                    <div className="space-y-0.5">
                       {category.items.map((doc, docIndex) => (
                         <button
                           key={docIndex}
                           onClick={() => setSelectedFile(doc)}
-                          className={`w-full text-left px-2 py-1 rounded-md transition-colors ${
+                          onMouseEnter={() => setHoveredItem(doc)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                          className={`w-full text-left px-2 py-1 rounded-md transition-colors text-sm truncate ${
                             selectedFile?.file === doc.file
                               ? 'bg-blue-100 text-blue-700'
                               : 'hover:bg-gray-100'
@@ -192,14 +214,14 @@ const Grammar = () => {
 
         {/* Right side - Content display (65% or full width in fullscreen) */}
         <div className={`${isFullScreen ? 'w-full' : 'w-4/5'}`}>
-          <div className="bg-white rounded-lg shadow-md p-6 h-full">
+          <div className="bg-white rounded-lg shadow-md p-4 h-full">
             {selectedFile ? (
               <div className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-semibold">{selectedFile.name}</h2>
+                <div className="flex justify-between items-center mb-2">
+                  <h2 className="text-xl font-semibold">{selectedFile.name}</h2>
                   <button
                     onClick={toggleFullScreen}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                    className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
                   >
                     {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
                   </button>
@@ -212,7 +234,14 @@ const Grammar = () => {
               </div>
             ) : (
               <div className="flex items-center justify-center h-[600px] text-gray-500">
-                Select a topic from the left to view its content
+                {hoveredItem ? (
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold mb-2">Preview</h3>
+                    <p className="text-gray-700">{hoveredItem.name}</p>
+                  </div>
+                ) : (
+                  'Select a topic from the left to view its content'
+                )}
               </div>
             )}
           </div>
