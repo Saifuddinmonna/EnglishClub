@@ -128,7 +128,7 @@ const Grammar = () => {
   };
 
   return (
-    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-4 py-8'}`}>
+    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-0'}`}>
       {!isFullScreen && (
         <h1 className="text-3xl font-bold mb-6">English Grammar</h1>
       )}
@@ -136,7 +136,7 @@ const Grammar = () => {
       {/* Categories at the top */}
       {!isFullScreen && (
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="flex space-x-4">
+          <div className="flex space-x-3">
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -158,22 +158,22 @@ const Grammar = () => {
       )}
 
       {/* Main content area */}
-      <div className={`flex gap-6 ${isFullScreen ? 'h-screen' : ''}`}>
+      <div className={`flex gap-2 ${isFullScreen ? 'h-screen' : ''}`}>
         {/* Left side - File list (20%) */}
         {!isFullScreen && (
           <div className="w-1/5">
-            <div className="bg-white rounded-lg shadow-md p-4">
-              <h2 className="text-xl font-semibold mb-4">Topics</h2>
-              <div className="space-y-4 max-h-[600px] overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-md p-2">
+              <h2 className="text-lg font-semibold mb-4">Topics</h2>
+              <div className="space-y-0 max-h-[700px] overflow-y-auto">
                 {documents[selectedCategory]?.map((category, index) => (
-                  <div key={index} className="space-y-2">
+                  <div key={index} className="space-y-1">
                     <h3 className="font-medium text-gray-700">{category.category}</h3>
-                    <div className="space-y-1">
+                    <div className="space-y-0">
                       {category.items.map((doc, docIndex) => (
                         <button
                           key={docIndex}
                           onClick={() => setSelectedFile(doc)}
-                          className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                          className={`w-full text-left px-2 py-1 rounded-md transition-colors ${
                             selectedFile?.file === doc.file
                               ? 'bg-blue-100 text-blue-700'
                               : 'hover:bg-gray-100'
