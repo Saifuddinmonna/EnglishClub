@@ -221,7 +221,7 @@ const Vocabulary = () => {
 
         {/* Right side - Content display (65% or full width in fullscreen) */}
         <div className={`${isFullScreen ? 'w-full' : 'w-4/5'}`}>
-          <div className="bg-white rounded-lg shadow-md p-6 h-full">
+          <div className="bg-white rounded-lg shadow-md px-6 py-1 h-full">
             {selectedFile ? (
               <div className="h-full flex flex-col">
                 <div className="flex justify-between items-center mb-4">
@@ -238,7 +238,7 @@ const Vocabulary = () => {
                 </div>
                 <iframe
                   src={`${categories.find(cat => cat.id === selectedCategory)?.path}/${selectedFile.file}`}
-                  className={`w-full border-0 ${isFullScreen ? 'flex-1' : 'h-[600px]'}`}
+                  className={`w-full border-0 ${isFullScreen ? 'flex-1' : 'h-[650px]'}`}
                   title={selectedFile.name}
                 />
               </div>

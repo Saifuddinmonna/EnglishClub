@@ -60,30 +60,36 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-20">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-bold text-blue-600">
-                English Club
+              <Link 
+                to="/" 
+                className="text-xl font-bold text-blue-600 relative group transition-all duration-300 hover:text-blue-700"
+              >
+                <span className="relative inline-block">
+                  English Club
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                </span>
               </Link>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8 sm:items-center">
               {navigation.map((item) => (
                 <div key={item.name} className="relative group">
                   {item.dropdown ? (
                     <div className="relative">
                       <Link
                         to={item.href}
-                        className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+                        className="inline-flex items-center px-1 py-2 text-base font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200"
                       >
                         {item.name}
                       </Link>
-                      <div className="absolute hidden group-hover:block w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                      <div className="absolute hidden group-hover:block w-48 bg-white rounded-md shadow-lg py-2 z-50 mt-1">
                         {item.dropdown.map((dropItem) => (
                           <Link
                             key={dropItem.name}
                             to={dropItem.href}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                           >
                             {dropItem.name}
                           </Link>
@@ -93,7 +99,7 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={item.href}
-                      className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-blue-600"
+                      className="inline-flex items-center px-2 py-2 text-base font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200"
                     >
                       {item.name}
                     </Link>
@@ -112,7 +118,7 @@ const Navbar = () => {
                 <AIButton />
                 <button
                   onClick={logout}
-                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
                 >
                   Sign out
                 </button>
@@ -122,13 +128,13 @@ const Navbar = () => {
                 <AIButton />
                 <Link
                   to="/signin"
-                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors duration-200"
                 >
                   Sign in
                 </Link>
                 <Link
                   to="/signup"
-                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
                 >
                   Sign up
                 </Link>
