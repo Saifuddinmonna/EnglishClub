@@ -7,7 +7,11 @@ module.exports = {
     "./public/index.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      transitionDuration: {
+        '2000': '2000ms',
+      },
+    },
   },
   plugins: [],
   corePlugins: {

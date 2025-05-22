@@ -17,28 +17,103 @@ const Grammar = () => {
 
   const documents = {
     basic: [
-      { name: 'Parts of Speech', file: 'Parts Of Speech কাকে বলে.html' },
-      { name: 'Tenses Overview', file: 'TENSE & CORRECT FORMS OF VERB & COMMON ERROR.html' },
-      { name: 'Articles', file: 'Article Rules A to Z.html' },
-      { name: 'Prepositions', file: 'Prepositions , overall concept of preposition.html' },
-      { name: 'Pronouns', file: 'pronoun and ists classifications.html' },
-      { name: 'Verbs', file: '3 forms of verb.html' },
-      { name: 'Sentence Structure', file: 'Sentence কত প্রকার ও কি কি.html' },
-      { name: 'Subject Verb Agreement', file: 'SUBJECT VERB AGREEMENT.html' },
-      { name: 'Auxiliary Verbs', file: 'Auxiliary verb.html' },
-      { name: 'Modal Verbs', file: 'modal auxiliary with meaning.html' },
-      { name: 'Degrees of Comparison', file: 'DEGREE.html' },
-      { name: 'Prefixes and Suffixes', file: 'Comprehensive Guide to English Prefixes and Suffixes.html' },
-      { name: 'Relative Pronouns', file: 'RELATIVE PRONOUN.html' },
-      { name: 'Causative Verbs', file: 'CAUSATIVE VERB এর ব্যবহার.html' },
-      { name: 'Conditional Sentences', file: 'CONDITIONAL SENTENCE & CORRECT FORM OF VERBS.html' },
-      { name: 'Completing Sentences', file: 'Completing Sentences level-1.2.html' },
-      { name: 'Phrases and Clauses', file: 'PHRASE এবং CLAUSE এর.html' },
-      { name: 'Case', file: 'Case.html' },
-      { name: 'Let and Allow Usage', file: 'LET  ALLOW এর বিভিন্ন ব্যবহার.html' },
-      { name: 'Whose as Possessive', file: 'WHOSE AS PROSSESSIVE.html' },
-      { name: 'Whoever, Whatever, etc.', file: 'WHOEVER ,WHATEVER ,WHATSOEVER ,WHICHEVER ,WHEREVER ,WHENEVER ,HOWEVER.html' },
-      { name: 'Which vs That', file: 'WHICH VS THAT AS RELATIVE.html' }
+      // 1. Parts of Speech
+      {
+        category: "Parts of Speech",
+        items: [
+          { name: 'Parts of Speech Overview', file: 'Parts Of Speech কাকে বলে.html' },
+          { name: 'Parts of Speech (Version 2)', file: 'Parts Of Speech কাকে বলেv2.html' },
+          { name: 'Parts of Speech (Version 3)', file: 'Parts Of Speech কাকে বলেv3.html' },
+          { name: 'Parts of Speech for Level', file: 'Parts Of Speech For Level.html' },
+          { name: 'Parts of Speech Understanding Sheet', file: 'Parts of Speech understanding sheet for teaching.html' },
+          { name: 'Parts of Speech in Rhyme', file: 'Parts of Speech খুব সহজে শিখুন ছন্দে ছন্দে _ for week and class vi - vii students.html' },
+          { name: 'Parts of Speech Easy Method', file: 'Parts of Speech সহজে বোঝানোর জন্য একটি সহজ কৌশল for labib.html' }
+        ]
+      },
+      // 2. Verbs and Tenses
+      {
+        category: "Verbs and Tenses",
+        items: [
+          { name: 'Auxiliary Verbs Overview', file: 'Auxiliary verb.html' },
+          { name: 'Auxiliary Verbs (Version 2)', file: 'Auxiliary verb v2 for weak student.html' },
+          { name: 'Auxiliary Verbs and Modals', file: 'AUXILIARY VERB and modals for weak stufent.html' },
+          { name: 'Auxiliary Verbs Level 1', file: 'Auxiliary Verbs and Modals level-1.html' },
+          { name: 'Auxiliary Verbs Level 1 (Version 2)', file: 'Auxiliary Verb and Modals level-1 version-2.html' },
+          { name: 'Tense Classification', file: 'TENSE এর শ্রেণিবিভাগ.html' },
+          { name: 'Tense in One Page', file: 'tense in one page basic.html' },
+          { name: 'Tense Details', file: 'tense details 2.html' },
+          { name: 'Tense and Verb Forms', file: 'TENSE & CORRECT FORMS OF VERB & COMMON ERROR.html' },
+          { name: '3 Forms of Verb', file: '3 forms of verb.html' },
+          { name: '3 Forms of Verb (Expanded)', file: '3 forms of verb verbs for freehand writing (Expanded List).html' },
+          { name: 'Causative Verbs', file: 'CAUSATIVE VERB এর ব্যবহার.html' },
+          { name: 'Causative Verbs (Version 2)', file: 'CAUSATIVE VERB এর ব্যবহার v2.html' },
+          { name: 'Causative Verbs (Editing)', file: 'CAUSATIVE VERB এর ব্যবহার editing.html' },
+          { name: 'Modal Auxiliaries', file: 'modal auxiliary with meaning.html' }
+        ]
+      },
+      // 3. Pronouns
+      {
+        category: "Pronouns",
+        items: [
+          { name: 'Pronoun Overview', file: 'pronoun and ists classifications.html' },
+          { name: 'Pronoun Definition', file: 'Pronoun কাকে বলে.html' },
+          { name: 'Personal Pronouns', file: 'Personal Pronoun.html' },
+          { name: 'Personal Pronouns Level 2', file: 'Personal pronouns level 2.html' },
+          { name: 'Relative Pronouns', file: 'RELATIVE PRONOUN.html' },
+          { name: 'Which vs That', file: 'WHICH VS THAT AS RELATIVE.html' },
+          { name: 'Whose as Possessive', file: 'WHOSE AS PROSSESSIVE.html' },
+          { name: 'Whoever, Whatever, etc.', file: 'WHOEVER ,WHATEVER ,WHATSOEVER ,WHICHEVER ,WHEREVER ,WHENEVER ,HOWEVER.html' }
+        ]
+      },
+      // 4. Prepositions and Articles
+      {
+        category: "Prepositions and Articles",
+        items: [
+          { name: 'Prepositions Overview', file: 'Prepositions , overall concept of preposition.html' },
+          { name: 'Prepositions for Kids', file: 'preposition for kid.html' },
+          { name: 'Prepositions for Class 5', file: 'Preposition for class 5.html' },
+          { name: 'Preposition Techniques', file: 'PREPOSITION ,TECHNIQUE for answering in the examination .html' },
+          { name: '51 Prepositions at a Glance', file: '51 টি PREPOSITION এর মানে এক নজরে.html' },
+          { name: 'Article Rules A to Z', file: 'Article Rules A to Z.html' },
+          { name: 'Article Rules A to Z (Version 3)', file: 'Article Rules A to Zv3.html' },
+          { name: 'Article Practice', file: 'article for practice.html' }
+        ]
+      },
+      // 5. Sentence Structure
+      {
+        category: "Sentence Structure",
+        items: [
+          { name: 'Sentence Types', file: 'Sentence কত প্রকার ও কি কি.html' },
+          { name: 'Subject Verb Agreement', file: 'SUBJECT VERB AGREEMENT.html' },
+          { name: 'Phrases and Clauses', file: 'PHRASE এবং CLAUSE এর.html' },
+          { name: 'Phrases and Clauses Details', file: 'PHRASE এবং CLAUSE এর details.html' },
+          { name: 'Completing Sentences', file: 'Completing Sentences level-1.2.html' },
+          { name: 'Completing Sentences (Rewrite)', file: 'completing sentence rewrite version.html' },
+          { name: 'Conditional Sentences', file: 'CONDITIONAL SENTENCE & CORRECT FORM OF VERBS.html' }
+        ]
+      },
+      // 6. Word Formation
+      {
+        category: "Word Formation",
+        items: [
+          { name: 'Prefixes and Suffixes', file: 'suffix and prefix and position of part of speech.html' },
+          { name: 'Prefixes and Suffixes Level 2', file: 'Prefixes and suffix level 2.html' },
+          { name: 'Common Prefixes and Suffixes', file: 'Common Prefixes and suffix.html' },
+          { name: 'Comprehensive Guide to Prefixes and Suffixes', file: 'Comprehensive Guide to English Prefixes and Suffixes.html' }
+        ]
+      },
+      // 7. Other Topics
+      {
+        category: "Other Topics",
+        items: [
+          { name: 'Case', file: 'Case.html' },
+          { name: 'Degrees of Comparison', file: 'DEGREE.html' },
+          { name: 'Let and Allow Usage', file: 'LET  ALLOW এর বিভিন্ন ব্যবহার.html' },
+          { name: 'Steps of Learning Grammar', file: 'Steps of Learning Grammar.html' },
+          { name: 'Steps of Learning Grammar (Print Version)', file: 'Steps of Learning Grammar and auxiliary verb for printing.html' },
+          { name: 'English Learning Magic Class', file: 'English Learning Magic Class.html' }
+        ]
+      }
     ],
     advanced: [
       { name: 'Advanced Tenses', file: 'tense details 2.html' },
@@ -89,19 +164,26 @@ const Grammar = () => {
           <div className="w-1/5">
             <div className="bg-white rounded-lg shadow-md p-4">
               <h2 className="text-xl font-semibold mb-4">Topics</h2>
-              <div className="space-y-2 max-h-[600px] overflow-y-auto">
-                {documents[selectedCategory]?.map((doc, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedFile(doc)}
-                    className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                      selectedFile?.file === doc.file
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'hover:bg-gray-100'
-                    }`}
-                  >
-                    {doc.name}
-                  </button>
+              <div className="space-y-4 max-h-[600px] overflow-y-auto">
+                {documents[selectedCategory]?.map((category, index) => (
+                  <div key={index} className="space-y-2">
+                    <h3 className="font-medium text-gray-700">{category.category}</h3>
+                    <div className="space-y-1">
+                      {category.items.map((doc, docIndex) => (
+                        <button
+                          key={docIndex}
+                          onClick={() => setSelectedFile(doc)}
+                          className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                            selectedFile?.file === doc.file
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          {doc.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
