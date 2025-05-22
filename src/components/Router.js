@@ -13,6 +13,7 @@ import Grammar from '../pages/Grammar/Grammar';
 import CaseGrammarPage from '../pages/Grammar/Case';
 import Students from '../pages/Students/Students';
 import Documents from '../pages/Documents/Documents';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRouter = () => {
   return (
@@ -20,11 +21,24 @@ const AppRouter = () => {
       <Router>
         <Routes>
           <Route element={<MainLayout />}>
-            {/* Home Route */}
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
+            <Route path="/syllabus" element={<SyllabusLayout />}>
+              <Route index element={<div className="container section">Syllabus Page</div>} />
+              <Route path="hsc" element={<div className="container section">HSC Syllabus</div>} />
+              <Route path="ssc" element={<div className="container section">SSC Syllabus</div>} />
+              <Route path="jsc" element={<div className="container section">JSC Syllabus</div>} />
+            </Route>
+            <Route path="/courses" element={<CoursesLayout />}>
+              <Route index element={<div className="container section">Courses Page</div>} />
+            </Route>
 
-            {/* Vocabulary Routes */}
-            <Route path="/vocabulary" element={<VocabularyLayout />}>
+            {/* Protected Routes */}
+            <Route path="/vocabulary" element={
+              <ProtectedRoute>
+                <VocabularyLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<div className="container section">
                 <h2>Vocabulary</h2>
                 <div className="vocabulary-content">
@@ -41,8 +55,11 @@ const AppRouter = () => {
               <Route path="others" element={<div className="container section">Other Vocabulary</div>} />
             </Route>
 
-            {/* Grammar Routes */}
-            <Route path="/grammar" element={<GrammarLayout />}>
+            <Route path="/grammar" element={
+              <ProtectedRoute>
+                <GrammarLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<Grammar />} />
               <Route path="sentences" element={<div className="container section">Sentences</div>} />
               <Route path="auxiliary-verb" element={<div className="container section">Auxiliary Verbs</div>} />
@@ -50,8 +67,11 @@ const AppRouter = () => {
               <Route path="case" element={<CaseGrammarPage />} />
             </Route>
 
-            {/* Writing Routes */}
-            <Route path="/writing" element={<WritingLayout />}>
+            <Route path="/writing" element={
+              <ProtectedRoute>
+                <WritingLayout />
+              </ProtectedRoute>
+            }>
               <Route index element={<div className="container section">Writing Page</div>} />
               <Route path="paragraph" element={<div className="container section">Paragraph malty</div>} />
               <Route path="padma-bridge" element={<div className="container section">Padma Bridge - Paragraph</div>} />
@@ -59,24 +79,17 @@ const AppRouter = () => {
               <Route path="application" element={<div className="container section">Application</div>} />
             </Route>
 
-            {/* Syllabus Routes */}
-            <Route path="/syllabus" element={<SyllabusLayout />}>
-              <Route index element={<div className="container section">Syllabus Page</div>} />
-              <Route path="hsc" element={<div className="container section">HSC Syllabus</div>} />
-              <Route path="ssc" element={<div className="container section">SSC Syllabus</div>} />
-              <Route path="jsc" element={<div className="container section">JSC Syllabus</div>} />
-            </Route>
+            <Route path="/students" element={
+              <ProtectedRoute>
+                <Students />
+              </ProtectedRoute>
+            } />
 
-            {/* Courses Route */}
-            <Route path="/courses" element={<CoursesLayout />}>
-              <Route index element={<div className="container section">Courses Page</div>} />
-            </Route>
-
-            {/* Students Route */}
-            <Route path="/students" element={<Students />} />
-
-            {/* Documents Route */}
-            <Route path="/documents" element={<Documents />} />
+            <Route path="/documents" element={
+              <ProtectedRoute>
+                <Documents />
+              </ProtectedRoute>
+            } />
           </Route>
         </Routes>
       </Router>
