@@ -40,13 +40,19 @@ const SyllabusOfEasy = () => {
     { 
       id: 'exam', 
       name: 'Exam Preparation', 
-      path: '/documents/examPreparation',
+      path: '{/documents/examPreparation}',
       description: 'Detailed exam preparation materials and guidelines'
     },
     { 
       id: 'nctb', 
       name: 'NCTB Syllabus', 
       path: '/documents/nctb',
+      description: 'Official National Curriculum and Textbook Board syllabus'
+    },
+    { 
+      id: 'academic syllabud',
+      name: 'Academic Sallabus',
+      path: ' { bangladeshSyllabus } ',
       description: 'Official National Curriculum and Textbook Board syllabus'
     }
   ];

@@ -90,7 +90,7 @@ const Writings = () => {
               <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
             )}
           </span></h1>
-          <p className="text-gray-700 text-lg">for sub category</p>
+         
         </div>
       )}
       

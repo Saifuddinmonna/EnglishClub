@@ -49,32 +49,22 @@ const Syllabus = () => {
       name: 'NCTB Syllabus', 
       path: '/documents/nctb',
       description: 'Official National Curriculum and Textbook Board syllabus'
+    },
+    { 
+      id: 'bcs', 
+      name: 'BCS Syllabus', 
+      path: '/documents/syllabuss',
+      description: 'Bangladesh Civil Service (BCS) examination syllabus and guidelines'
     }
   ];
 
   const documents = {
-    academic: [
-      { 
-        name: 'SSC Syllabus', 
-        file: 'ssc_syllabus.html',
-        description: 'Complete SSC English syllabus and guidelines'
-      },
-      { 
-        name: 'HSC Syllabus', 
-        file: 'hsc_syllabus.html',
-        description: 'Comprehensive HSC English syllabus'
-      },
-      { 
-        name: 'BCS Syllabus', 
-        file: 'bcs_syllabus.html',
-        description: 'BCS English examination syllabus'
-      },
-      { 
-        name: 'University Admission', 
-        file: 'admission_syllabus.html',
-        description: 'University admission test syllabus'
-      }
-    ],
+    academic: bangladeshSyllabus.map(section => ({
+      name: section.title,
+      file: section.id,
+      description: section.overview,
+      content: section
+    })),
     exam: [
       { 
         name: 'IELTS Preparation', 
@@ -93,6 +83,13 @@ const Syllabus = () => {
         file: 'nctb_guidelines.html',
         description: 'Official NCTB curriculum guidelines'
       }
+    ],
+    bcs: [
+      {
+        name: 'BCS Syllabus',
+        file: 'bcsSyllabus.html',
+        description: 'Complete BCS examination syllabus and guidelines'
+      }
     ]
   };
 
@@ -108,7 +105,15 @@ const Syllabus = () => {
   return (
     <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-4 py-8'}`}>
       {!isFullScreen && (
-        <h1 className="text-[1.1rem] font-bold mb-4 text-blue-800">Course & Academic Syllabus</h1>
+        <div className="mb-6">
+          <h1 className="flex text-2xl mr-4 font-bold">Course & Academic Syllabus 
+            <span className="text-sm text-gray-700">
+              {hoveredItem && (
+                <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
+              )}
+            </span>
+          </h1>
+        </div>
       )}
       
       {/* Categories at the top */}
@@ -123,6 +128,8 @@ const Syllabus = () => {
                     setSelectedCategory(category.id);
                     setSelectedFile(null);
                   }}
+                  onMouseEnter={() => setHoveredItem(category)}
+                  onMouseLeave={() => setHoveredItem(null)}
                   className={`px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
                     selectedCategory === category.id
                       ? 'bg-blue-600 text-white'
@@ -135,6 +142,8 @@ const Syllabus = () => {
             </div>
             <button
               onClick={toggleDetails}
+              onMouseEnter={() => setHoveredItem({ name: showDetails ? 'Hide Details' : 'Show Details' })}
+              onMouseLeave={() => setHoveredItem(null)}
               className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center gap-1"
             >
               {showDetails ? 'Hide Details' : 'Show Details'}
@@ -185,6 +194,8 @@ const Syllabus = () => {
                     <div className="flex items-center justify-between">
                       <button
                         onClick={() => setSelectedFile(doc)}
+                        onMouseEnter={() => setHoveredItem(doc)}
+                        onMouseLeave={() => setHoveredItem(null)}
                         className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
                           selectedFile?.file === doc.file
                             ? 'bg-blue-100 text-blue-700'
@@ -195,6 +206,8 @@ const Syllabus = () => {
                       </button>
                       <button
                         onClick={() => toggleDocDetails(doc.file)}
+                        onMouseEnter={() => setHoveredItem({ name: showDocDetails[doc.file] ? 'Hide Details' : 'Show Details' })}
+                        onMouseLeave={() => setHoveredItem(null)}
                         className="p-1 text-gray-500 hover:text-blue-600 transition-colors"
                       >
                         <svg
@@ -243,11 +256,45 @@ const Syllabus = () => {
                     {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
                   </button>
                 </div>
-                <iframe
-                  src={`${categories.find(cat => cat.id === selectedCategory)?.path}/${selectedFile.file}`}
-                  className={`w-full border-0 ${isFullScreen ? 'flex-1' : 'h-[650px]'}`}
-                  title={selectedFile.name}
-                />
+                {selectedCategory === 'academic' ? (
+                  <div className="flex-1 overflow-y-auto p-4">
+                    {selectedFile.content.sections.map((section, index) => (
+                      <div key={index} className="mb-6">
+                        <h3 className="text-lg font-semibold text-blue-700 mb-3">{section.title}</h3>
+                        {section.overview && (
+                          <p className="text-gray-600 mb-3">{section.overview}</p>
+                        )}
+                        {section.points && (
+                          <ul className="list-disc list-inside space-y-2 text-gray-600">
+                            {section.points.map((point, pointIndex) => (
+                              <li key={pointIndex}>{point}</li>
+                            ))}
+                          </ul>
+                        )}
+                        {section.subSections && (
+                          <div className="ml-4 mt-4">
+                            {section.subSections.map((subSection, subIndex) => (
+                              <div key={subIndex} className="mb-4">
+                                <h4 className="font-medium text-blue-600 mb-2">{subSection.subTitle}</h4>
+                                <ul className="list-disc list-inside space-y-2 text-gray-600">
+                                  {subSection.points.map((point, pointIndex) => (
+                                    <li key={pointIndex}>{point}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <iframe
+                    src={`${categories.find(cat => cat.id === selectedCategory)?.path}/${selectedFile.file}`}
+                    className={`w-full border-0 ${isFullScreen ? 'flex-1' : 'h-[650px]'}`}
+                    title={selectedFile.name}
+                  />
+                )}
               </div>
             ) : (
               <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
@@ -310,7 +357,7 @@ const Syllabus = () => {
 
                   <div className="mt-8 text-center">
                     <a 
-                      href="http://www.nctb.gov.bd/" 
+                      href="https://nctb.portal.gov.bd/site/page/d01e72b0-8ecd-4c81-bffd-c9e117b7fdad/-"
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300"
