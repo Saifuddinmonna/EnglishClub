@@ -224,15 +224,87 @@ const Courses = () => {
                 />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-[600px] text-gray-500">
+              <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
                 {hoveredItem ? (
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">Preview</h3>
-                    <p className="text-gray-700">{hoveredItem.name}</p>
+                  <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-md max-w-md z-10">
+                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Preview</h3>
+                    <p className="text-gray-700 break-words">{hoveredItem.name}</p>
                   </div>
-                ) : (
-                  'Select a topic from the left to view its content'
-                )}
+                ) : null}
+                <div className="text-center max-w-4xl px-4 overflow-y-auto max-h-[600px]">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to English Courses</h2>
+                    <p className="text-gray-600 mb-6 text-lg">
+                      Discover our comprehensive range of English courses designed to help you master the language at every level. 
+                      From beginner basics to advanced professional skills, we offer structured learning paths with interactive content and practical exercises.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                      <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Choose your level</li>
+                          <li className="break-words">Select a course category</li>
+                          <li className="break-words">Follow the learning path</li>
+                          <li className="break-words">Complete exercises</li>
+                        </ul>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-green-800 mb-3 text-lg">Features</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Interactive lessons</li>
+                          <li className="break-words">Practice exercises</li>
+                          <li className="break-words">Progress tracking</li>
+                          <li className="break-words">Fullscreen mode</li>
+                        </ul>
+                      </div>
+                      <div className="bg-purple-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-purple-800 mb-3 text-lg">Learning Path</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Beginner fundamentals</li>
+                          <li className="break-words">Intermediate skills</li>
+                          <li className="break-words">Advanced concepts</li>
+                          <li className="break-words">Professional mastery</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
+                      <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Courses</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-left">
+                          <h4 className="font-medium text-blue-700 mb-2">Beginner Courses</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Basic English</li>
+                            <li className="break-words">• Speaking Skills</li>
+                            <li className="break-words">• Reading Skills</li>
+                            <li className="break-words">• Basic Grammar</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-green-700 mb-2">Intermediate Courses</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Complex Grammar</li>
+                            <li className="break-words">• Writing Skills</li>
+                            <li className="break-words">• Advanced Speaking</li>
+                            <li className="break-words">• Communication</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-purple-700 mb-2">Advanced Courses</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Professional English</li>
+                            <li className="break-words">• Academic Writing</li>
+                            <li className="break-words">• Exam Preparation</li>
+                            <li className="break-words">• Business English</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="mt-6 text-gray-500 italic break-words">
+                      Hover over any topic on the left to preview its content, or click to start learning!
+                    </p>
+                  </div>
               </div>
             )}
           </div>

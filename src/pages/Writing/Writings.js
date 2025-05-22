@@ -189,15 +189,87 @@ const Writings = () => {
                 />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-[600px] text-gray-500">
+              <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
                 {hoveredItem ? (
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">Preview</h3>
-                    <p className="text-gray-700">{hoveredItem.name}</p>
+                  <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-md max-w-md z-10">
+                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Preview</h3>
+                    <p className="text-gray-700 break-words">{hoveredItem.name}</p>
                   </div>
-                ) : (
-                  'Select a topic from the left to view its content'
-                )}
+                ) : null}
+                <div className="text-center max-w-4xl px-4 overflow-y-auto max-h-[600px]">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to English Writing</h2>
+                    <p className="text-gray-600 mb-6 text-lg">
+                      Discover our comprehensive collection of writing resources designed to help you master English writing skills. 
+                      From basic paragraph writing to advanced academic composition, we provide detailed guides, examples, and practice materials.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                      <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Choose your writing level</li>
+                          <li className="break-words">Browse writing topics</li>
+                          <li className="break-words">Select a guide to read</li>
+                          <li className="break-words">Practice with examples</li>
+                        </ul>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-green-800 mb-3 text-lg">Features</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Step-by-step guides</li>
+                          <li className="break-words">Writing templates</li>
+                          <li className="break-words">Example compositions</li>
+                          <li className="break-words">Interactive learning</li>
+                        </ul>
+                      </div>
+                      <div className="bg-purple-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-purple-800 mb-3 text-lg">Learning Path</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Start with paragraphs</li>
+                          <li className="break-words">Move to essay writing</li>
+                          <li className="break-words">Explore creative writing</li>
+                          <li className="break-words">Master academic writing</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
+                      <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Categories</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-left">
+                          <h4 className="font-medium text-blue-700 mb-2">Basic Writing</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Paragraph Writing</li>
+                            <li className="break-words">• Essay Writing</li>
+                            <li className="break-words">• Creative Writing</li>
+                            <li className="break-words">• Basic Structure</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-green-700 mb-2">Advanced Writing</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Complex Essays</li>
+                            <li className="break-words">• Research Writing</li>
+                            <li className="break-words">• Critical Analysis</li>
+                            <li className="break-words">• Argumentative Writing</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-purple-700 mb-2">Academic Writing</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Research Papers</li>
+                            <li className="break-words">• Literature Reviews</li>
+                            <li className="break-words">• Thesis Writing</li>
+                            <li className="break-words">• Citation Styles</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="mt-6 text-gray-500 italic break-words">
+                      Hover over any topic on the left to preview its content, or click to start learning!
+                    </p>
+                  </div>
               </div>
             )}
           </div>

@@ -6,6 +6,7 @@ const Vocabulary = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showDocDetails, setShowDocDetails] = useState({});
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -243,25 +244,87 @@ const Vocabulary = () => {
                 />
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-[600px] text-gray-500">
-                <svg
-                  className="w-16 h-16 mb-4 text-blue-200"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
-                </svg>
-                <h3 className="text-[1.1rem] font-semibold mb-2">Select a Vocabulary List</h3>
-                <p className="text-center max-w-md text-[0.88rem]">
-                  Choose a category and select a vocabulary list to start learning
-                </p>
+              <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
+                {hoveredItem ? (
+                  <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-md max-w-md z-10">
+                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Preview</h3>
+                    <p className="text-gray-700 break-words">{hoveredItem.name}</p>
+                  </div>
+                ) : null}
+                <div className="text-center max-w-4xl px-4 overflow-y-auto max-h-[600px]">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to English Vocabulary</h2>
+                    <p className="text-gray-600 mb-6 text-lg">
+                      Explore our comprehensive collection of vocabulary resources designed to enhance your English language skills. 
+                      From basic words to advanced expressions, we provide detailed lists, examples, and learning materials for every level.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                      <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Choose your vocabulary level</li>
+                          <li className="break-words">Browse word categories</li>
+                          <li className="break-words">Study word lists</li>
+                          <li className="break-words">Practice with examples</li>
+                        </ul>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-green-800 mb-3 text-lg">Features</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Word definitions</li>
+                          <li className="break-words">Usage examples</li>
+                          <li className="break-words">Practice exercises</li>
+                          <li className="break-words">Interactive learning</li>
+                        </ul>
+                      </div>
+                      <div className="bg-purple-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-purple-800 mb-3 text-lg">Learning Path</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Start with basic words</li>
+                          <li className="break-words">Progress to advanced terms</li>
+                          <li className="break-words">Learn business vocabulary</li>
+                          <li className="break-words">Master academic terms</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
+                      <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Categories</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-left">
+                          <h4 className="font-medium text-blue-700 mb-2">Basic Vocabulary</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Essential Words</li>
+                            <li className="break-words">• Common Phrases</li>
+                            <li className="break-words">• Daily Expressions</li>
+                            <li className="break-words">• Basic Verbs</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-green-700 mb-2">Advanced Vocabulary</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Complex Terms</li>
+                            <li className="break-words">• Idioms</li>
+                            <li className="break-words">• Phrasal Verbs</li>
+                            <li className="break-words">• Advanced Expressions</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-purple-700 mb-2">Specialized Vocabulary</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Business Terms</li>
+                            <li className="break-words">• Academic Words</li>
+                            <li className="break-words">• IELTS Vocabulary</li>
+                            <li className="break-words">• Professional Terms</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="mt-6 text-gray-500 italic break-words">
+                      Hover over any topic on the left to preview its content, or click to start learning!
+                    </p>
+                  </div>
               </div>
             )}
           </div>
