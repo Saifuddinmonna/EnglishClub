@@ -149,8 +149,8 @@ const Grammar = () => {
   return (
     <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-0'}`}>
       {!isFullScreen && (
-        <div className="mb-6">
-          <h1 className="flex text-3xl mr-4 font-bold">English Grammar <span className="text-lg text-gray-500"> {hoveredItem && (
+        <div className="mb-2">
+          <h1 className="flex text-2xl mr-4 font-bold">English Grammar <span className="text-lg text-gray-500"> {hoveredItem && (
             // <div className="  bg-gray-50 rounded-md">
             //   <p className="text-gray-700 text-lg">
                 <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
@@ -158,7 +158,7 @@ const Grammar = () => {
             // </div>
            
           )}</span></h1>
-          <p className="text-gray-700 text-lg">for sub catagory</p>
+         
         </div>
       )}
       
@@ -257,15 +257,87 @@ const Grammar = () => {
                 />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-[600px] text-gray-500">
+              <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
                 {hoveredItem ? (
-                  <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">Preview</h3>
-                    <p className="text-gray-700">{hoveredItem.name}</p>
+                  <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-md max-w-md z-10">
+                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Preview</h3>
+                    <p className="text-gray-700 break-words">{hoveredItem.name}</p>
                   </div>
-                ) : (
-                  'Select a topic from the left to view its content'
-                )}
+                ) : null}
+                <div className="text-center max-w-4xl px-4 overflow-y-auto max-h-[600px]">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to English Grammar Learning</h2>
+                    <p className="text-gray-600 mb-6 text-lg">
+                      Explore our comprehensive collection of grammar resources designed to help you master English grammar. 
+                      From basic concepts to advanced topics, we've got you covered with detailed explanations, examples, and practice materials.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                      <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Choose a category from the top menu</li>
+                          <li className="break-words">Browse through the topics on the left</li>
+                          <li className="break-words">Click on any topic to view its content</li>
+                          <li className="break-words">Use fullscreen mode for better reading</li>
+                        </ul>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-green-800 mb-3 text-lg">Features</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Interactive content viewing</li>
+                          <li className="break-words">Fullscreen mode available</li>
+                          <li className="break-words">Organized by difficulty levels</li>
+                          <li className="break-words">Quick preview on hover</li>
+                        </ul>
+                      </div>
+                      <div className="bg-purple-50 p-4 rounded-lg overflow-hidden">
+                        <h3 className="font-semibold text-purple-800 mb-3 text-lg">Learning Path</h3>
+                        <ul className="list-disc list-inside text-gray-700 space-y-2">
+                          <li className="break-words">Start with Basic Grammar</li>
+                          <li className="break-words">Progress to Advanced topics</li>
+                          <li className="break-words">Master Academic writing</li>
+                          <li className="break-words">Practice with examples</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
+                      <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Categories</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-left">
+                          <h4 className="font-medium text-blue-700 mb-2">Basic Grammar</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Parts of Speech</li>
+                            <li className="break-words">• Verbs and Tenses</li>
+                            <li className="break-words">• Pronouns</li>
+                            <li className="break-words">• Prepositions</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-green-700 mb-2">Advanced Grammar</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Complex Tenses</li>
+                            <li className="break-words">• Conditional Sentences</li>
+                            <li className="break-words">• Relative Clauses</li>
+                            <li className="break-words">• Advanced Structures</li>
+                          </ul>
+                        </div>
+                        <div className="text-left">
+                          <h4 className="font-medium text-purple-700 mb-2">Academic Grammar</h4>
+                          <ul className="text-gray-600 space-y-1">
+                            <li className="break-words">• Academic Writing</li>
+                            <li className="break-words">• Research Papers</li>
+                            <li className="break-words">• Formal Language</li>
+                            <li className="break-words">• Citations</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="mt-6 text-gray-500 italic break-words">
+                      Hover over any topic on the left to preview its content, or click to start learning!
+                    </p>
+                  </div>
               </div>
             )}
           </div>
