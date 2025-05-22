@@ -234,37 +234,279 @@ export const studyMaterials = {
   },
   examPreparation: {
     title: 'Exam Preparation',
-    description: 'Comprehensive guides for various English proficiency exams',
+    description: 'Comprehensive preparation materials for various English proficiency and academic exams',
     icon: AcademicCapIcon,
     categories: [
       {
-        id: 'ielts',
         name: 'IELTS Preparation',
-        path: '/documents/examPdf/ielts',
+        path: '/documents/examPreparation/ielts',
         items: [
           {
-            category: "IELTS Sections",
+            category: 'Reading Section',
             items: [
-              { name: 'Reading Section', file: 'ielts_reading.html' },
-              { name: 'Writing Section', file: 'ielts_writing.html' },
-              { name: 'Speaking Section', file: 'ielts_speaking.html' },
-              { name: 'Listening Section', file: 'ielts_listening.html' }
+              { 
+                name: 'IELTS Reading Strategies',
+                file: 'ielts_reading_strategies.html',
+                description: 'Essential strategies for IELTS Reading section'
+              },
+              { 
+                name: 'Reading Practice Tests',
+                file: 'ielts_reading_practice.html',
+                description: 'Practice tests with detailed explanations'
+              },
+              { 
+                name: 'Reading Question Types',
+                file: 'ielts_reading_question_types.html',
+                description: 'Overview of different question types in IELTS Reading'
+              }
+            ]
+          },
+          {
+            category: 'Writing Section',
+            items: [
+              { 
+                name: 'Task 1: Academic Writing',
+                file: 'ielts_writing_task1.html',
+                description: 'Guide for Academic Writing Task 1'
+              },
+              { 
+                name: 'Task 2: Essay Writing',
+                file: 'ielts_writing_task2.html',
+                description: 'Comprehensive guide for Task 2 essay writing'
+              },
+              { 
+                name: 'Writing Band Descriptors',
+                file: 'ielts_writing_band_descriptors.html',
+                description: 'Understanding IELTS Writing band scores'
+              }
+            ]
+          },
+          {
+            category: 'Speaking Section',
+            items: [
+              { 
+                name: 'Speaking Test Format',
+                file: 'ielts_speaking_format.html',
+                description: 'Detailed breakdown of IELTS Speaking test'
+              },
+              { 
+                name: 'Speaking Practice Topics',
+                file: 'ielts_speaking_topics.html',
+                description: 'Common topics and sample answers'
+              },
+              { 
+                name: 'Speaking Band Descriptors',
+                file: 'ielts_speaking_band_descriptors.html',
+                description: 'Understanding IELTS Speaking band scores'
+              }
+            ]
+          },
+          {
+            category: 'Listening Section',
+            items: [
+              { 
+                name: 'Listening Test Format',
+                file: 'ielts_listening_format.html',
+                description: 'Overview of IELTS Listening test structure'
+              },
+              { 
+                name: 'Listening Practice Tests',
+                file: 'ielts_listening_practice.html',
+                description: 'Practice tests with audio materials'
+              },
+              { 
+                name: 'Listening Question Types',
+                file: 'ielts_listening_question_types.html',
+                description: 'Different types of questions in Listening section'
+              }
             ]
           }
         ]
       },
       {
-        id: 'toefl',
         name: 'TOEFL Preparation',
-        path: '/documents/examPdf/toefl',
+        path: '/documents/examPreparation/toefl',
         items: [
           {
-            category: "TOEFL Sections",
+            category: 'Reading Section',
             items: [
-              { name: 'Reading Section', file: 'toefl_reading.html' },
-              { name: 'Writing Section', file: 'toefl_writing.html' },
-              { name: 'Speaking Section', file: 'toefl_speaking.html' },
-              { name: 'Listening Section', file: 'toefl_listening.html' }
+              { 
+                name: 'TOEFL Reading Strategies',
+                file: 'toefl_reading_strategies.html',
+                description: 'Essential strategies for TOEFL Reading section'
+              },
+              { 
+                name: 'Reading Practice Tests',
+                file: 'toefl_reading_practice.html',
+                description: 'Practice tests with detailed explanations'
+              }
+            ]
+          },
+          {
+            category: 'Writing Section',
+            items: [
+              { 
+                name: 'Integrated Writing Task',
+                file: 'toefl_writing_integrated.html',
+                description: 'Guide for Integrated Writing Task'
+              },
+              { 
+                name: 'Independent Writing Task',
+                file: 'toefl_writing_independent.html',
+                description: 'Guide for Independent Writing Task'
+              }
+            ]
+          },
+          {
+            category: 'Speaking Section',
+            items: [
+              { 
+                name: 'Speaking Test Format',
+                file: 'toefl_speaking_format.html',
+                description: 'Overview of TOEFL Speaking test'
+              },
+              { 
+                name: 'Speaking Practice Tasks',
+                file: 'toefl_speaking_practice.html',
+                description: 'Practice tasks with sample responses'
+              }
+            ]
+          },
+          {
+            category: 'Listening Section',
+            items: [
+              { 
+                name: 'Listening Test Format',
+                file: 'toefl_listening_format.html',
+                description: 'Overview of TOEFL Listening test'
+              },
+              { 
+                name: 'Listening Practice Tests',
+                file: 'toefl_listening_practice.html',
+                description: 'Practice tests with audio materials'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Academic Exams',
+        path: '/documents/examPreparation/academic',
+        items: [
+          {
+            category: 'SSC Preparation',
+            items: [
+              { 
+                name: 'SSC English Syllabus',
+                file: 'ssc_syllabus.html',
+                description: 'Complete syllabus for SSC English'
+              },
+              { 
+                name: 'SSC Practice Tests',
+                file: 'ssc_practice_tests.html',
+                description: 'Practice tests for SSC English'
+              }
+            ]
+          },
+          {
+            category: 'HSC Preparation',
+            items: [
+              { 
+                name: 'HSC English Syllabus',
+                file: 'hsc_syllabus.html',
+                description: 'Complete syllabus for HSC English'
+              },
+              { 
+                name: 'HSC Practice Tests',
+                file: 'hsc_practice_tests.html',
+                description: 'Practice tests for HSC English'
+              }
+            ]
+          },
+          {
+            category: 'BCS Preparation',
+            items: [
+              { 
+                name: 'BCS English Syllabus',
+                file: 'bcs_syllabus.html',
+                description: 'Complete syllabus for BCS English'
+              },
+              { 
+                name: 'BCS Practice Tests',
+                file: 'bcs_practice_tests.html',
+                description: 'Practice tests for BCS English'
+              }
+            ]
+          },
+          {
+            category: 'University Admission',
+            items: [
+              { 
+                name: 'Admission Test Syllabus',
+                file: 'admission_syllabus.html',
+                description: 'Syllabus for university admission tests'
+              },
+              { 
+                name: 'Admission Practice Tests',
+                file: 'admission_practice_tests.html',
+                description: 'Practice tests for university admission'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Premium Content',
+        path: '/documents/examPreparation/premium',
+        items: [
+          {
+            category: 'IELTS Premium',
+            items: [
+              { 
+                name: 'IELTS Full Course',
+                file: 'ielts_full_course.html',
+                description: 'Complete IELTS preparation course (Premium)'
+              },
+              { 
+                name: 'IELTS Mock Tests',
+                file: 'ielts_mock_tests.html',
+                description: 'Full-length mock tests with detailed analysis'
+              }
+            ]
+          },
+          {
+            category: 'TOEFL Premium',
+            items: [
+              { 
+                name: 'TOEFL Full Course',
+                file: 'toefl_full_course.html',
+                description: 'Complete TOEFL preparation course (Premium)'
+              },
+              { 
+                name: 'TOEFL Mock Tests',
+                file: 'toefl_mock_tests.html',
+                description: 'Full-length mock tests with detailed analysis'
+              }
+            ]
+          },
+          {
+            category: 'Academic Premium',
+            items: [
+              { 
+                name: 'SSC Full Course',
+                file: 'ssc_full_course.html',
+                description: 'Complete SSC preparation course (Premium)'
+              },
+              { 
+                name: 'HSC Full Course',
+                file: 'hsc_full_course.html',
+                description: 'Complete HSC preparation course (Premium)'
+              },
+              { 
+                name: 'BCS Full Course',
+                file: 'bcs_full_course.html',
+                description: 'Complete BCS preparation course (Premium)'
+              }
             ]
           }
         ]

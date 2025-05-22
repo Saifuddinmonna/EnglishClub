@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { bangladeshSyllabus } from './SyllabusData';
-import { AccordionItem, PDFViewer } from './PdfAccordionItem';
+import { PDFViewer } from './PdfAccordionItem';
 
-const Syllabus = () => {
+const SyllabusOfEasy = () => {
   const [selectedCategory, setSelectedCategory] = useState('academic');
   const [selectedFile, setSelectedFile] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showDocDetails, setShowDocDetails] = useState({});
-  const [hoveredItem, setHoveredItem] = useState(null);
   const [openAccordion, setOpenAccordion] = useState(bangladeshSyllabus[0]?.id || null);
   const [selectedPDF, setSelectedPDF] = useState('hsc_english-1st-paper-2023.pdf');
 
@@ -108,7 +107,7 @@ const Syllabus = () => {
   return (
     <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-4 py-8'}`}>
       {!isFullScreen && (
-        <h1 className="text-[1.1rem] font-bold mb-4 text-blue-800">Course & Academic Syllabus</h1>
+        <h1 className="text-[1.1rem] font-bold mb-4 text-blue-800">Bangladesh English Curriculum Syllabus</h1>
       )}
       
       {/* Categories at the top */}
@@ -331,4 +330,4 @@ const Syllabus = () => {
   );
 };
 
-export default Syllabus;
+export default SyllabusOfEasy;
