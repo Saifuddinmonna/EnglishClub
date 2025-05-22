@@ -65,31 +65,41 @@ const Navbar = () => {
             <div className="flex-shrink-0 flex items-center">
               <Link 
                 to="/" 
-                className="text-xl font-bold text-blue-600 relative group transition-all duration-300 hover:text-blue-700"
+                className="text-xl font-bold text-blue-600 relative group transition-all duration-300 hover:text-blue-700 flex items-center gap-3"
               >
+                <div className="relative">
+                  <img 
+                    src="/favico.ico" 
+                    alt="English Club Logo" 
+                    className="w-8 h-8 transform group-hover:scale-110 transition-transform duration-300" 
+                  />
+                  <div className="absolute inset-0 bg-blue-100 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                </div>
                 <span className="relative inline-block">
-                  English Club
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                  <span className="text-base font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                    English Club
+                  </span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-800 group-hover:w-full transition-all duration-1000 ease-in-out"></span>
                 </span>
               </Link>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8 sm:items-center">
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-4 sm:items-center">
               {navigation.map((item) => (
                 <div key={item.name} className="relative group">
                   {item.dropdown ? (
                     <div className="relative">
                       <Link
                         to={item.href}
-                        className="inline-flex items-center px-1 py-2 text-base font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200"
+                        className="inline-flex items-center px-2 py-2 text-base font-medium text-gray-900 bg-gray-50 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-1000 ease-in-out shadow-sm hover:shadow-md no-underline"
                       >
                         {item.name}
                       </Link>
-                      <div className="absolute hidden group-hover:block w-48 bg-white rounded-md shadow-lg py-2 z-50 mt-1">
+                      <div className="absolute hidden group-hover:block w-48 bg-white rounded-lg shadow-lg py-2 z-50 mt-1 border border-gray-100 transform transition-all duration-1000 ease-in-out origin-top scale-95 group-hover:scale-100">
                         {item.dropdown.map((dropItem) => (
                           <Link
                             key={dropItem.name}
                             to={dropItem.href}
-                            className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-500 ease-in-out mx-2 rounded-md no-underline"
                           >
                             {dropItem.name}
                           </Link>
@@ -99,7 +109,9 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={item.href}
-                      className="inline-flex items-center px-2 py-2 text-base font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200"
+                      className={`inline-flex items-center justify-center px-4 py-2 text-base font-medium text-gray-900 bg-gray-50 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-500 ease-in-out shadow-sm hover:shadow-md no-underline ${
+                        item.name === 'Study Materials' ? 'text-sm font-semibold tracking-wide' : ''
+                      }`}
                     >
                       {item.name}
                     </Link>
@@ -112,31 +124,37 @@ const Navbar = () => {
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
             {user ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-700">
+                <span className="text-xs text-gray-700 leading-tight">
                   Welcome, {user.firstName || user.email}
                 </span>
-                <AIButton />
+                <div className="ml-6">
+                  <AIButton />
+                </div>
                 <button
                   onClick={logout}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+                  className="inline-flex items-center text-decoration-none ml-1 px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200 leading-tight"
                 >
                   Sign out
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-4">
-                <AIButton />
+              <div className="flex items-center space-x-2">
+                <div className="ml-6">
+                  <AIButton />
+                </div>
                 <Link
                   to="/signin"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors duration-200"
+                  className="flex flex-col text-decoration-none items-center justify-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 ease-in-out"
                 >
-                  Sign in
+                  <span>Sign</span>
+                  <span className="text-xs -mt-0.5">in</span>
                 </Link>
                 <Link
                   to="/signup"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+                  className="flex flex-col text-decoration-none items-center justify-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 ease-in-out"
                 >
-                  Sign up
+                  <span>Sign</span>
+                  <span className="text-xs -mt-0.5">up</span>
                 </Link>
               </div>
             )}

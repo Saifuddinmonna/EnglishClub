@@ -9,10 +9,13 @@ const AIButton = () => {
   return (
     <Link
       to="/ai-assistant"
-      className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+      className="flex flex-col text-decoration-none items-center justify-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 ease-in-out"
     >
-      <SparklesIcon className="h-5 w-5 mr-2" />
-      AI Assistant
+      <div className="flex items-center gap-0.5">
+        <SparklesIcon className="h-3 w-3" />
+        <span>AI</span>
+      </div>
+      <span className="text-xs -mt-0.5">Assistant</span>
     </Link>
   );
 };
