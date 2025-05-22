@@ -5,9 +5,17 @@ const Grammar = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState({});
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
+  };
+
+  const toggleCategory = (categoryName) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryName]: !prev[categoryName]
+    }));
   };
 
   const categories = [
@@ -148,8 +156,9 @@ const Grammar = () => {
                 <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
             //   </p>
             // </div>
+           
           )}</span></h1>
-         
+          <p className="text-gray-700 text-lg">for sub catagory</p>
         </div>
       )}
       
@@ -187,24 +196,39 @@ const Grammar = () => {
               <div className="space-y-2 max-h-[600px] overflow-y-auto">
                 {documents[selectedCategory]?.map((category, index) => (
                   <div key={index} className="space-y-1">
-                    <h3 className="font-medium text-gray-700 text-sm">{category.category}</h3>
-                    <div className="space-y-0.5">
-                      {category.items.map((doc, docIndex) => (
-                        <button
-                          key={docIndex}
-                          onClick={() => setSelectedFile(doc)}
-                          onMouseEnter={() => setHoveredItem(doc)}
-                          onMouseLeave={() => setHoveredItem(null)}
-                          className={`w-full text-left px-2 py-1 rounded-md transition-colors text-sm truncate ${
-                            selectedFile?.file === doc.file
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'hover:bg-gray-100'
-                          }`}
-                        >
-                          {doc.name}
-                        </button>
-                      ))}
-                    </div>
+                    <button
+                      onClick={() => toggleCategory(category.category)}
+                      className="w-full text-left px-2 py-1 rounded-md transition-colors text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                    >
+                      {category.category}
+                      <svg 
+                        className={`w-4 h-4 transition-transform duration-200 ${expandedCategories[category.category] ? 'rotate-180' : ''}`}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {expandedCategories[category.category] && (
+                      <div className="space-y-0.5 pl-4">
+                        {category.items.map((doc, docIndex) => (
+                          <button
+                            key={docIndex}
+                            onClick={() => setSelectedFile(doc)}
+                            onMouseEnter={() => setHoveredItem(doc)}
+                            onMouseLeave={() => setHoveredItem(null)}
+                            className={`w-full text-left px-2 py-1 rounded-md transition-colors text-sm truncate ${
+                              selectedFile?.file === doc.file
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'hover:bg-gray-100'
+                            }`}
+                          >
+                            {doc.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
