@@ -26,9 +26,9 @@ import Documents from '../pages/Documents/Documents';
 const AppRouter = () => {
   return (
     <AuthProvider>
-      <AppProvider>
-        <Router>
-          <Routes>
+    <AppProvider>
+      <Router>
+        <Routes>
             {/* Public routes - no authentication required */}
             <Route path="/" element={<MainLayout><Home /></MainLayout>} />
             <Route path="/signin" element={<MainLayout><SignIn /></MainLayout>} />
@@ -89,9 +89,9 @@ const AppRouter = () => {
 
             {/* Fallback route */}
             <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Router>
-      </AppProvider>
+        </Routes>
+      </Router>
+    </AppProvider>
     </AuthProvider>
   );
 };

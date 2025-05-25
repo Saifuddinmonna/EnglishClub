@@ -120,11 +120,14 @@ const Courses = () => {
     <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-0'}`}>
       {!isFullScreen && (
         <div className="mb-6">
-          <h1 className="flex text-3xl mr-4 font-bold">English Courses <span className="text-lg text-gray-500">
-            {hoveredItem && (
-              <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
-            )}
-          </span></h1>
+          <h1 className="flex flex-col md:flex-row text-3xl mr-4 font-bold">
+            English Courses 
+            <span className="text-lg text-gray-500">
+              {hoveredItem && (
+                <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
+              )}
+            </span>
+          </h1>
           <p className="text-gray-700 text-lg">for sub category</p>
         </div>
       )}
@@ -132,7 +135,7 @@ const Courses = () => {
       {/* Categories at the top */}
       {!isFullScreen && (
         <div className="bg-white rounded-lg shadow-md p-2 mb-4">
-          <div className="flex space-x-2">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -154,13 +157,13 @@ const Courses = () => {
       )}
 
       {/* Main content area */}
-      <div className={`flex gap-4 ${isFullScreen ? 'h-screen' : ''}`}>
-        {/* Left side - File list (20%) */}
+      <div className={`flex flex-col lg:flex-row gap-4 ${isFullScreen ? 'h-screen' : ''}`}>
+        {/* Left side - File list */}
         {!isFullScreen && (
-          <div className="w-1/5">
+          <div className="w-full lg:w-1/5">
             <div className="bg-white rounded-lg shadow-md p-2">
               <h2 className="text-xl font-semibold mb-2">Topics</h2>
-              <div className="space-y-2 max-h-[600px] overflow-y-auto">
+              <div className="space-y-2 max-h-[300px] lg:max-h-[600px] overflow-y-auto">
                 {documents[selectedCategory]?.map((category, index) => (
                   <div key={index} className="space-y-1">
                     <button
@@ -203,12 +206,12 @@ const Courses = () => {
           </div>
         )}
 
-        {/* Right side - Content display (80% or full width in fullscreen) */}
-        <div className={`${isFullScreen ? 'w-full' : 'w-4/5'}`}>
+        {/* Right side - Content display */}
+        <div className={`${isFullScreen ? 'w-full' : 'w-full lg:w-4/5'}`}>
           <div className="bg-white rounded-lg shadow-md p-4 h-full">
             {selectedFile ? (
               <div className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-2 gap-2">
                   <h2 className="text-xl font-semibold">{selectedFile.name}</h2>
                   <button
                     onClick={toggleFullScreen}
@@ -238,7 +241,7 @@ const Courses = () => {
                       From beginner basics to advanced professional skills, we offer structured learning paths with interactive content and practical exercises.
                     </p>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                       <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
                         <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
                         <ul className="list-disc list-inside text-gray-700 space-y-2">
@@ -270,7 +273,7 @@ const Courses = () => {
 
                     <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
                       <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Courses</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="text-left">
                           <h4 className="font-medium text-blue-700 mb-2">Beginner Courses</h4>
                           <ul className="text-gray-600 space-y-1">

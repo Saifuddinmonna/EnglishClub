@@ -108,8 +108,8 @@ const Vocabulary = () => {
       {/* Categories at the top */}
       {!isFullScreen && (
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               {categories.map((category) => (
                 <button
                   key={category.id}
@@ -117,19 +117,19 @@ const Vocabulary = () => {
                     setSelectedCategory(category.id);
                     setSelectedFile(null);
                   }}
-                  className={`px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
+                  className={`w-full sm:w-auto px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
                     selectedCategory === category.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
                   }`}
                 >
-                  <h3 className="font-medium text-[0.88rem]">{category.name}</h3>
+                  <h3 className="font-medium text-[0.88rem] text-center">{category.name}</h3>
                 </button>
               ))}
             </div>
             <button
               onClick={toggleDetails}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center gap-1"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center gap-1 w-full sm:w-auto justify-center"
             >
               {showDetails ? 'Hide Details' : 'Show Details'}
               <svg
@@ -165,15 +165,15 @@ const Vocabulary = () => {
       )}
       
       {/* Main content area */}
-      <div className={`flex gap-6 ${isFullScreen ? 'h-screen' : ''}`}>
-        {/* Left side - File list (20%) */}
+      <div className={`flex flex-col lg:flex-row gap-6 ${isFullScreen ? 'h-screen' : ''}`}>
+        {/* Left side - File list */}
         {!isFullScreen && (
-          <div className="w-1/5">
+          <div className="w-[95%] lg:w-1/5 mx-auto lg:mx-0">
             <div className="bg-white rounded-lg shadow-md p-4">
               <h2 className="text-[1.1rem] font-semibold mb-4 text-blue-800">
                 {categories.find(cat => cat.id === selectedCategory)?.name}
               </h2>
-              <div className="space-y-2 max-h-[600px] overflow-y-auto">
+              <div className="space-y-2 max-h-[300px] lg:max-h-[600px] overflow-y-auto">
                 {documents[selectedCategory]?.map((doc, index) => (
                   <div key={index} className="w-full">
                     <div className="flex items-center justify-between">
@@ -220,8 +220,8 @@ const Vocabulary = () => {
           </div>
         )}
 
-        {/* Right side - Content display (65% or full width in fullscreen) */}
-        <div className={`${isFullScreen ? 'w-full' : 'w-4/5'}`}>
+        {/* Right side - Content display */}
+        <div className={`${isFullScreen ? 'w-full' : 'w-[95%] lg:w-4/5 mx-auto lg:mx-0'}`}>
           <div className="bg-white rounded-lg shadow-md px-6 py-1 h-full">
             {selectedFile ? (
               <div className="h-full flex flex-col">
