@@ -6,9 +6,14 @@ const Grammar = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
+  const [isPortraitMode, setIsPortraitMode] = useState(true);
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
+  };
+
+  const toggleOrientation = () => {
+    setIsPortraitMode(!isPortraitMode);
   };
 
   const toggleCategory = (categoryName) => {
@@ -147,7 +152,7 @@ const Grammar = () => {
   };
 
   return (
-    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-0.5 py-0'}`}>
+    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white overflow-hidden' : 'container mx-auto px-0.5 py-0'}`}>
       {!isFullScreen && (
         <div className="mb-1">
           <h1 className="flex text-2xl mr-1 font-bold">English Grammar 
@@ -189,79 +194,89 @@ const Grammar = () => {
       )}
 
       {/* Main content area */}
-      <div className={`flex flex-col lg:flex-row gap-1 ${isFullScreen ? 'h-screen' : ''}`}>
+      <div className={`flex flex-col lg:flex-row gap-1 ${isFullScreen ? (isPortraitMode ? 'h-screen flex-col' : 'h-screen flex-row') : ''}`}>
         {/* Left side - File list */}
-        {!isFullScreen && (
-          <div className="w-full lg:w-1/5">
-            <div className="bg-white rounded-lg shadow-md p-1">
-              <h2 className="text-[1.1rem] font-semibold mb-1 text-blue-800">Topics</h2>
-              <div className="space-y-0.5 max-h-[300px] lg:max-h-[600px] overflow-y-auto">
-                {documents[selectedCategory]?.map((category, index) => (
-                  <div key={index} className="space-y-0.5">
-                    <button
-                      onClick={() => toggleCategory(category.category)}
-                      className="w-full text-left px-1.5 py-0.5 rounded-md transition-colors text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+        <div className={`${isFullScreen ? (isPortraitMode ? 'w-full h-1/3' : 'w-7/10 h-screen') : 'w-full lg:w-7/10'} overflow-y-auto`}>
+          <div className="bg-white rounded-lg shadow-md p-1">
+            <h2 className="text-[1.1rem] font-semibold mb-1 text-blue-800">Topics</h2>
+            <div className="space-y-0.5 max-h-[300px] lg:max-h-[600px] overflow-y-auto">
+              {documents[selectedCategory]?.map((category, index) => (
+                <div key={index} className="space-y-0.5">
+                  <button
+                    onClick={() => toggleCategory(category.category)}
+                    className="w-full text-left px-1.5 py-0.5 rounded-md transition-colors text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                  >
+                    {category.category}
+                    <svg 
+                      className={`w-4 h-4 transition-transform duration-200 ${expandedCategories[category.category] ? 'rotate-180' : ''}`}
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
                     >
-                      {category.category}
-                      <svg 
-                        className={`w-4 h-4 transition-transform duration-200 ${expandedCategories[category.category] ? 'rotate-180' : ''}`}
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    {expandedCategories[category.category] && (
-                      <div className="space-y-0.5 pl-2">
-                        {category.items.map((doc, docIndex) => (
-                          <button
-                            key={docIndex}
-                            onClick={() => setSelectedFile(doc)}
-                            onMouseEnter={() => setHoveredItem(doc)}
-                            onMouseLeave={() => setHoveredItem(null)}
-                            className={`w-full text-left px-1.5 py-0.5 rounded-md transition-colors text-sm truncate ${
-                              selectedFile?.file === doc.file
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'hover:bg-gray-100'
-                            }`}
-                          >
-                            {doc.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {expandedCategories[category.category] && (
+                    <div className="space-y-0.5 pl-2">
+                      {category.items.map((doc, docIndex) => (
+                        <button
+                          key={docIndex}
+                          onClick={() => setSelectedFile(doc)}
+                          onMouseEnter={() => setHoveredItem(doc)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                          className={`w-full text-left px-1.5 py-0.5 rounded-md transition-colors text-sm truncate ${
+                            selectedFile?.file === doc.file
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          {doc.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-        )}
+        </div>
 
         {/* Right side - Content display */}
-        <div className={`${isFullScreen ? 'w-full fixed inset-0 z-50 bg-white' : 'w-full lg:w-3/10'}`}>
-          <div className={`bg-white rounded-lg shadow-md px-1 py-0.5 ${isFullScreen ? 'h-screen' : 'h-full'}`}>
+        <div className={`${isFullScreen ? (isPortraitMode ? 'w-full h-2/3' : 'w-3/10 h-screen') : 'w-full lg:w-3/10'}`}>
+          <div className={`bg-white rounded-lg shadow-md px-1 py-0.5 ${isFullScreen ? 'h-full' : 'h-full'}`}>
             {selectedFile ? (
-              <div className={`h-full flex flex-col ${isFullScreen ? 'h-screen' : ''}`}>
+              <div className="h-full flex flex-col">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-1 gap-0.5">
                   <div className="w-full">
                     <h2 className="text-[1.1rem] font-semibold text-blue-800 truncate">{selectedFile.name}</h2>
                   </div>
-                  <button
-                    onClick={toggleFullScreen}
-                    className="w-full sm:w-auto px-1.5 py-0.5 bg-[rgb(252,99,2)] text-white rounded-md hover:bg-[rgb(252,99,2)]/90 transition-colors text-[0.88rem]"
-                  >
-                    {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
-                  </button>
+                  <div className="flex gap-2">
+                    {isFullScreen && (
+                      <button
+                        onClick={toggleOrientation}
+                        className="px-1.5 py-0.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-[0.88rem]"
+                      >
+                        {isPortraitMode ? 'Landscape' : 'Portrait'}
+                      </button>
+                    )}
+                    <button
+                      onClick={toggleFullScreen}
+                      className="px-1.5 py-0.5 bg-[rgb(252,99,2)] text-white rounded-md hover:bg-[rgb(252,99,2)]/90 transition-colors text-[0.88rem]"
+                    >
+                      {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
+                    </button>
+                  </div>
                 </div>
-                <iframe
-                  src={`${categories.find(cat => cat.id === selectedCategory)?.path}/${selectedFile.file}`}
-                  className={`w-full border-0 ${isFullScreen ? 'flex-1 h-[calc(100vh-4rem)]' : 'h-[650px]'}`}
-                  title={selectedFile.name}
-                />
+                <div className="flex-1 overflow-hidden">
+                  <iframe
+                    src={`${categories.find(cat => cat.id === selectedCategory)?.path}/${selectedFile.file}`}
+                    className="w-full h-full border-0"
+                    title={selectedFile.name}
+                  />
+                </div>
               </div>
             ) : (
-              <div className={`flex items-center justify-center ${isFullScreen ? 'h-screen' : 'h-[600px]'} text-gray-500 overflow-hidden`}>
+              <div className={`flex items-center justify-center ${isFullScreen ? 'h-full' : 'h-[600px]'} text-gray-500 overflow-hidden`}>
                 {hoveredItem ? (
                   <div className="absolute top-2 right-2 bg-white p-2 rounded-lg shadow-md max-w-[90%] z-10">
                     <h3 className="text-lg font-semibold mb-1 text-gray-800">Preview</h3>
@@ -271,22 +286,22 @@ const Grammar = () => {
                 <div className="text-center w-full px-2 overflow-y-auto max-h-[600px]">
                   <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome to English Grammar Learning</h2>
                   <p className="text-gray-600 mb-3 text-base">
-                    Explore our comprehensive collection of grammar resources designed to help you master English grammar.
+                    Explore our comprehensive collection of grammar resources.
                   </p>
                   
                   <div className="grid grid-cols-1 gap-2 mb-3">
                     <div className="bg-blue-50 p-2 rounded-lg overflow-hidden">
                       <h3 className="font-semibold text-blue-800 mb-1 text-base">Getting Started</h3>
                       <ul className="list-disc list-inside text-gray-700 space-y-0.5 text-sm">
-                        <li className="break-words">Choose a category from the top menu</li>
-                        <li className="break-words">Browse through the topics</li>
-                        <li className="break-words">Click to view content</li>
+                        <li className="break-words">Choose a category</li>
+                        <li className="break-words">Browse topics</li>
+                        <li className="break-words">Click to view</li>
                       </ul>
                     </div>
                   </div>
 
                   <div className="bg-gray-50 p-2 rounded-lg overflow-hidden">
-                    <h3 className="font-semibold text-gray-800 mb-1 text-base">Available Categories</h3>
+                    <h3 className="font-semibold text-gray-800 mb-1 text-base">Categories</h3>
                     <div className="text-left">
                       <h4 className="font-medium text-blue-700 mb-0.5 text-sm">Basic Grammar</h4>
                       <ul className="text-gray-600 space-y-0.5 text-sm">
@@ -297,7 +312,7 @@ const Grammar = () => {
                   </div>
 
                   <p className="mt-2 text-gray-500 italic break-words text-sm">
-                    Hover over any topic to preview its content!
+                    Hover over any topic to preview!
                   </p>
                 </div>
               </div>
