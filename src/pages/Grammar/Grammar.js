@@ -236,16 +236,24 @@ const Grammar = () => {
   };
 
   return (
-    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-4 py-8'}`}>
+    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-2'}`}>
       {!isFullScreen && (
-        <h1 className="text-[1.1rem] font-bold mb-4 text-blue-800">English Grammar</h1>
+        <div className="mb-2">
+          <h1 className="flex text-2xl mr-2 font-bold">English Grammar
+            <span className="text-sm text-gray-700">
+              {hoveredItem && (
+                <><span className="font-semibold ml-2">Preview:</span> {hoveredItem.name}</>
+              )}
+            </span>
+          </h1>
+        </div>
       )}
       
       {/* Categories at the top */}
       {!isFullScreen && (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
-            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+        <div className="bg-white rounded-lg shadow-md p-2 mb-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+            <div className="flex flex-col sm:flex-row gap-1 w-full">
               {categories.map((category) => (
                 <button
                   key={category.id}
@@ -253,7 +261,9 @@ const Grammar = () => {
                     setSelectedCategory(category.id);
                     setSelectedFile(null);
                   }}
-                  className={`w-full sm:w-auto px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
+                  onMouseEnter={() => setHoveredItem(category)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className={`w-full px-2 py-1 rounded-md transition-colors text-[0.88rem] ${
                     selectedCategory === category.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
@@ -265,7 +275,9 @@ const Grammar = () => {
             </div>
             <button
               onClick={toggleDetails}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center gap-1 w-full sm:w-auto justify-center"
+              onMouseEnter={() => setHoveredItem({ name: showDetails ? 'Hide Details' : 'Show Details' })}
+              onMouseLeave={() => setHoveredItem(null)}
+              className="w-full sm:w-auto px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center justify-center gap-1"
             >
               {showDetails ? 'Hide Details' : 'Show Details'}
               <svg
@@ -288,8 +300,8 @@ const Grammar = () => {
             </button>
           </div>
           {showDetails && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-md">
-              <h3 className="font-medium text-blue-800 mb-2 text-[0.99rem]">
+            <div className="mt-2 p-2 bg-gray-50 rounded-md">
+              <h3 className="font-medium text-blue-800 mb-1 text-[0.99rem]">
                 {categories.find(cat => cat.id === selectedCategory)?.name}
               </h3>
               <p className="text-gray-600 text-[0.88rem]">
@@ -318,6 +330,8 @@ const Grammar = () => {
                         <div className="flex items-center justify-between">
                           <button
                             onClick={() => setSelectedFile(doc)}
+                            onMouseEnter={() => setHoveredItem(doc)}
+                            onMouseLeave={() => setHoveredItem(null)}
                             className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
                               selectedFile?.file === doc.file
                                 ? 'bg-blue-100 text-blue-700'
@@ -328,6 +342,8 @@ const Grammar = () => {
                           </button>
                           <button
                             onClick={() => toggleDocDetails(doc.file)}
+                            onMouseEnter={() => setHoveredItem({ name: showDocDetails[doc.file] ? 'Hide Details' : 'Show Details' })}
+                            onMouseLeave={() => setHoveredItem(null)}
                             className="p-1 text-gray-500 hover:text-blue-600 transition-colors"
                           >
                             <svg
@@ -386,12 +402,6 @@ const Grammar = () => {
               </div>
             ) : (
               <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
-                {hoveredItem ? (
-                  <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-md max-w-md z-10">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Preview</h3>
-                    <p className="text-gray-700 break-words">{hoveredItem.name}</p>
-                  </div>
-                ) : null}
                 <div className="text-center max-w-4xl px-4 overflow-y-auto max-h-[600px]">
                   <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to English Grammar</h2>
                   <p className="text-gray-600 mb-6 text-lg">
@@ -399,7 +409,7 @@ const Grammar = () => {
                     we provide detailed explanations and examples to help you master English grammar.
                   </p>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
                       <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
                       <ul className="list-disc list-inside text-gray-700 space-y-2">
@@ -428,6 +438,43 @@ const Grammar = () => {
                       </ul>
                     </div>
                   </div>
+
+                  <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
+                    <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Categories</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="text-left">
+                        <h4 className="font-medium text-blue-700 mb-2">Basic Grammar</h4>
+                        <ul className="text-gray-600 space-y-1">
+                          <li className="break-words">• Parts of Speech</li>
+                          <li className="break-words">• Tenses</li>
+                          <li className="break-words">• Sentence Structure</li>
+                          <li className="break-words">• Basic Rules</li>
+                        </ul>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-medium text-green-700 mb-2">Advanced Grammar</h4>
+                        <ul className="text-gray-600 space-y-1">
+                          <li className="break-words">• Complex Structures</li>
+                          <li className="break-words">• Conditionals</li>
+                          <li className="break-words">• Reported Speech</li>
+                          <li className="break-words">• Advanced Rules</li>
+                        </ul>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-medium text-purple-700 mb-2">Academic Grammar</h4>
+                        <ul className="text-gray-600 space-y-1">
+                          <li className="break-words">• Academic Writing</li>
+                          <li className="break-words">• Research Papers</li>
+                          <li className="break-words">• Formal Language</li>
+                          <li className="break-words">• Citations</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="mt-6 text-gray-500 italic break-words">
+                    Hover over any topic on the left to preview its content, or click to start learning!
+                  </p>
                 </div>
               </div>
             )}
