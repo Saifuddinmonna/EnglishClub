@@ -1,19 +1,19 @@
 import React from 'react';
 import { useAuth } from '../../pages/Authentication/AuthContext';
 import Navbar from '../Navbar/Navbar';
-import DashboardLayout from './DashboardLayout';
+import UnifiedDashboard from '../../pages/Authentication/UnifiedDashboard';
 import Footer from '../Footer';
 
 const MainLayout = ({ children }) => {
   const { user } = useAuth();
 
-  // If user is authenticated, wrap content with DashboardLayout
+  // If user is authenticated, show UnifiedDashboard
   if (user) {
     return (
       <div className="min-h-screen bg-gray-100">
         <Navbar />
         <div className="pt-20">
-          {children}
+          <UnifiedDashboard />
         </div>
       </div>
     );

@@ -6,10 +6,6 @@ import MainLayout from './Layouts/MainLayout';
 import AIAssistantLayout from './Layouts/AIAssistantLayout';
 import SignIn from '../pages/Authentication/SignIn';
 import SignUp from '../pages/Authentication/SignUp';
-import AdminPanel from '../pages/Authentication/AdminPanel';
-import StudentPanel from '../pages/Authentication/StudentPanel';
-import TeacherPanel from '../pages/Authentication/TeacherPanel';
-import GuestPanel from '../pages/Authentication/GuestPanel';
 import Home from '../pages/Home/Home';
 import AIAssistant from './AIAssistant/AIAssistant';
 import ProtectedRoute from './ProtectedRoute';
@@ -26,9 +22,9 @@ import Documents from '../pages/Documents/Documents';
 const AppRouter = () => {
   return (
     <AuthProvider>
-    <AppProvider>
-      <Router>
-        <Routes>
+      <AppProvider>
+        <Router>
+          <Routes>
             {/* Public routes - no authentication required */}
             <Route path="/" element={<MainLayout><Home /></MainLayout>} />
             <Route path="/signin" element={<MainLayout><SignIn /></MainLayout>} />
@@ -65,33 +61,11 @@ const AppRouter = () => {
               </ProtectedRoute>
             } />
 
-            {/* Protected panel routes */}
-            <Route path="/admin/*" element={
-              <ProtectedRoute>
-                <MainLayout><AdminPanel /></MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/student/*" element={
-              <ProtectedRoute>
-                <MainLayout><StudentPanel /></MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/teacher/*" element={
-              <ProtectedRoute>
-                <MainLayout><TeacherPanel /></MainLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/guest/*" element={
-              <ProtectedRoute>
-                <MainLayout><GuestPanel /></MainLayout>
-              </ProtectedRoute>
-            } />
-
             {/* Fallback route */}
             <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AppProvider>
+          </Routes>
+        </Router>
+      </AppProvider>
     </AuthProvider>
   );
 };

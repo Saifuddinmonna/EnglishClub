@@ -7,20 +7,25 @@ import {
   ChartBarIcon,
   ClockIcon,
   DocumentTextIcon,
-  CalendarIcon
+  CalendarIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
 
 const StudentPanel = () => {
   const { user } = useAuth();
   const { isStudentPanelVisible, toggleStudentPanel } = useApp();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // If user is a student, ensure panel is visible
-    if (user && user.role === 'student' && !isStudentPanelVisible) {
-      toggleStudentPanel();
-    }
-  }, [user, isStudentPanelVisible, toggleStudentPanel]);
+    // Simulate loading data
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Only show panel if user is logged in and is a student
   if (!user || user.role !== 'student') {
@@ -28,10 +33,10 @@ const StudentPanel = () => {
   }
 
   const stats = [
-    { name: 'Courses Enrolled', value: '4', icon: BookOpenIcon },
-    { name: 'Assignments Due', value: '3', icon: DocumentTextIcon },
-    { name: 'Average Grade', value: 'A-', icon: ChartBarIcon },
-    { name: 'Study Hours', value: '24h', icon: ClockIcon },
+    { name: 'Courses Enrolled', value: '4', icon: BookOpenIcon, color: 'bg-blue-500' },
+    { name: 'Assignments Due', value: '3', icon: DocumentTextIcon, color: 'bg-red-500' },
+    { name: 'Average Grade', value: 'A-', icon: ChartBarIcon, color: 'bg-green-500' },
+    { name: 'Study Hours', value: '24h', icon: ClockIcon, color: 'bg-purple-500' },
   ];
 
   const navigation = [
@@ -49,6 +54,7 @@ const StudentPanel = () => {
       progress: 75,
       nextLesson: 'Conditional Sentences',
       instructor: 'Dr. Smith',
+      color: 'bg-blue-100 text-blue-800',
     },
     {
       id: 2,
@@ -56,39 +62,58 @@ const StudentPanel = () => {
       progress: 45,
       nextLesson: 'Email Etiquette',
       instructor: 'Prof. Johnson',
+      color: 'bg-green-100 text-green-800',
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className={`hidden md:flex md:flex-col md:fixed md:top-[12vh] transition-all duration-300 ease-in-out ${
-        isStudentPanelVisible ? 'md:w-40' : 'md:w-0'
-      }`}>
-        <div className={`flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200 transition-all duration-300 ${
+      <div 
+        className={`fixed top-20 left-0 h-[calc(100vh-5rem)] transition-all duration-300 ease-in-out z-30 ${
+          isStudentPanelVisible ? 'w-64' : 'w-0'
+        }`}
+      >
+        <div className={`h-full bg-white border-r border-gray-200 shadow-lg transition-opacity duration-300 ${
           isStudentPanelVisible ? 'opacity-100' : 'opacity-0'
         }`}>
-          <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-4">
-              <h1 className="text-2xl font-bold text-gray-900">Student Portal</h1>
+          <div className="flex flex-col h-full">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h1 className="text-xl font-bold text-gray-900">Student Portal</h1>
+              <button
+                onClick={toggleStudentPanel}
+                className="p-2 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                {isStudentPanelVisible ? (
+                  <ChevronLeftIcon className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <ChevronRightIcon className="h-5 w-5 text-gray-500" />
+                )}
+              </button>
             </div>
-            <nav className="mt-5 flex-1 px-2 space-y-1">
+            <nav className="flex-1 overflow-y-auto p-4">
               {navigation.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => setActiveTab(item.name.toLowerCase())}
-                  className={`${
+                  className={`w-full flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200 ${
                     item.current
-                      ? 'bg-gray-100 text-gray-900'
+                      ? 'bg-blue-50 text-blue-700'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  } group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full transition-colors duration-200`}
+                  }`}
                 >
-                  <item.icon
-                    className={`${
-                      item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500'
-                    } mr-3 flex-shrink-0 h-6 w-6`}
-                  />
-                  {item.name}
+                  <item.icon className={`h-5 w-5 mr-3 ${
+                    item.current ? 'text-blue-500' : 'text-gray-400'
+                  }`} />
+                  <span className="font-medium">{item.name}</span>
                 </button>
               ))}
             </nav>
@@ -97,102 +122,74 @@ const StudentPanel = () => {
       </div>
 
       {/* Main content */}
-      <div className={`flex flex-col flex-1 transition-all duration-300 ${
-        isStudentPanelVisible ? 'md:pl-72' : 'md:pl-0'
+      <div className={`transition-all duration-300 ${
+        isStudentPanelVisible ? 'ml-64' : 'ml-0'
       }`}>
-        <main className="flex-1">
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
+        <main className="p-6">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-2xl font-bold text-gray-900 mb-8">Dashboard</h1>
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {stats.map((item) => (
+                <div
+                  key={item.name}
+                  className="bg-white rounded-xl shadow-sm p-6 transform transition-all duration-300 hover:scale-105"
+                >
+                  <div className="flex items-center">
+                    <div className={`p-3 rounded-lg ${item.color} bg-opacity-10`}>
+                      <item.icon className={`h-6 w-6 ${item.color}`} />
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-600">{item.name}</p>
+                      <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              {/* Stats */}
-              <div className="mt-8">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                  {stats.map((item) => (
+
+            {/* Recent Courses */}
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-900">Recent Courses</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-6">
+                  {recentCourses.map((course) => (
                     <div
-                      key={item.name}
-                      className="bg-white overflow-hidden shadow rounded-lg transform transition-all duration-300 hover:scale-105"
+                      key={course.id}
+                      className="bg-gray-50 rounded-lg p-6 transform transition-all duration-300 hover:shadow-md"
                     >
-                      <div className="p-5">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0">
-                            <item.icon className="h-6 w-6 text-gray-400" />
-                          </div>
-                          <div className="ml-5 w-0 flex-1">
-                            <dl>
-                              <dt className="text-sm font-medium text-gray-500 truncate">
-                                {item.name}
-                              </dt>
-                              <dd className="flex items-baseline">
-                                <div className="text-2xl font-semibold text-gray-900">
-                                  {item.value}
-                                </div>
-                              </dd>
-                            </dl>
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div className="mb-4 md:mb-0">
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">
+                            {course.name}
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Instructor: {course.instructor}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <p className="text-sm text-gray-600 mb-2">
+                            Next: {course.nextLesson}
+                          </p>
+                          <div className="w-48">
+                            <div className="flex justify-between text-sm text-gray-600 mb-1">
+                              <span>Progress</span>
+                              <span>{course.progress}%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div
+                                className={`h-2 rounded-full ${course.color.split(' ')[0]}`}
+                                style={{ width: `${course.progress}%` }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Recent Courses */}
-              <div className="mt-8">
-                <div className="bg-white shadow rounded-lg transform transition-all duration-300 hover:shadow-xl">
-                  <div className="px-4 py-5 sm:px-6">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Recent Courses
-                    </h3>
-                  </div>
-                  <div className="border-t border-gray-200">
-                    <div className="px-4 py-5 sm:p-6">
-                      <div className="space-y-6">
-                        {recentCourses.map((course) => (
-                          <div key={course.id} className="bg-gray-50 rounded-lg p-4 transform transition-all duration-300 hover:scale-102 hover:shadow-md">
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <h4 className="text-lg font-medium text-gray-900">
-                                  {course.name}
-                                </h4>
-                                <p className="text-sm text-gray-500">
-                                  Instructor: {course.instructor}
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-sm text-gray-500">
-                                  Next: {course.nextLesson}
-                                </p>
-                                <div className="mt-2">
-                                  <div className="relative pt-1">
-                                    <div className="flex mb-2 items-center justify-between">
-                                      <div>
-                                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
-                                          Progress
-                                        </span>
-                                      </div>
-                                      <div className="text-right">
-                                        <span className="text-xs font-semibold inline-block text-blue-600">
-                                          {course.progress}%
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-                                      <div
-                                        style={{ width: `${course.progress}%` }}
-                                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"
-                                      ></div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
