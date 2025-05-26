@@ -6,6 +6,34 @@ import {
   Bars3Icon,
   XMarkIcon,
   UserCircleIcon,
+  BookOpenIcon,
+  AcademicCapIcon,
+  DocumentTextIcon,
+  ClipboardDocumentListIcon,
+  BookmarkIcon,
+  DocumentDuplicateIcon,
+  ArrowRightOnRectangleIcon,
+  ArrowLeftOnRectangleIcon,
+  UserPlusIcon,
+  SparklesIcon,
+  ChatBubbleLeftRightIcon,
+  PencilSquareIcon,
+  DocumentMagnifyingGlassIcon,
+  BookmarkSquareIcon,
+  DocumentChartBarIcon,
+  DocumentCheckIcon,
+  DocumentArrowDownIcon,
+  DocumentArrowUpIcon,
+  DocumentPlusIcon,
+  DocumentMinusIcon,
+  DocumentDuplicateIcon as DocumentDuplicateIcon2,
+  DocumentTextIcon as DocumentTextIcon2,
+  DocumentChartBarIcon as DocumentChartBarIcon2,
+  DocumentCheckIcon as DocumentCheckIcon2,
+  DocumentArrowDownIcon as DocumentArrowDownIcon2,
+  DocumentArrowUpIcon as DocumentArrowUpIcon2,
+  DocumentPlusIcon as DocumentPlusIcon2,
+  DocumentMinusIcon as DocumentMinusIcon2,
 } from '@heroicons/react/24/outline';
 import AIButton from '../AIAssistant/AIButton';
 
@@ -19,38 +47,38 @@ const Navbar = () => {
       name: 'Vocabulary', 
       href: '/vocabulary',
       dropdown: [
-        { name: 'Strong verb and Week Verb', href: '/vocabulary/3-forms-of-verb' },
-        { name: 'Vocabulary for Connectors', href: '/vocabulary/connectors' },
-        { name: 'Others', href: '/vocabulary/others' }
+        { name: 'Strong verb and Week Verb', href: '/vocabulary/3-forms-of-verb', icon: BookOpenIcon },
+        { name: 'Vocabulary for Connectors', href: '/vocabulary/connectors', icon: ChatBubbleLeftRightIcon },
+        { name: 'Others', href: '/vocabulary/others', icon: SparklesIcon }
       ]
     },
     { 
       name: 'Grammar', 
       href: '/grammar',
       dropdown: [
-        { name: 'Sentences', href: '/grammar/sentences' },
-        { name: 'Auxiliary verb', href: '/grammar/auxiliary-verb' },
-        { name: 'Tense in one page', href: '/grammar/tense' },
-        { name: 'Case', href: '/grammar/case' }
+        { name: 'Sentences', href: '/grammar/sentences', icon: DocumentTextIcon },
+        { name: 'Auxiliary verb', href: '/grammar/auxiliary-verb', icon: DocumentDuplicateIcon },
+        { name: 'Tense in one page', href: '/grammar/tense', icon: DocumentChartBarIcon },
+        { name: 'Case', href: '/grammar/case', icon: DocumentCheckIcon }
       ]
     },
     { 
       name: 'Writing', 
       href: '/writing',
       dropdown: [
-        { name: 'Paragraph malty', href: '/writing/paragraph' },
-        { name: 'Padma Bridge - Paragraph', href: '/writing/padma-bridge' },
-        { name: 'Covid-19 Paragraph', href: '/writing/covid19' },
-        { name: 'Application', href: '/writing/application' }
+        { name: 'Paragraph malty', href: '/writing/paragraph', icon: PencilSquareIcon },
+        { name: 'Padma Bridge - Paragraph', href: '/writing/padma-bridge', icon: DocumentArrowDownIcon },
+        { name: 'Covid-19 Paragraph', href: '/writing/covid19', icon: DocumentArrowUpIcon },
+        { name: 'Application', href: '/writing/application', icon: DocumentPlusIcon }
       ]
     },
     { 
       name: 'Syllabus', 
       href: '/syllabus',
       dropdown: [
-        { name: 'HSC', href: '/syllabus/hsc' },
-        { name: 'SSC', href: '/syllabus/ssc' },
-        { name: 'JSC', href: '/syllabus/jsc' }
+        { name: 'HSC', href: '/syllabus/hsc', icon: AcademicCapIcon },
+        { name: 'SSC', href: '/syllabus/ssc', icon: BookmarkIcon },
+        { name: 'JSC', href: '/syllabus/jsc', icon: ClipboardDocumentListIcon }
       ]
     },
     { name: 'Courses', href: '/courses' },
@@ -99,8 +127,9 @@ const Navbar = () => {
                           <Link
                             key={dropItem.name}
                             to={dropItem.href}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-2000 ease-in-out mx-2 rounded-md no-underline"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-2000 ease-in-out mx-2 rounded-md no-underline flex items-center gap-2"
                           >
+                            {dropItem.icon && <dropItem.icon className="w-5 h-5 text-[rgb(252,99,2)]" />}
                             {dropItem.name}
                           </Link>
                         ))}
@@ -178,47 +207,52 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden">
-          <div className="pt-2 pb-3 space-y-1">
+        <div className="sm:hidden animate-fadeIn">
+          <div className="pt-2 pb-2 space-y-1 bg-gradient-to-b from-white to-gray-50 rounded-[10px] shadow-lg border border-gray-100 mx-2 my-1">
             {navigation.map((item) => (
-              <div key={item.name}>
-                {item.dropdown ? (
-                  <div className="space-y-1">
-                    <div className="px-3 py-2 text-base font-medium text-gray-900">
-                      {item.name}
-                    </div>
-                    <div className="pl-4">
+              <div key={item.name} className="transform transition-all duration-300 hover:translate-x-1 px-1">
+                <div className="space-y-1">
+                  <Link
+                    to={item.href}
+                    className={`block px-3 py-2 text-base font-medium ${
+                      window.location.pathname === item.href 
+                        ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
+                        : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
+                    } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md`}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.dropdown && (
+                    <div className="pl-3 space-y-1">
                       {item.dropdown.map((dropItem) => (
                         <Link
                           key={dropItem.name}
                           to={dropItem.href}
-                          className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-2000 ease-in-out"
+                          className={`block px-3 py-2 text-sm font-medium ${
+                            window.location.pathname === dropItem.href 
+                              ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
+                              : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
+                          } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md flex items-center gap-2`}
                         >
+                          {dropItem.icon && <dropItem.icon className="w-5 h-5 text-[rgb(252,99,2)]" />}
                           {dropItem.name}
                         </Link>
                       ))}
                     </div>
-                  </div>
-                ) : (
-                  <Link
-                    to={item.href}
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-2000 ease-in-out"
-                  >
-                    {item.name}
-                  </Link>
-                )}
+                  )}
+                </div>
               </div>
             ))}
           </div>
-          <div className="pt-4 pb-3 border-t border-gray-200">
+          <div className="pt-2 pb-2 border-t border-gray-200 bg-white rounded-[10px] shadow-lg mx-2 my-1">
             {user ? (
               <div className="space-y-1">
-                <div className="flex items-center px-4">
+                <div className="flex items-center px-3 py-2 bg-gradient-to-r from-blue-50 to-transparent rounded-[10px] mx-2">
                   <div className="flex-shrink-0">
-                    <UserCircleIcon className="h-10 w-10 text-gray-400" />
+                    <UserCircleIcon className="h-8 w-8 text-[rgb(252,99,2)] transform transition-transform duration-300 hover:scale-110" />
                   </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800">
+                  <div className="ml-2">
+                    <div className="text-base font-medium text-gray-800 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
                       {user.firstName} {user.lastName}
                     </div>
                     <div className="text-sm font-medium text-gray-500">
@@ -228,8 +262,9 @@ const Navbar = () => {
                 </div>
                 <button
                   onClick={logout}
-                  className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-all duration-2000 ease-in-out"
+                  className="block w-full text-left px-3 py-2 text-base font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 ease-in-out border-l-2 border-transparent hover:border-blue-400 rounded-[10px] shadow-sm hover:shadow-md mx-2 flex items-center gap-2"
                 >
+                  <ArrowRightOnRectangleIcon className="w-5 h-5 text-[rgb(252,99,2)]" />
                   Sign out
                 </button>
               </div>
@@ -237,14 +272,24 @@ const Navbar = () => {
               <div className="space-y-1">
                 <Link
                   to="/signin"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-all duration-2000 ease-in-out"
+                  className={`block px-3 py-2 text-base font-medium ${
+                    window.location.pathname === '/signin' 
+                      ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
+                      : 'text-gray-500 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
+                  } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md mx-2 flex items-center gap-2`}
                 >
+                  <ArrowLeftOnRectangleIcon className="w-5 h-5 text-[rgb(252,99,2)]" />
                   Sign in
                 </Link>
                 <Link
                   to="/signup"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-all duration-2000 ease-in-out"
+                  className={`block px-3 py-2 text-base font-medium ${
+                    window.location.pathname === '/signup' 
+                      ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
+                      : 'text-gray-500 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
+                  } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md mx-2 flex items-center gap-2`}
                 >
+                  <UserPlusIcon className="w-5 h-5 text-[rgb(252,99,2)]" />
                   Sign up
                 </Link>
               </div>

@@ -147,58 +147,60 @@ const Grammar = () => {
   };
 
   return (
-    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-0'}`}>
+    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-0.5 py-0'}`}>
       {!isFullScreen && (
-        <div className="mb-2">
-          <h1 className="flex text-2xl mr-4 font-bold">English Grammar <span className="text-lg text-gray-500"> {hoveredItem && (
-            // <div className="  bg-gray-50 rounded-md">
-            //   <p className="text-gray-700 text-lg">
-                <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
-            //   </p>
-            // </div>
-           
-          )}</span></h1>
-         
+        <div className="mb-1">
+          <h1 className="flex text-2xl mr-1 font-bold">English Grammar 
+            <span className="text-sm text-gray-700">
+              {hoveredItem && (
+                <><span className="font-semibold ml-1">Preview:</span> {hoveredItem.name}</>
+              )}
+            </span>
+          </h1>
         </div>
       )}
       
       {/* Categories at the top */}
       {!isFullScreen && (
-        <div className="bg-white rounded-lg shadow-md p-2 mb-4">
-          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => {
-                  setSelectedCategory(category.id);
-                  setSelectedFile(null);
-                }}
-                className={`w-full sm:w-auto px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
-                  selectedCategory === category.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
-                }`}
-              >
-                <h3 className="font-medium text-[0.88rem] text-center">{category.name}</h3>
-              </button>
-            ))}
+        <div className="bg-white rounded-lg shadow-md p-1 mb-1">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-1 gap-1">
+            <div className="flex flex-col sm:flex-row gap-0.5 w-full">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    setSelectedFile(null);
+                  }}
+                  onMouseEnter={() => setHoveredItem(category)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className={`w-full px-1.5 py-0.5 rounded-md transition-colors text-[0.88rem] ${
+                    selectedCategory === category.id
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
+                  }`}
+                >
+                  <h3 className="font-medium text-[0.88rem] text-center">{category.name}</h3>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {/* Main content area */}
-      <div className={`flex gap-4 ${isFullScreen ? 'h-screen' : ''}`}>
-        {/* Left side - File list (20%) */}
+      <div className={`flex flex-col lg:flex-row gap-1 ${isFullScreen ? 'h-screen' : ''}`}>
+        {/* Left side - File list */}
         {!isFullScreen && (
-          <div className="w-1/5">
-            <div className="bg-white rounded-lg shadow-md p-2">
-              <h2 className="text-xl font-semibold mb-2">Topics</h2>
-              <div className="space-y-2 max-h-[600px] overflow-y-auto">
+          <div className="w-full lg:w-1/5">
+            <div className="bg-white rounded-lg shadow-md p-1">
+              <h2 className="text-[1.1rem] font-semibold mb-1 text-blue-800">Topics</h2>
+              <div className="space-y-0.5 max-h-[300px] lg:max-h-[600px] overflow-y-auto">
                 {documents[selectedCategory]?.map((category, index) => (
-                  <div key={index} className="space-y-1">
+                  <div key={index} className="space-y-0.5">
                     <button
                       onClick={() => toggleCategory(category.category)}
-                      className="w-full text-left px-2 py-1 rounded-md transition-colors text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                      className="w-full text-left px-1.5 py-0.5 rounded-md transition-colors text-sm font-medium text-gray-700 hover:bg-gray-100 flex items-center justify-between"
                     >
                       {category.category}
                       <svg 
@@ -211,14 +213,14 @@ const Grammar = () => {
                       </svg>
                     </button>
                     {expandedCategories[category.category] && (
-                      <div className="space-y-0.5 pl-4">
+                      <div className="space-y-0.5 pl-2">
                         {category.items.map((doc, docIndex) => (
                           <button
                             key={docIndex}
                             onClick={() => setSelectedFile(doc)}
                             onMouseEnter={() => setHoveredItem(doc)}
                             onMouseLeave={() => setHoveredItem(null)}
-                            className={`w-full text-left px-2 py-1 rounded-md transition-colors text-sm truncate ${
+                            className={`w-full text-left px-1.5 py-0.5 rounded-md transition-colors text-sm truncate ${
                               selectedFile?.file === doc.file
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'hover:bg-gray-100'
@@ -236,108 +238,68 @@ const Grammar = () => {
           </div>
         )}
 
-        {/* Right side - Content display (65% or full width in fullscreen) */}
-        <div className={`${isFullScreen ? 'w-full' : 'w-4/5'}`}>
-          <div className="bg-white rounded-lg shadow-md p-4 h-full">
+        {/* Right side - Content display */}
+        <div className={`${isFullScreen ? 'w-full fixed inset-0 z-50 bg-white' : 'w-full lg:w-3/10'}`}>
+          <div className={`bg-white rounded-lg shadow-md px-1 py-0.5 ${isFullScreen ? 'h-screen' : 'h-full'}`}>
             {selectedFile ? (
-              <div className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-xl font-semibold">{selectedFile.name}</h2>
+              <div className={`h-full flex flex-col ${isFullScreen ? 'h-screen' : ''}`}>
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-1 gap-0.5">
+                  <div className="w-full">
+                    <h2 className="text-[1.1rem] font-semibold text-blue-800 truncate">{selectedFile.name}</h2>
+                  </div>
                   <button
                     onClick={toggleFullScreen}
-                    className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                    className="w-full sm:w-auto px-1.5 py-0.5 bg-[rgb(252,99,2)] text-white rounded-md hover:bg-[rgb(252,99,2)]/90 transition-colors text-[0.88rem]"
                   >
                     {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
                   </button>
                 </div>
                 <iframe
                   src={`${categories.find(cat => cat.id === selectedCategory)?.path}/${selectedFile.file}`}
-                  className={`w-full border-0 ${isFullScreen ? 'flex-1' : 'h-[600px]'}`}
+                  className={`w-full border-0 ${isFullScreen ? 'flex-1 h-[calc(100vh-4rem)]' : 'h-[650px]'}`}
                   title={selectedFile.name}
                 />
               </div>
             ) : (
-              <div className="flex items-center justify-center h-[600px] text-gray-500 overflow-hidden">
+              <div className={`flex items-center justify-center ${isFullScreen ? 'h-screen' : 'h-[600px]'} text-gray-500 overflow-hidden`}>
                 {hoveredItem ? (
-                  <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-md max-w-md z-10">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Preview</h3>
+                  <div className="absolute top-2 right-2 bg-white p-2 rounded-lg shadow-md max-w-[90%] z-10">
+                    <h3 className="text-lg font-semibold mb-1 text-gray-800">Preview</h3>
                     <p className="text-gray-700 break-words">{hoveredItem.name}</p>
                   </div>
                 ) : null}
-                <div className="text-center max-w-4xl px-4 overflow-y-auto max-h-[600px]">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Welcome to English Grammar Learning</h2>
-                    <p className="text-gray-600 mb-6 text-lg">
-                      Explore our comprehensive collection of grammar resources designed to help you master English grammar. 
-                      From basic concepts to advanced topics, we've got you covered with detailed explanations, examples, and practice materials.
-                    </p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                      <div className="bg-blue-50 p-4 rounded-lg overflow-hidden">
-                        <h3 className="font-semibold text-blue-800 mb-3 text-lg">Getting Started</h3>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
-                          <li className="break-words">Choose a category from the top menu</li>
-                          <li className="break-words">Browse through the topics on the left</li>
-                          <li className="break-words">Click on any topic to view its content</li>
-                          <li className="break-words">Use fullscreen mode for better reading</li>
-                        </ul>
-                      </div>
-                      <div className="bg-green-50 p-4 rounded-lg overflow-hidden">
-                        <h3 className="font-semibold text-green-800 mb-3 text-lg">Features</h3>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
-                          <li className="break-words">Interactive content viewing</li>
-                          <li className="break-words">Fullscreen mode available</li>
-                          <li className="break-words">Organized by difficulty levels</li>
-                          <li className="break-words">Quick preview on hover</li>
-                        </ul>
-                      </div>
-                      <div className="bg-purple-50 p-4 rounded-lg overflow-hidden">
-                        <h3 className="font-semibold text-purple-800 mb-3 text-lg">Learning Path</h3>
-                        <ul className="list-disc list-inside text-gray-700 space-y-2">
-                          <li className="break-words">Start with Basic Grammar</li>
-                          <li className="break-words">Progress to Advanced topics</li>
-                          <li className="break-words">Master Academic writing</li>
-                          <li className="break-words">Practice with examples</li>
-                        </ul>
-                      </div>
+                <div className="text-center w-full px-2 overflow-y-auto max-h-[600px]">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome to English Grammar Learning</h2>
+                  <p className="text-gray-600 mb-3 text-base">
+                    Explore our comprehensive collection of grammar resources designed to help you master English grammar.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 gap-2 mb-3">
+                    <div className="bg-blue-50 p-2 rounded-lg overflow-hidden">
+                      <h3 className="font-semibold text-blue-800 mb-1 text-base">Getting Started</h3>
+                      <ul className="list-disc list-inside text-gray-700 space-y-0.5 text-sm">
+                        <li className="break-words">Choose a category from the top menu</li>
+                        <li className="break-words">Browse through the topics</li>
+                        <li className="break-words">Click to view content</li>
+                      </ul>
                     </div>
-
-                    <div className="bg-gray-50 p-6 rounded-lg overflow-hidden">
-                      <h3 className="font-semibold text-gray-800 mb-4 text-xl">Available Categories</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-left">
-                          <h4 className="font-medium text-blue-700 mb-2">Basic Grammar</h4>
-                          <ul className="text-gray-600 space-y-1">
-                            <li className="break-words">• Parts of Speech</li>
-                            <li className="break-words">• Verbs and Tenses</li>
-                            <li className="break-words">• Pronouns</li>
-                            <li className="break-words">• Prepositions</li>
-                          </ul>
-                        </div>
-                        <div className="text-left">
-                          <h4 className="font-medium text-green-700 mb-2">Advanced Grammar</h4>
-                          <ul className="text-gray-600 space-y-1">
-                            <li className="break-words">• Complex Tenses</li>
-                            <li className="break-words">• Conditional Sentences</li>
-                            <li className="break-words">• Relative Clauses</li>
-                            <li className="break-words">• Advanced Structures</li>
-                          </ul>
-                        </div>
-                        <div className="text-left">
-                          <h4 className="font-medium text-purple-700 mb-2">Academic Grammar</h4>
-                          <ul className="text-gray-600 space-y-1">
-                            <li className="break-words">• Academic Writing</li>
-                            <li className="break-words">• Research Papers</li>
-                            <li className="break-words">• Formal Language</li>
-                            <li className="break-words">• Citations</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="mt-6 text-gray-500 italic break-words">
-                      Hover over any topic on the left to preview its content, or click to start learning!
-                    </p>
                   </div>
+
+                  <div className="bg-gray-50 p-2 rounded-lg overflow-hidden">
+                    <h3 className="font-semibold text-gray-800 mb-1 text-base">Available Categories</h3>
+                    <div className="text-left">
+                      <h4 className="font-medium text-blue-700 mb-0.5 text-sm">Basic Grammar</h4>
+                      <ul className="text-gray-600 space-y-0.5 text-sm">
+                        <li className="break-words">• Parts of Speech</li>
+                        <li className="break-words">• Verbs and Tenses</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p className="mt-2 text-gray-500 italic break-words text-sm">
+                    Hover over any topic to preview its content!
+                  </p>
+                </div>
               </div>
             )}
           </div>
