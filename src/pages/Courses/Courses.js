@@ -143,13 +143,13 @@ const Courses = () => {
                   setSelectedCategory(category.id);
                   setSelectedFile(null);
                 }}
-                className={`px-3 py-1 rounded-md transition-colors ${
+                className={`w-full sm:w-auto px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
                   selectedCategory === category.id
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
                 }`}
               >
-                {category.name}
+                <h3 className="font-medium text-[0.88rem] text-center">{category.name}</h3>
               </button>
             ))}
           </div>

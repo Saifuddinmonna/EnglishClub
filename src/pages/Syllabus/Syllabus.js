@@ -103,13 +103,13 @@ const Syllabus = () => {
   ];
 
   return (
-    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-4 py-8'}`}>
+    <div className={`${isFullScreen ? 'fixed inset-0 z-50 bg-white' : 'container mx-auto px-1 py-2'}`}>
       {!isFullScreen && (
-        <div className="mb-6">
-          <h1 className="flex text-2xl mr-4 font-bold">Course & Academic Syllabus 
+        <div className="mb-2">
+          <h1 className="flex text-2xl mr-2 font-bold">Course & Academic Syllabus 
             <span className="text-sm text-gray-700">
               {hoveredItem && (
-                <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
+                <><span className="font-semibold ml-2">Preview:</span> {hoveredItem.name}</>
               )}
             </span>
           </h1>
@@ -118,9 +118,9 @@ const Syllabus = () => {
       
       {/* Categories at the top */}
       {!isFullScreen && (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex flex-wrap gap-2">
+        <div className="bg-white rounded-lg shadow-md p-2 mb-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+            <div className="flex flex-col sm:flex-row gap-1 w-full">
               {categories.map((category) => (
                 <button
                   key={category.id}
@@ -130,13 +130,13 @@ const Syllabus = () => {
                   }}
                   onMouseEnter={() => setHoveredItem(category)}
                   onMouseLeave={() => setHoveredItem(null)}
-                  className={`px-3 py-1.5 rounded-md transition-colors text-[0.88rem] ${
+                  className={`w-full px-2 py-1 rounded-md transition-colors text-[0.88rem] ${
                     selectedCategory === category.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
                   }`}
                 >
-                  <h3 className="font-medium text-[0.88rem]">{category.name}</h3>
+                  <h3 className="font-medium text-[0.88rem] text-center">{category.name}</h3>
                 </button>
               ))}
             </div>
@@ -144,7 +144,7 @@ const Syllabus = () => {
               onClick={toggleDetails}
               onMouseEnter={() => setHoveredItem({ name: showDetails ? 'Hide Details' : 'Show Details' })}
               onMouseLeave={() => setHoveredItem(null)}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center gap-1"
+              className="w-full sm:w-auto px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors text-[0.88rem] flex items-center justify-center gap-1"
             >
               {showDetails ? 'Hide Details' : 'Show Details'}
               <svg
@@ -167,8 +167,8 @@ const Syllabus = () => {
             </button>
           </div>
           {showDetails && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-md">
-              <h3 className="font-medium text-blue-800 mb-2 text-[0.99rem]">
+            <div className="mt-2 p-2 bg-gray-50 rounded-md w-full">
+              <h3 className="font-medium text-blue-800 mb-1 text-[0.99rem]">
                 {categories.find(cat => cat.id === selectedCategory)?.name}
               </h3>
               <p className="text-gray-600 text-[0.88rem]">
@@ -180,23 +180,23 @@ const Syllabus = () => {
       )}
       
       {/* Main content area */}
-      <div className={`flex gap-6 ${isFullScreen ? 'h-screen' : ''}`}>
-        {/* Left side - File list (20%) */}
+      <div className={`flex flex-col lg:flex-row gap-2 ${isFullScreen ? 'h-screen' : ''}`}>
+        {/* Left side - File list */}
         {!isFullScreen && (
-          <div className="w-1/5">
-            <div className="bg-white rounded-lg shadow-md p-4">
-              <h2 className="text-[1.1rem] font-semibold mb-4 text-blue-800">
+          <div className="w-full lg:w-1/5">
+            <div className="bg-white rounded-lg shadow-md p-2">
+              <h2 className="text-[1.1rem] font-semibold mb-2 text-blue-800">
                 {categories.find(cat => cat.id === selectedCategory)?.name}
               </h2>
-              <div className="space-y-2 max-h-[600px] overflow-y-auto">
+              <div className="space-y-1 max-h-[300px] lg:max-h-[600px] overflow-y-auto">
                 {documents[selectedCategory]?.map((doc, index) => (
                   <div key={index} className="w-full">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between w-full">
                       <button
                         onClick={() => setSelectedFile(doc)}
                         onMouseEnter={() => setHoveredItem(doc)}
                         onMouseLeave={() => setHoveredItem(null)}
-                        className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                        className={`w-full text-left px-2 py-1 rounded-md transition-colors ${
                           selectedFile?.file === doc.file
                             ? 'bg-blue-100 text-blue-700'
                             : 'hover:bg-gray-100'
@@ -230,7 +230,7 @@ const Syllabus = () => {
                       </button>
                     </div>
                     {showDocDetails[doc.file] && (
-                      <p className="text-[0.88rem] text-gray-600 px-4 py-1">{doc.description}</p>
+                      <p className="text-[0.88rem] text-gray-600 px-2 py-1 w-full">{doc.description}</p>
                     )}
                   </div>
                 ))}
@@ -239,19 +239,19 @@ const Syllabus = () => {
           </div>
         )}
 
-        {/* Right side - Content display (65% or full width in fullscreen) */}
-        <div className={`${isFullScreen ? 'w-full' : 'w-4/5'}`}>
-          <div className="bg-white rounded-lg shadow-md px-6 py-1 h-full">
+        {/* Right side - Content display */}
+        <div className={`${isFullScreen ? 'w-full' : 'w-full lg:w-4/5'}`}>
+          <div className="bg-white rounded-lg shadow-md px-2 py-1 h-full">
             {selectedFile ? (
               <div className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-4">
-                  <div>
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-2 gap-1">
+                  <div className="w-full">
                     <h2 className="text-[1.1rem] font-semibold text-blue-800">{selectedFile.name}</h2>
                     <p className="text-[0.88rem] text-gray-600 mt-1">{selectedFile.description}</p>
                   </div>
                   <button
                     onClick={toggleFullScreen}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-[0.88rem]"
+                    className="w-full sm:w-auto px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-[0.88rem]"
                   >
                     {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
                   </button>
