@@ -3,6 +3,7 @@ import { useAuth } from '../../pages/Authentication/AuthContext';
 import Navbar from '../Navbar/Navbar';
 import DashboardLayout from './DashboardLayout';
 import Footer from '../Footer';
+
 const MainLayout = ({ children }) => {
   const { user } = useAuth();
 
@@ -11,7 +12,9 @@ const MainLayout = ({ children }) => {
     return (
       <div className="min-h-screen bg-gray-100">
         <Navbar />
-        <DashboardLayout>{children}</DashboardLayout>
+        <div className="pt-20">
+          {children}
+        </div>
       </div>
     );
   }
@@ -20,7 +23,7 @@ const MainLayout = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 pt-20">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {children}
         </div>

@@ -123,9 +123,9 @@ const Courses = () => {
           <h1 className="flex flex-col md:flex-row text-3xl mr-4 font-bold">
             English Courses 
             <span className="text-lg text-gray-500">
-              {hoveredItem && (
-                <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
-              )}
+            {hoveredItem && (
+              <><span className="font-semibold ml-4">Preview:</span> {hoveredItem.name}</>
+            )}
             </span>
           </h1>
           <p className="text-gray-700 text-lg">for sub category</p>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import { useApp } from '../../context/AppContext';
 import {
   BookOpenIcon,
   AcademicCapIcon,
@@ -11,7 +12,20 @@ import {
 
 const StudentPanel = () => {
   const { user } = useAuth();
+  const { isStudentPanelVisible, toggleStudentPanel } = useApp();
   const [activeTab, setActiveTab] = useState('dashboard');
+
+  useEffect(() => {
+    // If user is a student, ensure panel is visible
+    if (user && user.role === 'student' && !isStudentPanelVisible) {
+      toggleStudentPanel();
+    }
+  }, [user, isStudentPanelVisible, toggleStudentPanel]);
+
+  // Only show panel if user is logged in and is a student
+  if (!user || user.role !== 'student') {
+    return null;
+  }
 
   const stats = [
     { name: 'Courses Enrolled', value: '4', icon: BookOpenIcon },
@@ -48,8 +62,12 @@ const StudentPanel = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-        <div className="flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200">
+      <div className={`hidden md:flex md:flex-col md:fixed md:top-[12vh] transition-all duration-300 ease-in-out ${
+        isStudentPanelVisible ? 'md:w-40' : 'md:w-0'
+      }`}>
+        <div className={`flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200 transition-all duration-300 ${
+          isStudentPanelVisible ? 'opacity-100' : 'opacity-0'
+        }`}>
           <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
               <h1 className="text-2xl font-bold text-gray-900">Student Portal</h1>
@@ -63,7 +81,7 @@ const StudentPanel = () => {
                     item.current
                       ? 'bg-gray-100 text-gray-900'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  } group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full`}
+                  } group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full transition-colors duration-200`}
                 >
                   <item.icon
                     className={`${
@@ -79,7 +97,9 @@ const StudentPanel = () => {
       </div>
 
       {/* Main content */}
-      <div className="md:pl-64 flex flex-col flex-1">
+      <div className={`flex flex-col flex-1 transition-all duration-300 ${
+        isStudentPanelVisible ? 'md:pl-72' : 'md:pl-0'
+      }`}>
         <main className="flex-1">
           <div className="py-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -92,7 +112,7 @@ const StudentPanel = () => {
                   {stats.map((item) => (
                     <div
                       key={item.name}
-                      className="bg-white overflow-hidden shadow rounded-lg"
+                      className="bg-white overflow-hidden shadow rounded-lg transform transition-all duration-300 hover:scale-105"
                     >
                       <div className="p-5">
                         <div className="flex items-center">
@@ -120,7 +140,7 @@ const StudentPanel = () => {
 
               {/* Recent Courses */}
               <div className="mt-8">
-                <div className="bg-white shadow rounded-lg">
+                <div className="bg-white shadow rounded-lg transform transition-all duration-300 hover:shadow-xl">
                   <div className="px-4 py-5 sm:px-6">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                       Recent Courses
@@ -130,7 +150,7 @@ const StudentPanel = () => {
                     <div className="px-4 py-5 sm:p-6">
                       <div className="space-y-6">
                         {recentCourses.map((course) => (
-                          <div key={course.id} className="bg-gray-50 rounded-lg p-4">
+                          <div key={course.id} className="bg-gray-50 rounded-lg p-4 transform transition-all duration-300 hover:scale-102 hover:shadow-md">
                             <div className="flex items-center justify-between">
                               <div>
                                 <h4 className="text-lg font-medium text-gray-900">
@@ -161,7 +181,7 @@ const StudentPanel = () => {
                                     <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
                                       <div
                                         style={{ width: `${course.progress}%` }}
-                                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+                                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-500"
                                       ></div>
                                     </div>
                                   </div>

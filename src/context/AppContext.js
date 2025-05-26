@@ -5,6 +5,7 @@ const AppContext = createContext(null);
 export const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isStudentPanelVisible, setIsStudentPanelVisible] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -14,11 +15,17 @@ export const AppProvider = ({ children }) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const toggleStudentPanel = () => {
+    setIsStudentPanelVisible(!isStudentPanelVisible);
+  };
+
   const value = {
     isSidebarOpen,
     isMobileMenuOpen,
     toggleSidebar,
     toggleMobileMenu,
+    isStudentPanelVisible,
+    toggleStudentPanel
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

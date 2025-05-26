@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../pages/Authentication/AuthContext';
 import { useApp } from '../../context/AppContext';
 import {
@@ -34,12 +34,15 @@ import {
   DocumentArrowUpIcon as DocumentArrowUpIcon2,
   DocumentPlusIcon as DocumentPlusIcon2,
   DocumentMinusIcon as DocumentMinusIcon2,
+  ChevronLeftIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
 import AIButton from '../AIAssistant/AIButton';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { isMobileMenuOpen, toggleMobileMenu } = useApp();
+  const { isMobileMenuOpen, toggleMobileMenu, isStudentPanelVisible, toggleStudentPanel } = useApp();
+  const location = useLocation();
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -86,7 +89,9 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow">
+    
+    <div className='relative mt-3 '>
+      <nav className="  fixed bg-white shadow  top-0 z-50 w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex">
@@ -118,7 +123,11 @@ const Navbar = () => {
                     <div className="relative">
                       <Link
                         to={item.href}
-                        className="inline-flex items-center px-2 py-2 text-base font-medium text-gray-900 bg-gray-50 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-2000 ease-in-out shadow-sm hover:shadow-md no-underline"
+                        className={`inline-flex items-center px-2 py-2 text-base font-medium rounded-lg transition-all duration-2000 ease-in-out shadow-sm hover:shadow-md no-underline ${
+                          location.pathname.startsWith(item.href)
+                            ? 'bg-blue-600 text-white'
+                            : 'text-gray-900 bg-gray-50 hover:bg-blue-600 hover:text-white'
+                        }`}
                       >
                         {item.name}
                       </Link>
@@ -127,7 +136,11 @@ const Navbar = () => {
                           <Link
                             key={dropItem.name}
                             to={dropItem.href}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-2000 ease-in-out mx-2 rounded-md no-underline flex items-center gap-2"
+                            className={`block px-4 py-2 text-sm font-medium transition-all duration-2000 ease-in-out mx-2 rounded-md no-underline flex items-center gap-2 ${
+                              location.pathname === dropItem.href
+                                ? 'bg-blue-50 text-blue-600'
+                                : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+                            }`}
                           >
                             {dropItem.icon && <dropItem.icon className="w-5 h-5 text-[rgb(252,99,2)]" />}
                             {dropItem.name}
@@ -138,7 +151,11 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={item.href}
-                      className={`inline-flex items-center justify-center px-4 py-2 text-base font-medium text-gray-900 bg-gray-50 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-2000 ease-in-out shadow-sm hover:shadow-md no-underline ${
+                      className={`inline-flex items-center justify-center px-4 py-2 text-base font-medium rounded-lg transition-all duration-2000 ease-in-out shadow-sm hover:shadow-md no-underline ${
+                        location.pathname === item.href
+                          ? 'bg-blue-600 text-white'
+                          : 'text-gray-900 bg-gray-50 hover:bg-blue-600 hover:text-white'
+                      } ${
                         item.name === 'Study Materials' ? 'text-sm font-semibold tracking-wide' : ''
                       }`}
                     >
@@ -159,6 +176,19 @@ const Navbar = () => {
                 <div className="ml-6">
                   <AIButton />
                 </div>
+                {user.role === 'student' && (
+                  <button
+                    onClick={toggleStudentPanel}
+                    className="inline-flex items-center justify-center p-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-110"
+                    style={{ width: '40px', height: '40px' }}
+                  >
+                    {isStudentPanelVisible ? (
+                      <ChevronLeftIcon className="h-5 w-5" />
+                    ) : (
+                      <ChevronRightIcon className="h-5 w-5" />
+                    )}
+                  </button>
+                )}
                 <button
                   onClick={logout}
                   className="inline-flex items-center text-decoration-none ml-1 px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-2000 ease-in-out leading-tight"
@@ -211,16 +241,16 @@ const Navbar = () => {
           <div className="pt-2 pb-2 space-y-1 bg-gradient-to-b from-white to-gray-50 rounded-[10px] shadow-lg border border-gray-100 mx-2 my-1">
             {navigation.map((item) => (
               <div key={item.name} className="transform transition-all duration-300 hover:translate-x-1 px-1">
-                <div className="space-y-1">
+                  <div className="space-y-1">
                   <Link
                     to={item.href}
-                    className={`block px-3 py-2 text-base font-medium ${
-                      window.location.pathname === item.href 
-                        ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
+                    className={`block px-3 py-2 text-base font-medium transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md ${
+                      location.pathname.startsWith(item.href)
+                        ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500'
                         : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
-                    } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md`}
+                    }`}
                   >
-                    {item.name}
+                      {item.name}
                   </Link>
                   {item.dropdown && (
                     <div className="pl-3 space-y-1">
@@ -228,11 +258,11 @@ const Navbar = () => {
                         <Link
                           key={dropItem.name}
                           to={dropItem.href}
-                          className={`block px-3 py-2 text-sm font-medium ${
-                            window.location.pathname === dropItem.href 
-                              ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
+                          className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md flex items-center gap-2 ${
+                            location.pathname === dropItem.href
+                              ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500'
                               : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
-                          } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md flex items-center gap-2`}
+                          }`}
                         >
                           {dropItem.icon && <dropItem.icon className="w-5 h-5 text-[rgb(252,99,2)]" />}
                           {dropItem.name}
@@ -240,7 +270,7 @@ const Navbar = () => {
                       ))}
                     </div>
                   )}
-                </div>
+                  </div>
               </div>
             ))}
           </div>
@@ -273,7 +303,7 @@ const Navbar = () => {
                 <Link
                   to="/signin"
                   className={`block px-3 py-2 text-base font-medium ${
-                    window.location.pathname === '/signin' 
+                    location.pathname === '/signin' 
                       ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
                       : 'text-gray-500 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
                   } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md mx-2 flex items-center gap-2`}
@@ -284,7 +314,7 @@ const Navbar = () => {
                 <Link
                   to="/signup"
                   className={`block px-3 py-2 text-base font-medium ${
-                    window.location.pathname === '/signup' 
+                    location.pathname === '/signup' 
                       ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-500' 
                       : 'text-gray-500 hover:text-blue-600 hover:bg-blue-50 border-l-2 border-transparent hover:border-blue-400'
                   } transition-all duration-300 ease-in-out rounded-[10px] shadow-sm hover:shadow-md mx-2 flex items-center gap-2`}
@@ -298,6 +328,7 @@ const Navbar = () => {
         </div>
       )}
     </nav>
+    </div>
   );
 };
 
