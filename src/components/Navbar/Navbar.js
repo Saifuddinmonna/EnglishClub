@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../pages/Authentication/AuthContext';
 import { useApp } from '../../context/AppContext';
@@ -44,6 +44,19 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const { isMobileMenuOpen, toggleMobileMenu, isStudentPanelVisible, toggleStudentPanel, isSidebarVisible, toggleSidebar } = useApp();
   const location = useLocation();
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isMobileMenuOpen]);
 
   const navigation = [
     { name: 'Home', href: '/' },
