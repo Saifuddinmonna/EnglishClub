@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import { useApp } from '../../context/AppContext';
 import {
   UserGroupIcon,
   AcademicCapIcon,
@@ -12,14 +13,16 @@ import {
   BookOpenIcon,
   ClockIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  HomeIcon
 } from '@heroicons/react/24/outline';
 
 const UnifiedDashboard = () => {
   const { user } = useAuth();
+  const { isSidebarVisible, toggleSidebar } = useApp();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isLoading, setIsLoading] = useState(true);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   useEffect(() => {
     // Simulate loading data
@@ -33,7 +36,7 @@ const UnifiedDashboard = () => {
   // Role-based navigation items
   const getNavigationItems = () => {
     const commonItems = [
-      { name: 'Dashboard', icon: ChartBarIcon, current: activeTab === 'dashboard' },
+      { name: 'Dashboard', icon: HomeIcon, current: activeTab === 'dashboard' },
       { name: 'Courses', icon: BookOpenIcon, current: activeTab === 'courses' },
       { name: 'Schedule', icon: CalendarIcon, current: activeTab === 'schedule' },
     ];
@@ -87,6 +90,15 @@ const UnifiedDashboard = () => {
     return [...commonStats, ...(roleSpecificStats[user?.role] || [])];
   };
 
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName.toLowerCase());
+    if (tabName.toLowerCase() === 'dashboard') {
+      setShowDashboard(true);
+    } else {
+      setShowDashboard(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -111,22 +123,12 @@ const UnifiedDashboard = () => {
               <h1 className="text-xl font-bold text-gray-900">
                 {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Portal
               </h1>
-              <button
-                onClick={() => setIsSidebarVisible(!isSidebarVisible)}
-                className="p-2 rounded-md hover:bg-gray-100 transition-colors"
-              >
-                {isSidebarVisible ? (
-                  <ChevronLeftIcon className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <ChevronRightIcon className="h-5 w-5 text-gray-500" />
-                )}
-              </button>
             </div>
             <nav className="flex-1 overflow-y-auto p-4">
               {getNavigationItems().map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => setActiveTab(item.name.toLowerCase())}
+                  onClick={() => handleTabClick(item.name)}
                   className={`w-full flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200 ${
                     item.current
                       ? 'bg-blue-50 text-blue-700'
@@ -150,30 +152,65 @@ const UnifiedDashboard = () => {
       }`}>
         <main className="p-6">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-bold text-gray-900 mb-8">Dashboard</h1>
+            {showDashboard ? (
+              <>
+                <h1 className="text-2xl font-bold text-gray-900 mb-8">
+                  {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+                </h1>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {getStats().map((item) => (
-                <div
-                  key={item.name}
-                  className="bg-white rounded-xl shadow-sm p-6 transform transition-all duration-300 hover:scale-105"
-                >
-                  <div className="flex items-center">
-                    <div className={`p-3 rounded-lg ${item.color} bg-opacity-10`}>
-                      <item.icon className={`h-6 w-6 ${item.color}`} />
+                {/* Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  {getStats().map((item) => (
+                    <div
+                      key={item.name}
+                      className="bg-white rounded-xl shadow-sm p-6 transform transition-all duration-300 hover:scale-105"
+                    >
+                      <div className="flex items-center">
+                        <div className={`p-3 rounded-lg ${item.color} bg-opacity-10`}>
+                          <item.icon className={`h-6 w-6 ${item.color}`} />
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-gray-600">{item.name}</p>
+                          <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">{item.name}</p>
-                      <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
-                    </div>
+                  ))}
+                </div>
+
+                {/* Recent Activity */}
+                <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
+                  <div className="space-y-4">
+                    {/* Add your recent activity content here */}
+                    <p className="text-gray-600">No recent activity to display.</p>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Role-specific content sections will be added here */}
-            {/* These will be implemented based on the activeTab state */}
+                {/* Quick Actions */}
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button className="p-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                      View Courses
+                    </button>
+                    <button className="p-4 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
+                      Check Assignments
+                    </button>
+                    <button className="p-4 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
+                      View Progress
+                    </button>
+                    <button className="p-4 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100 transition-colors">
+                      Schedule
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <p className="text-gray-600">Content for {activeTab} will be displayed here.</p>
+              </div>
+            )}
           </div>
         </main>
       </div>

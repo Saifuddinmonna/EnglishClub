@@ -7,25 +7,28 @@ import Footer from '../Footer';
 const MainLayout = ({ children }) => {
   const { user } = useAuth();
 
-  // If user is authenticated, show UnifiedDashboard
-  if (user) {
-    return (
-      <div className="min-h-screen bg-gray-100">
-        <Navbar />
-        <div className="pt-20">
-          <UnifiedDashboard />
+ if (user) {
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      
+      <main className="flex-1 pt-20">
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+       
+          {children} 
         </div>
-      </div>
-    );
-  }
-
-  // If user is not authenticated, show only Navbar and content
+      </main>
+      <Footer />
+    </div>
+  );
+};
+ 
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
       <main className="flex-1 pt-20">
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          {children}
+          {children} 
         </div>
       </main>
       <Footer />

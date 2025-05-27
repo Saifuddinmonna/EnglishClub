@@ -18,6 +18,7 @@ import Writings from '../pages/Writing/Writings';
 import Syllabus from '../pages/Syllabus/Syllabus';
 import Courses from '../pages/Courses/Courses';
 import Documents from '../pages/Documents/Documents';
+import UnifiedDashboard from '../pages/Authentication/UnifiedDashboard';
 
 const AppRouter = () => {
   return (
@@ -31,8 +32,18 @@ const AppRouter = () => {
             <Route path="/signup" element={<MainLayout><SignUp /></MainLayout>} />
             <Route path="/syllabus/*" element={<MainLayout><Syllabus /></MainLayout>} />
             <Route path="/courses/*" element={<MainLayout><Courses /></MainLayout>} />
-
+            <Route path="/ai-assistant" element={<MainLayout><AIAssistant /></MainLayout>} />
+            <Route path="/documents/*" element={<MainLayout><Documents /></MainLayout>} />
+            <Route path="/writing/*" element={<MainLayout><Writings /></MainLayout>} />
+            <Route path="/grammar/*" element={<MainLayout><Grammar /></MainLayout>} />
+            <Route path="/vocabulary/*" element={<MainLayout><Vocabulary /></MainLayout>} /> 
+            
             {/* Protected routes - authentication required */}
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <MainLayout><UnifiedDashboard /></MainLayout>
+              </ProtectedRoute>
+            } />
             <Route path="/vocabulary/*" element={
               <ProtectedRoute>
                 <MainLayout><Vocabulary /></MainLayout>

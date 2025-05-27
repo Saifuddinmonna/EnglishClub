@@ -35,13 +35,14 @@ import {
   DocumentPlusIcon as DocumentPlusIcon2,
   DocumentMinusIcon as DocumentMinusIcon2,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  HomeIcon
 } from '@heroicons/react/24/outline';
 import AIButton from '../AIAssistant/AIButton';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { isMobileMenuOpen, toggleMobileMenu, isStudentPanelVisible, toggleStudentPanel } = useApp();
+  const { isMobileMenuOpen, toggleMobileMenu, isStudentPanelVisible, toggleStudentPanel, isSidebarVisible, toggleSidebar } = useApp();
   const location = useLocation();
 
   const navigation = [
@@ -116,6 +117,18 @@ const Navbar = () => {
                 </span>
               </Link>
             </div>
+
+            {/* Add Dashboard Toggle Button */}
+            {user && (
+              <Link
+                to="/dashboard"
+                className="ml-4 flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200"
+              >
+                <HomeIcon className="h-5 w-5 mr-2" />
+                <span className="hidden sm:inline">Dashboard</span>
+              </Link>
+            )}
+
             <div className="hidden sm:ml-6 sm:flex sm:space-x-4 sm:items-center">
               {navigation.map((item) => (
                 <div key={item.name} className="relative group">
