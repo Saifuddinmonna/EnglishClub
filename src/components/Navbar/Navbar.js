@@ -73,11 +73,35 @@ const Navbar = () => {
     { name: 'Home', href: '/' },
     { 
       name: 'Vocabulary', 
-      href: '/vocabulary',
+      href: '#',
       dropdown: [
-        { name: 'Strong verb and Week Verb', href: '/vocabulary/strong-weak-verbs', icon: BookOpenIcon },
-        { name: 'Vocabulary for Connectors', href: '/vocabulary/connectors', icon: ChatBubbleLeftRightIcon },
-        { name: 'Others', href: '/vocabulary/others', icon: SparklesIcon }
+        {
+          name: 'Basic Vocabulary',
+          items: [
+            { name: 'Common Words', href: '/vocabulary/basic/common-words' },
+            { name: 'Daily Use Words', href: '/vocabulary/basic/daily-use' },
+            { name: 'Essential Phrases', href: '/vocabulary/basic/essential-phrases' },
+            { name: 'Word Families', href: '/vocabulary/basic/word-families' }
+          ]
+        },
+        {
+          name: 'Intermediate Vocabulary',
+          items: [
+            { name: 'Academic Words', href: '/vocabulary/intermediate/academic' },
+            { name: 'Business Terms', href: '/vocabulary/intermediate/business' },
+            { name: 'Technical Terms', href: '/vocabulary/intermediate/technical' },
+            { name: 'Idioms and Phrases', href: '/vocabulary/intermediate/idioms' }
+          ]
+        },
+        {
+          name: 'Advanced Vocabulary',
+          items: [
+            { name: 'Advanced Words', href: '/vocabulary/advanced/words' },
+            { name: 'Synonyms & Antonyms', href: '/vocabulary/advanced/synonyms-antonyms' },
+            { name: 'Word Origins', href: '/vocabulary/advanced/word-origins' },
+            { name: 'Contextual Usage', href: '/vocabulary/advanced/contextual-usage' }
+          ]
+        }
       ]
     },
     { 
@@ -218,7 +242,7 @@ const Navbar = () => {
         { 
           name: 'Academic Syllabus',
           icon: AcademicCapIcon,
-          submenu: [
+          items: [
             { name: 'New National Curriculum Framework (NCF) 2021', href: '/syllabus/academic/ncf-2021' },
             { name: 'Classes 1–5 (Primary Level)', href: '/syllabus/academic/primary' },
             { name: 'Classes 6–8 (Lower Secondary)', href: '/syllabus/academic/lower-secondary' },

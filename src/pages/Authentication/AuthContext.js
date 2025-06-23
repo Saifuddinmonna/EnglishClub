@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const AuthContext = createContext(null);
 
@@ -15,14 +16,19 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+  const login = async (email, password) => {
+    const auth = getAuth();
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const token = await userCredential.user.getIdToken();
+    localStorage.setItem('token', token);
+    setUser(userCredential.user);
+    localStorage.setItem('user', JSON.stringify(userCredential.user));
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   if (loading) {
@@ -32,9 +38,13 @@ export const AuthProvider = ({ children }) => {
       </div>
     );
   }
-
+const valueOfAuthContext = {
+  user,
+  login,
+  logout
+}
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={valueOfAuthContext}>
       {children}
     </AuthContext.Provider>
   );
