@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SparklesIcon } from '@heroicons/react/24/outline';
-import { useAuth } from '../../pages/Authentication/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const AIButton = () => {
   const { currentUser } = useAuth();

@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useAuth } from '../../context/AuthContext';
+import { auth } from '../../config/firebase';
+import api from '../../config/api';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+// If you want to use AppProvider loading, import useApp if available
+// import { useApp } from '../../context/AppContext';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -9,42 +16,104 @@ const SignUp = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student'
+    phone: '',
+    intendedRole: 'student',
+    profilePicture: null,
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  // const { setAppLoading } = useApp(); // If you want to use AppProvider loading
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const { name, value, files } = e.target;
+    if (name === 'profilePicture') {
+      setFormData(prev => ({ ...prev, profilePicture: files[0] }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
+
+  // Placeholder for image upload logic
+  const uploadImage = async (file) => {
+    // Implement your image upload logic here and return the URL
+    // For now, just return an empty string
+    return '';
+  };
+
+  const signupMutation = useMutation({
+    mutationFn: async ({ serverData, token }) => {
+      return api.post('/users', serverData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    },
+    onSuccess: () => {
+      toast.success('Account created successfully!');
+      setLoading(false);
+      navigate('/dashboard');
+    },
+    onError: (error) => {
+      toast.error('Failed to create account. Please try again.');
+      setLoading(false);
+      setError('Failed to create account. Please try again.');
+      console.log('Signup error:', error);
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
+    // if (setAppLoading) setAppLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
+      setLoading(false);
+      // if (setAppLoading) setAppLoading(false);
+      toast.error('Passwords do not match');
       return;
     }
 
     try {
-      // Here you would typically make an API call to your backend
-      // For now, we'll simulate a successful registration
-      const userData = {
+      // 1. Create user in Firebase
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+      localStorage.setItem('token', token);
+
+      // 2. Optional: Upload image if provided
+      let profilePictureUrl = '';
+      if (formData.profilePicture) {
+        profilePictureUrl = await uploadImage(formData.profilePicture);
+        await updateProfile(user, { photoURL: profilePictureUrl });
+      }
+
+      // 3. Prepare data for server
+      const name = formData.lastName ? `${formData.firstName} ${formData.lastName}`.trim() : formData.firstName.trim();
+      const serverData = {
+        firebaseUid: user.uid,
+        name,
         email: formData.email,
-        role: formData.role,
-        firstName: formData.firstName,
-        lastName: formData.lastName
+        phone: formData.phone,
+        profilePicture: profilePictureUrl || '',
+        intendedRole: formData.intendedRole,
       };
-      login(userData);
-      navigate('/dashboard');
+
+      // 4. Use TanStack Query mutation
+      signupMutation.mutate({ serverData, token });
+
+      // 5. Login context update (will be handled onSuccess if needed)
+      login(serverData);
     } catch (err) {
       setError('Failed to create account. Please try again.');
+      setLoading(false);
+      // if (setAppLoading) setAppLoading(false);
+      toast.error('Failed to create account. Please try again.');
+      console.log('Signup error:', err);
     }
   };
 
@@ -55,7 +124,6 @@ const SignUp = () => {
           Create your account
         </h2>
       </div>
-
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -64,7 +132,6 @@ const SignUp = () => {
                 {error}
               </div>
             )}
-
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
@@ -80,23 +147,20 @@ const SignUp = () => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-
               <div>
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                  Last name
+                  Last name (optional)
                 </label>
                 <input
                   type="text"
                   name="lastName"
                   id="lastName"
-                  required
                   value={formData.lastName}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
-
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
@@ -111,7 +175,37 @@ const SignUp = () => {
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                Phone
+              </label>
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="intendedRole" className="block text-sm font-medium text-gray-700">
+                I am a
+              </label>
+              <select
+                name="intendedRole"
+                id="intendedRole"
+                value={formData.intendedRole}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="guardian">Guardian</option>
+              </select>
+            </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
@@ -126,7 +220,6 @@ const SignUp = () => {
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                 Confirm password
@@ -141,59 +234,29 @@ const SignUp = () => {
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-
             <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                I am a
+              <label htmlFor="profilePicture" className="block text-sm font-medium text-gray-700">
+                Profile Picture (optional)
               </label>
-              <select
-                name="role"
-                id="role"
-                value={formData.role}
+              <input
+                type="file"
+                name="profilePicture"
+                id="profilePicture"
+                accept="image/*"
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-                <option value="guest">Guest</option>
-              </select>
+              />
             </div>
-
             <div>
               <button
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                disabled={loading}
               >
-                Sign up
+                {loading ? 'Signing up...' : 'Sign up'}
               </button>
             </div>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
-              </div>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                Google
-              </button>
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                GitHub
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

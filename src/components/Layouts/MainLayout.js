@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../../pages/Authentication/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import Navbar from '../Navbar/Navbar';
 import UnifiedDashboard from '../../pages/Authentication/UnifiedDashboard';
 import Footer from '../Footer';

@@ -1,5 +1,7 @@
+import { DEV_TEST_API_BASE_URL } from '../api/serverApiForTestingInLocalhost';  
+
 // API Configuration
-export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+export const API_BASE_URL = DEV_TEST_API_BASE_URL;
 
 // AI Service Configuration
 export const AI_CONFIG = {

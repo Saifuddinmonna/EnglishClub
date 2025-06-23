@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -15,18 +17,19 @@ const SignIn = () => {
     setError('');
 
     try {
-      // Here you would typically make an API call to authenticate
-      // For now, we'll just simulate a successful login
+      // Use Firebase Auth for sign in
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+      localStorage.setItem('token', token);
       const userData = {
-        email,
-        firstName: 'Test',
-        lastName: 'User',
-        role: 'student',
-        isRecognized: email.includes('@student.edu') // Example condition for recognized students
+        email: user.email,
+        firstName: user.displayName ? user.displayName.split(' ')[0] : 'Test',
+        lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : 'User',
+        role: 'student', // You may want to fetch this from your backend
+        isRecognized: user.email && user.email.includes('@student.edu')
       };
-      
       login(userData);
-      
       // Redirect to the page they tried to visit or home
       const from = location.state?.from?.pathname || '/';
       navigate(from, { replace: true });
