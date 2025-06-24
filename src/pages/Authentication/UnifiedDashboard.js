@@ -121,7 +121,9 @@ const UnifiedDashboard = () => {
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <h1 className="text-xl font-bold text-gray-900">
-                {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Portal
+                {user?.role
+                  ? user.role.charAt(0).toUpperCase() + user.role.slice(1) + ' Portal'
+                  : 'User Portal'}
               </h1>
             </div>
             <nav className="flex-1 overflow-y-auto p-4">

@@ -281,9 +281,7 @@ const Navbar = () => {
                   <div className="absolute inset-0 bg-blue-100 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-2000"></div>
                 </div>
                 <span className="relative inline-block">
-                  <span className="text-base font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                    English Club
-                  </span>
+                  
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-800 group-hover:w-full transition-all duration-2000 ease-in-out"></span>
                 </span>
               </Link>
@@ -383,12 +381,12 @@ const Navbar = () => {
             {user ? (
               <div className="flex items-center space-x-4">
                 <span className="text-xs text-gray-700 leading-tight">
-                  Welcome, {user.firstName || user.email}
+                  Welcome, {user?.firstName || user.email}
                 </span>
                 <div className="ml-6">
                   <AIButton />
                 </div>
-                {user.role === 'student' && (
+                {user?.role === 'student' && (
                   <button
                     onClick={toggleStudentPanel}
                     className="inline-flex items-center justify-center p-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-110"
