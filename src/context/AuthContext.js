@@ -4,6 +4,7 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [dbUser, setDbUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,17 +13,34 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    // Check if dbUser is stored in localStorage
+    const storedDbUser = localStorage.getItem('dbUser');
+    if (storedDbUser) {
+      setDbUser(JSON.parse(storedDbUser));
+    }
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
+  // login can accept both userData and dbUserData
+  const login = (userData, dbUserData = null) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
+    if (dbUserData) {
+      setDbUser(dbUserData);
+      localStorage.setItem('dbUser', JSON.stringify(dbUserData));
+    }
+  };
+
+  const setDbUserAndPersist = (dbUserData) => {
+    setDbUser(dbUserData);
+    localStorage.setItem('dbUser', JSON.stringify(dbUserData));
   };
 
   const logout = () => {
     setUser(null);
+    setDbUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('dbUser');
     localStorage.removeItem('token');
   };
 
@@ -33,9 +51,9 @@ export const AuthProvider = ({ children }) => {
       </div>
     );
   }
-
+console.log("from auth context  checking user and dbUser",user,dbUser);
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, dbUser, setDbUser: setDbUserAndPersist, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

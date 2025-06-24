@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRouter from './components/Router';
+import AppRouter from './components/routes/Router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';

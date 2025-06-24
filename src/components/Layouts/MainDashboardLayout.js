@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../../pages/Authentication/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import {
   UserGroupIcon,
@@ -11,7 +11,7 @@ import {
   ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 
-const DashboardLayout = ({ children }) => {
+const MainDashboardLayout = ({ children }) => {
   const { user, logout } = useAuth();
 
   if (!user) {
@@ -60,6 +60,7 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      this is the dashboard layout form layout folder
       {/* Sidebar */}
       <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
         <div className="flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200">
@@ -126,4 +127,4 @@ const DashboardLayout = ({ children }) => {
   );
 };
 
-export default DashboardLayout; 
+export default MainDashboardLayout; 

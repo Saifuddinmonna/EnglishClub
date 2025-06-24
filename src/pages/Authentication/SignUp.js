@@ -77,6 +77,11 @@ const SignUp = () => {
     },
     onSuccess: async (response, variables) => {
       console.log('Server response success:', response);
+      const dbUser = response.data;
+      login(dbUser); // context-এ set করুন
+      toast.success('Account created successfully!');
+     
+
       
       // Update Firebase profile with processed image URL from server
       try {
@@ -201,6 +206,7 @@ const SignUp = () => {
         intendedRole: formData.intendedRole,
       };
       login(userData);
+      console.log('Login context updated :', userData);
       
     } catch (err) {
       console.log('Firebase error details:', err);

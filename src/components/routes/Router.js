@@ -1,24 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AppProvider } from '../context/AppContext';
-import { AuthProvider } from '../context/AuthContext';
-import MainLayout from './Layouts/MainLayout';
-import AIAssistantLayout from './Layouts/AIAssistantLayout';
-import SignIn from '../pages/Authentication/SignIn';
-import SignUp from '../pages/Authentication/SignUp';
-import Home from '../pages/Home/Home';
-import AIAssistant from './AIAssistant/AIAssistant';
+import { AppProvider } from '../../context/AppContext';
+import { AuthProvider } from '../../context/AuthContext';
+import MainLayout from '../Layouts/MainLayout';
+import AIAssistantLayout from '../Layouts/AIAssistantLayout';
+import SignIn from '../../pages/Authentication/SignIn';
+import SignUp from '../../pages/Authentication/SignUp';
+import Home from '../../pages/Home/Home';
+import AIAssistant from '../AIAssistant/AIAssistant';
 import ProtectedRoute from './ProtectedRoute';
 import SpecialStudentRoute from './SpecialStudentRoute';
 
 // Import all page components
-import Vocabulary from '../pages/Vocabulary/Vocabulary';
-import Grammar from '../pages/Grammar/Grammar';
-import Writings from '../pages/Writing/Writings';
-import Syllabus from '../pages/Syllabus/Syllabus';
-import Courses from '../pages/Courses/Courses';
-import Documents from '../pages/Documents/Documents';
-import UnifiedDashboard from '../pages/Authentication/UnifiedDashboard';
+import Vocabulary from '../../pages/Vocabulary/Vocabulary';
+import Grammar from '../../pages/Grammar/Grammar';
+import Writings from '../../pages/Writing/Writings';
+import Syllabus from '../../pages/Syllabus/Syllabus';
+import Courses from '../../pages/Courses/Courses';
+import Documents from '../../pages/Documents/Documents';
+import UnifiedDashboard from '../../pages/Authentication/UnifiedDashboard';
+import MainDashboardLayout from '../Layouts/MainDashboardLayout';
 
 const AppRouter = () => {
   return (
@@ -37,6 +38,7 @@ const AppRouter = () => {
             <Route path="/writing/*" element={<MainLayout><Writings /></MainLayout>} />
             <Route path="/grammar/*" element={<MainLayout><Grammar /></MainLayout>} />
             <Route path="/vocabulary/*" element={<MainLayout><Vocabulary /></MainLayout>} /> 
+            <Route path="/Dashboard/*" element={<MainDashboardLayout></MainDashboardLayout >} /> 
             
             {/* Protected routes - authentication required */}
             <Route path="/dashboard" element={
