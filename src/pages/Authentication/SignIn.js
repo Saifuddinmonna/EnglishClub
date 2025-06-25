@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../config/firebase';
+import { fetchMyProfile } from '../../services/userService';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -22,14 +23,17 @@ const SignIn = () => {
       const user = userCredential.user;
       const token = await user.getIdToken();
       localStorage.setItem('token', token);
-      const userData = {
-        email: user.email,
-        firstName: user.displayName ? user.displayName.split(' ')[0] : 'Test',
-        lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : 'User',
-        role: 'student', // You may want to fetch this from your backend
-        isRecognized: user.email && user.email.includes('@student.edu')
-      };
-      login(userData);
+      const response = await fetchMyProfile();
+      const userProfile = response.data;
+      console.log("check if dbuser is founded or not from signin",userProfile);
+
+    if (!userProfile) {
+      setError('No user profile found in database.');
+      return;
+    }
+
+    login(userProfile); // Use the full user object from backend
+
       // Redirect to the page they tried to visit or home
       const from = location.state?.from?.pathname || '/';
       navigate(from, { replace: true });

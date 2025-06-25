@@ -51,9 +51,16 @@ export const AuthProvider = ({ children }) => {
       </div>
     );
   }
-console.log("from auth context  checking user and dbUser",user,dbUser);
+  const authValue = {
+    user,
+    setUser,
+    dbUser,
+    setDbUser: setDbUserAndPersist,
+    login,
+    logout
+  };
   return (
-    <AuthContext.Provider value={{ user, setUser, dbUser, setDbUser: setDbUserAndPersist, login, logout }}>
+    <AuthContext.Provider value={authValue}>
       {children}
     </AuthContext.Provider>
   );

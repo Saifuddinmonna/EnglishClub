@@ -78,7 +78,8 @@ const SignUp = () => {
     onSuccess: async (response, variables) => {
       console.log('Server response success:', response);
       const dbUser = response.data;
-      login(dbUser); // context-এ set করুন
+      console.log("from signup page dbUser",dbUser);
+      // login(dbUser); // context-এ set করুন
       toast.success('Account created successfully!');
      
 

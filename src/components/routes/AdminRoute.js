@@ -1,9 +1,10 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const AdminRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading ,dbUser} = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -12,7 +13,10 @@ const AdminRoute = ({ children }) => {
     </div>;
   }
 
-  if (!user) {
+  if (!user || dbUser.role !== 'admin' && 
+    dbUser.isAdmin !== true ) {
+    console.log("from admin route checking user and dbUser",user,dbUser);
+    toast.error("You are not authorized to access this page this is not admin or superadmin ");
     // Redirect to signin page but save the attempted url
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }

@@ -39,6 +39,8 @@ import {
   HomeIcon
 } from '@heroicons/react/24/outline';
 import AIButton from '../AIAssistant/AIButton';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -260,6 +262,25 @@ const Navbar = () => {
     { name: 'Study Materials', href: '/documents' },
   ];
 
+  // Helper for avatar content
+  const getAvatarContent = (user) => {
+    if (user?.profilePicture) {
+      return (
+        <img
+          src={user.profilePicture}
+          alt={user?.name || 'User'}
+          className="w-10 h-10 rounded-full object-cover border border-blue-200"
+        />
+      );
+    } else if (user?.firstName && user.firstName.length > 0) {
+      return user.firstName[0].toUpperCase();
+    } else if (user?.email && user.email.length > 0) {
+      return user.email[0].toUpperCase();
+    } else {
+      return <UserCircleIcon className="h-6 w-6 text-blue-400" />;
+    }
+  };
+
   return (
     
     <div className='relative mt-3 '>
@@ -379,51 +400,90 @@ const Navbar = () => {
 
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
             {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-xs text-gray-700 leading-tight">
-                  Welcome, {user?.firstName || user.email}
-                </span>
-                <div className="ml-6">
-                  <AIButton />
-                </div>
-                {user?.role === 'student' && (
-                  <button
-                    onClick={toggleStudentPanel}
-                    className="inline-flex items-center justify-center p-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-110"
-                    style={{ width: '40px', height: '40px' }}
-                  >
-                    {isStudentPanelVisible ? (
-                      <ChevronLeftIcon className="h-5 w-5" />
-                    ) : (
-                      <ChevronRightIcon className="h-5 w-5" />
-                    )}
-                  </button>
-                )}
-                <button
-                  onClick={logout}
-                  className="inline-flex items-center text-decoration-none ml-1 px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-2000 ease-in-out leading-tight"
+              <div className="flex items-center space-x-2">
+                {/* AI Button as compact icon */}
+                <Link
+                  to="/ai-assistant"
+                  className="p-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white flex items-center justify-center shadow hover:shadow-md transition-all duration-300"
+                  title="AI Assistant"
                 >
-                  Sign out
-                </button>
+                  <SparklesIcon className="h-5 w-5" />
+                </Link>
+                {/* User Avatar Dropdown */}
+                <Menu as="div" className="relative inline-block text-left">
+                  <Menu.Button className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold text-lg shadow hover:shadow-md focus:outline-none overflow-hidden">
+                    {getAvatarContent(user)}
+                  </Menu.Button>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                      <div className="px-4 py-3 border-b">
+                        <div className="font-semibold text-gray-900 flex items-center gap-2">
+                          {user?.firstName} {user?.lastName}
+                          <span className="ml-2 px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-xs font-medium capitalize">{user?.role}</span>
+                        </div>
+                        <div className="text-xs text-gray-500">{user?.email}</div>
+                      </div>
+                      <div className="py-1">
+                        {user?.role === 'student' && (
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={toggleStudentPanel}
+                                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${active ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
+                              >
+                                {isStudentPanelVisible ? <ChevronLeftIcon className="h-4 w-4" /> : <ChevronRightIcon className="h-4 w-4" />}
+                                Student Panel
+                              </button>
+                            )}
+                          </Menu.Item>
+                        )}
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={logout}
+                              className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${active ? 'bg-blue-50 text-blue-700' : 'text-gray-700'}`}
+                            >
+                              <ArrowRightOnRectangleIcon className="h-4 w-4 text-[rgb(252,99,2)]" />
+                              Sign out
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <div className="ml-6">
-                  <AIButton />
-                </div>
+                {/* AI Button as compact icon */}
+                <Link
+                  to="/ai-assistant"
+                  className="p-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white flex items-center justify-center shadow hover:shadow-md transition-all duration-300"
+                  title="AI Assistant"
+                >
+                  <SparklesIcon className="h-5 w-5" />
+                </Link>
                 <Link
                   to="/signin"
-                  className="flex flex-col text-decoration-none items-center justify-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-2000 ease-in-out"
+                  className="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 flex items-center justify-center shadow hover:shadow-md transition-all duration-300"
+                  title="Sign in"
                 >
-                  <span>Sign</span>
-                  <span className="text-xs -mt-0.5">in</span>
+                  <ArrowLeftOnRectangleIcon className="h-5 w-5" />
                 </Link>
                 <Link
                   to="/signup"
-                  className="flex flex-col text-decoration-none items-center justify-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-2000 ease-in-out"
+                  className="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 flex items-center justify-center shadow hover:shadow-md transition-all duration-300"
+                  title="Sign up"
                 >
-                  <span>Sign</span>
-                  <span className="text-xs -mt-0.5">up</span>
+                  <UserPlusIcon className="h-5 w-5" />
                 </Link>
               </div>
             )}
@@ -542,10 +602,7 @@ const Navbar = () => {
                   </div>
                   <div className="ml-2">
                     <div className="text-base font-medium text-gray-800 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                      {user.firstName} {user.lastName}
-                    </div>
-                    <div className="text-sm font-medium text-gray-500">
-                      {user.email}
+                      {user?.role}
                     </div>
                   </div>
                 </div>
