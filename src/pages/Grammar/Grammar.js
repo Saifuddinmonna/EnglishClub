@@ -31,7 +31,7 @@ const Grammar = () => {
       {
         category: "Parts of Speech",
         items: [
-          { name: 'Parts of Speech Overview', file: 'parts-of-speech-overview.pdf' },
+          { name: 'Parts of Speech Overview', file: '/documents/grammarPdf/basicGrammarparts-of-speech-overview.pdf' },
           { name: 'Parts of Speech (Version 2)', file: 'parts-of-speech-v2.pdf' },
           { name: 'Parts of Speech (Version 3)', file: 'parts-of-speech-v3.pdf' },
           { name: 'Parts of Speech for Level', file: 'parts-of-speech-level.pdf' },

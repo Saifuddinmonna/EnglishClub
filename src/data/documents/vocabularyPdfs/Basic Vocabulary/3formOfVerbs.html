@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+
+        /* Table Styles */
+        table {
+            border: 2px solid #007bff; /* Primary blue border */
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 0px; /* Will connect to headline if headline has margin-bottom: 0 */
+            margin-bottom: 30px; /* Space after table */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #007bff; /* Primary blue border for cells */
+            padding: 10px;
+            text-align: left;
+            vertical-align: top; /* Align content to the top for cells with lists */
+        }
+
+        thead th {
+            background-color: #cce5ff; /* Light blue background for table headers */
+            color: #004085; /* Darker blue text for contrast */
+            font-weight: bold;
+            text-align: center; /* Center align header text */
+        }
+
+        /* Styling for <p> tags acting as minor headers/introductions to tables */
+        p + table {
+            margin-top: 5px; /* Reduce space if table is preceded by a p that's like a sub-header */
+        }
+        p > strong { /* Make strong tags in paragraphs more prominent if they act as headers */
+            font-size: 1.1em;
+            color: #0056b3;
+        }
+
+
+        /* Table Headline Styles */
+        /* Main table titles (H1) */
+        h1#এস-strong-verbs-এর-form-গল-শখ,
+        h1#এস-weak-verbs-এর-form-গল-শখ,
+        h1#present-past-ও-past-participle-একই-অবসথয়-হয়-এ-verb-গল-নয়-অনক-ছতর-ছতর-ব-পঠকগণ-বভরনত-হন-যমন,
+        h1#important-verbs-for-test-paper-solution,
+        h1#some-important-verb-for-freehand-writing,
+        h1#some-important-verbs-for-freehand-writing-expanded-list,
+        h1#কছ-verb-আছ-যদর /* This H1 is a general section title, the next H1 is more specific to the table */
+        {
+            background-color: #007bff; /* Primary Blue */
+            color: white;
+            padding: 12px 15px;
+            margin-top: 40px;
+            margin-bottom: 0; /* Remove bottom margin to "attach" to table visually */
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            text-align: center;
+            font-size: 1.7em;
+        }
+        
+        /* More specific styling for h1#কছ-verb-আছ-যদর as it's a bit different */
+        h1#কছ-verb-আছ-যদর {
+             margin-bottom: 10px; /* Add some space before the next more specific H1 */
+        }
+
+
+        /* Sub-table titles (H2) */
+        h2#a.-actionmovement-verbs,
+        h2#b.-sensesperception-verbs,
+        h2#c.-thoughtknowledge-verbs,
+        h2#d.-communication-verbs,
+        h2#e.-emotionstate-of-being-verbs,
+        h2#f.-helping-verbs-linking-verbs,
+        h2#g.-daily-life-verbs,
+        h2#h.-verbs-of-possessionchange,
+        h2#i.-problem-solvingdecision-verbs,
+        h2#h.-verbs-of-possessionchange-extended,
+        /* This will style both H2s with this ID due to HTML having a duplicate ID.
+           Ideally, IDs should be unique. This targets the H2s intended as sub-headlines. */
+        h2#i.-problem-solvingdecision-verbs-extended 
+        {
+            background-color: #17a2b8; /* Info Blue (secondary) */
+            color: white;
+            padding: 10px 15px;
+            margin-top: 30px;
+            margin-bottom: 0; /* Remove bottom margin */
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            text-align: center;
+            font-size: 1.4em;
+        }
+
+        /* General H1, H2 styling for those not acting as table headlines */
+        h1:not(#এস-strong-verbs-এর-form-গল-শখ):not(#এস-weak-verbs-এর-form-গল-শখ):not(#present-past-ও-past-participle-একই-অবসথয়-হয়-এ-verb-গল-নয়-অনক-ছতর-ছতর-ব-পঠকগণ-বভরনত-হন-যমন):not(#important-verbs-for-test-paper-solution):not(#some-important-verb-for-freehand-writing):not(#some-important-verbs-for-freehand-writing-expanded-list):not(#কছ-verb-আছ-যদর),
+        h2:not(#a.-actionmovement-verbs):not(#b.-sensesperception-verbs):not(#c.-thoughtknowledge-verbs):not(#d.-communication-verbs):not(#e.-emotionstate-of-being-verbs):not(#f.-helping-verbs-linking-verbs):not(#g.-daily-life-verbs):not(#h.-verbs-of-possessionchange):not(#i.-problem-solvingdecision-verbs):not(#h.-verbs-of-possessionchange-extended):not(#i.-problem-solvingdecision-verbs-extended)
+        {
+            color: #0056b3; /* Standard heading color */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        /* Auxiliary verb section headers */
+        h1#lauxiliary-verb-সহযযকর-করয় {
+            background-color: #6c757d; /* Grey color for this specific section */
+            color: white;
+            padding: 12px 15px;
+            margin-top: 40px;
+            margin-bottom: 20px; 
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.7em;
+        }
+        /* Styling for the specific h2 inside a td, if it needs to be different or excluded from the main h2 style */
+        td h2#i.-problem-solvingdecision-verbs-extended {
+            background-color: #f8f9fa; /* Very light grey, almost white */
+            color: #333; /* Standard text color */
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 0; /* No special radius */
+            text-align: left;
+            font-size: 1.2em; /* Smaller than other H2s */
+            border: 1px dashed #ccc;
+        }
+
+        ol, ul {
+            padding-left: 20px; /* Indent lists a bit */
+        }
+        td ol { /* Reduce margin/padding for lists inside table cells */
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-left: 25px; /* Ensure numbering is visible */
+        }
+        td ol li p { /* Paragraphs inside list items in cells */
+            margin-bottom: 0;
+        }
+    </style>
+</head><body>
+    <h1 id="এস-strong-verbs-এর-form-গল-শখ">এসো Strong verbs-এর Form গুলো
+        শিখি</h1>
+        <table>
+        <colgroup>
+        <col style="width: 7%" />
+        <col style="width: 46%" />
+        <col style="width: 24%" />
+        <col style="width: 21%" />
+        </colgroup>
+        <thead>
+        <tr>
+        <th><ol type="1">
+        <li></li>
+        </ol></th>
+        <th>Present Tense</th>
+        <th>Past Tense</th>
+        <th>Past Participle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td><ol start="2" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol type="1">
+        <li><p>Arise (এরাইজ) উঠা</p></li>
+        </ol></td>
+        <td>arose (এরোজ)</td>
+        <td>arisen (এরাইজেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="3" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="2" type="1">
+        <li><p>Be-am/is/are (হওয়া)</p></li>
+        </ol></td>
+        <td>was/were (ওয়াজ/ওয়ার)</td>
+        <td>been (বিন)</td>
+        </tr>
+        <tr>
+        <td><ol start="4" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="3" type="1">
+        <li><p>Bear (বিয়ার) প্রসব করা।</p></li>
+        </ol></td>
+        <td>bore (বউর)</td>
+        <td>born/borne (বরন)</td>
+        </tr>
+        <tr>
+        <td><ol start="5" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="4" type="1">
+        <li><p>Begin (বিগিন)-আরম্ভ করা</p></li>
+        </ol></td>
+        <td>began (বিগেন)</td>
+        <td>begun (বিগান)</td>
+        </tr>
+        <tr>
+        <td><ol start="6" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="5" type="1">
+        <li><p>Beat (বিট)-মারা / প্রহার করা</p></li>
+        </ol></td>
+        <td>beat (বিট)</td>
+        <td>beaten (বিটেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="7" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="6" type="1">
+        <li><p>Behold (বিহোল্ড)-দেখা</p></li>
+        </ol></td>
+        <td>beheld (বিহেল্ড)</td>
+        <td>beheld (বিহেল্ড)</td>
+        </tr>
+        <tr>
+        <td><ol start="8" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="7" type="1">
+        <li><p>Bid (বিড)-আদেশ কর।</p></li>
+        </ol></td>
+        <td>bade (বেইড)</td>
+        <td>bidden (বিডেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="9" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="8" type="1">
+        <li><p>Bound (বাউন্ড)-বাঁধা</p></li>
+        </ol></td>
+        <td>bound (বাউন্ড)</td>
+        <td>bounden (বাউন্ডেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="10" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="9" type="1">
+        <li><p>Blow (রো)-বাতাস বহা/ ফুঁ দেওয়া</p></li>
+        </ol></td>
+        <td>blew (ব্লিউ)</td>
+        <td>blown (রোন)</td>
+        </tr>
+        <tr>
+        <td><ol start="11" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="10" type="1">
+        <li><p>Break (ব্রেক)-ভাঙ্গা'</p></li>
+        </ol></td>
+        <td>broke (ব্রোক)</td>
+        <td>broken (ব্রোকেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="12" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="11" type="1">
+        <li><p>Become (বিকাম)-হওয়া✓</p></li>
+        </ol></td>
+        <td>became (বিকেইম)</td>
+        <td>become (বিকাম)</td>
+        </tr>
+        <tr>
+        <td><ol start="13" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="12" type="1">
+        <li><p>Chide (চাইড) তিরস্কার করা</p></li>
+        </ol></td>
+        <td>chid (চিড)</td>
+        <td>chid (চিড)</td>
+        </tr>
+        <tr>
+        <td><ol start="14" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="13" type="1">
+        <li><p>Choose (ক্লিখ-লেগে থাকা(চোজ।-পছন্দ করা</p></li>
+        </ol></td>
+        <td>chose (চুজ)</td>
+        <td>chosen (চুজেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="15" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="14" type="1">
+        <li><p>Come (কাম)-আসা</p></li>
+        </ol></td>
+        <td>came (কেইন)</td>
+        <td>come (কাম)</td>
+        </tr>
+        <tr>
+        <td><ol start="16" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="15" type="1">
+        <li><p>Present Tense</p></li>
+        </ol></td>
+        <td><strong>Past Tense</strong></td>
+        <td><strong>Past Participle</strong></td>
+        </tr>
+        <tr>
+        <td><ol start="17" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="16" type="1">
+        <li><p>Dig (ডিগ)-খনন করা</p></li>
+        </ol></td>
+        <td>dug (ডাগ)</td>
+        <td>dug (ডাগ)</td>
+        </tr>
+        <tr>
+        <td><ol start="18" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="17" type="1">
+        <li><p>ডো-করা</p></li>
+        </ol></td>
+        <td>did (ডিড)</td>
+        <td>done (ডান)</td>
+        </tr>
+        <tr>
+        <td><ol start="19" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="18" type="1">
+        <li><p>Draw (ড্র)-টানা/আঁকা</p></li>
+        </ol></td>
+        <td>drew (ড্রিউ)</td>
+        <td>drawn (ড্রন)</td>
+        </tr>
+        <tr>
+        <td><ol start="20" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="19" type="1">
+        <li><p>Drink (ডিক)-পান করা।</p></li>
+        </ol></td>
+        <td>drank (ড্রেঙ্ক)</td>
+        <td>drunk (ড্রাঙ্ক)</td>
+        </tr>
+        <tr>
+        <td><ol start="21" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="20" type="1">
+        <li><p>Drive (ড্রাইভ)-চালানো</p></li>
+        </ol></td>
+        <td>drove (ড্রোভ)</td>
+        <td>driven (ভ্রাইভেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="22" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="21" type="1">
+        <li><p>Eat (ইট্য-খাওয়া</p></li>
+        </ol></td>
+        <td>ate (এইট)</td>
+        <td>eaten (ইটেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="23" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="22" type="1">
+        <li><p>Fall (ফল)-পড়া</p></li>
+        </ol></td>
+        <td>fell (ফেল)</td>
+        <td>fallen (ফলেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="24" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="23" type="1">
+        <li><p>Fight (ফাইট)-যুদ্ধ করা</p></li>
+        </ol></td>
+        <td>fought (ফট)</td>
+        <td>fought (ফট)</td>
+        </tr>
+        <tr>
+        <td><ol start="25" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="24" type="1">
+        <li><p>Find (ফাইন্ড)-খোঁজ করা ✓</p></li>
+        </ol></td>
+        <td>found (ফাউন্ড।</td>
+        <td>found (ফাউন্ড)</td>
+        </tr>
+        <tr>
+        <td><ol start="26" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="25" type="1">
+        <li><p>চ্যালেঞ্জ স্পেশাল টেন্স গাইড</p></li>
+        </ol></td>
+        <td></td>
+        <td></td>
+        </tr>
+        <tr>
+        <td><ol start="27" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="26" type="1">
+        <li><p>Forget (ফরগেট)-ভুলে যাওয়া✓</p></li>
+        </ol></td>
+        <td>forgot (ফরগট)</td>
+        <td>forgotten (ফরগটেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="28" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="27" type="1">
+        <li><p>Forsake (ফরসেক)-ত্যাগ করা</p></li>
+        </ol></td>
+        <td>forsook (ফরসূক)</td>
+        <td>forsaken (ফরসেকেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="29" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="28" type="1">
+        <li><p>Fly (ফ্লাই)-উড়া</p></li>
+        </ol></td>
+        <td>flew (ফ্লিউ)</td>
+        <td>flown (ফ্লোন)</td>
+        </tr>
+        <tr>
+        <td><ol start="30" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="29" type="1">
+        <li><p>Spit (স্পিট)-থুতু ফেলা:</p></li>
+        </ol></td>
+        <td>spat (প্যাট)</td>
+        <td>spat (স্প্যাট)</td>
+        </tr>
+        <tr>
+        <td><ol start="31" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="30" type="1">
+        <li><p>Strive (স্ট্রাইভ)-চেষ্টা করা</p></li>
+        </ol></td>
+        <td>strove (স্ট্রভ)</td>
+        <td>striven (স্ট্রাইভেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="32" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="31" type="1">
+        <li><p>Take (টক)-লওয়া V</p></li>
+        </ol></td>
+        <td>took (টুক)</td>
+        <td>taken (টেকেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="33" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="32" type="1">
+        <li><p>Throw (থ্রো)-নিক্ষেপ করা</p></li>
+        </ol></td>
+        <td>threw (থ্রিউ)</td>
+        <td>thrown (থ্রোন)</td>
+        </tr>
+        <tr>
+        <td><ol start="34" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="33" type="1">
+        <li><p>Year (টেয়ার)- ছেঁড়া</p></li>
+        </ol></td>
+        <td>tore (টোর)</td>
+        <td>torn (টর্ন)</td>
+        </tr>
+        <tr>
+        <td><ol start="35" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="34" type="1">
+        <li><p>Wear (অয়‍্যার)-পরিধান করা</p></li>
+        </ol></td>
+        <td>wore (ওর)</td>
+        <td>worn (অর্ণ)</td>
+        </tr>
+        <tr>
+        <td><ol start="36" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="35" type="1">
+        <li><p>Win (উইন)</p></li>
+        </ol></td>
+        <td>won (অন)</td>
+        <td>won (অন)</td>
+        </tr>
+        <tr>
+        <td><ol start="37" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="36" type="1">
+        <li><p>Write (রাইট)-লেখা</p></li>
+        </ol></td>
+        <td>wrote (রোট)</td>
+        <td>written (রিটেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="38" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="37" type="1">
+        <li><p>Weave (উইভ)-বস্ত্র বোনা।</p></li>
+        </ol></td>
+        <td>wove (ওভ)</td>
+        <td>woven (ওভেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="39" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="38" type="1">
+        <li><p>Wind (উইও)-ঘড়িতে চাবি দেয়া</p></li>
+        </ol></td>
+        <td>wound (ওন্ড)</td>
+        <td>wound (ওন্ড)</td>
+        </tr>
+        <tr>
+        <td><ol start="40" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="39" type="1">
+        <li><p>Wake (ওয়াক)-জাগরিত করা</p></li>
+        </ol></td>
+        <td>woke (ওক)</td>
+        <td>waken (ওয়াকেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="41" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="40" type="1">
+        <li></li>
+        </ol></td>
+        <td></td>
+        <td></td>
+        </tr>
+        <tr>
+        <td><ol start="42" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="41" type="1">
+        <li><p>Wring (রিং)-মোচড়ানো</p></li>
+        </ol></td>
+        <td>wrang (র‍্যাখ</td>
+        <td>wrung (রাং)</td>
+        </tr>
+        <tr>
+        <td><ol start="43" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="42" type="1">
+        <li><p>Abide (এবাইড)-বাস করা</p></li>
+        </ol></td>
+        <td>abode (এবোড)</td>
+        <td>abode (এবোড)</td>
+        </tr>
+        <tr>
+        <td><ol start="44" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="43" type="1">
+        <li><p>Befall (বিফল)-ঘটা</p></li>
+        </ol></td>
+        <td>befell (বিফেল)</td>
+        <td>befallen (বিফলেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="45" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="44" type="1">
+        <li><p>Beget (বিগেট)-উৎপন্ন করা</p></li>
+        </ol></td>
+        <td>begot (বিগট)</td>
+        <td>begotten (বিগটেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="46" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="45" type="1">
+        <li><p>Fling (ফ্লিথ-নিক্ষেপ করা</p></li>
+        </ol></td>
+        <td>flang (ফ্ল্যাং</td>
+        <td>flung (ফ্লাং)</td>
+        </tr>
+        <tr>
+        <td><ol start="47" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="46" type="1">
+        <li><p>Forbear (ফরবেয়ার)-সহ্য করা</p></li>
+        </ol></td>
+        <td>forbore' (ফরবোর)</td>
+        <td>forborne (ফরবরন)</td>
+        </tr>
+        <tr>
+        <td><ol start="48" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="47" type="1">
+        <li><p>Lead (লিড)-পথ দেখানো</p></li>
+        </ol></td>
+        <td>led (লেড)</td>
+        <td>led (লেড)</td>
+        </tr>
+        <tr>
+        <td><ol start="49" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="48" type="1">
+        <li><p>Mislead (মিসলিড)-ভুল করা</p></li>
+        </ol></td>
+        <td>misled (মিসলেড।</td>
+        <td>misled (মিসলেড)</td>
+        </tr>
+        <tr>
+        <td><ol start="50" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="49" type="1">
+        <li><p>Misdo (মিডডু)-ভুল পথে চালানো</p></li>
+        </ol></td>
+        <td>Misdid (মিসডিড)</td>
+        <td>misdone (মিসডান)</td>
+        </tr>
+        <tr>
+        <td><ol start="51" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="50" type="1">
+        <li><p>Mistake (মিসটেক)-ভুল করা'/</p></li>
+        </ol></td>
+        <td>mistook (মিসটুক।</td>
+        <td>mistaken (মিসটেকেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="52" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="51" type="1">
+        <li><p>Partake (পারটেক)-অংশগ্রহণ করা</p></li>
+        </ol></td>
+        <td>partook (পারটুক)</td>
+        <td>partaken (পারটেকেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="53" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="52" type="1">
+        <li><p>Thrive (থ্রিভ)-বর্ধিত হওয়া</p></li>
+        </ol></td>
+        <td>throve (থ্রোত।</td>
+        <td>thriven (থ্রিভেন)</td>
+        </tr>
+        <tr>
+        <td><ol start="54" type="1">
+        <li></li>
+        </ol></td>
+        <td><ol start="53" type="1">
+        <li><p>Tread (ট্রেড)-পদদলিত</p></li>
+        </ol></td>
+        <td>trode (ট্রড)</td>
+        <td>trodden (ট্রডেন)</td>
+        </tr>
+        </tbody>
+        </table>
+        <h1 id="section"></h1>
+        <h1 id="এস-weak-verbs-এর-form-গল-শখ">এসো Weak Verbs-এর Form গুলো
+        শিখি</h1>
+        <table>
+        <colgroup>
+        <col style="width: 1%" />
+        <col style="width: 7%" />
+        <col style="width: 1%" />
+        <col style="width: 33%" />
+        <col style="width: 13%" />
+        <col style="width: 9%" />
+        <col style="width: 9%" />
+        <col style="width: 24%" />
+        </colgroup>
+        <thead>
+        <tr>
+        <th colspan="2"><ol start="55" type="1">
+        <li></li>
+        </ol></th>
+        <th>Present tense</th>
+        <th colspan="2">Past Tense</th>
+        <th colspan="2">Past Participle</th>
+        <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td colspan="2"><ol start="56" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol type="1">
+        <li><p><strong>Abscond (এক্সকন্ড) গোপনে পলায়ন করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">absconded (এক্সকন্ডেড)</td>
+        <td>absconden(এবসকন্ডেন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="57" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="2" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="2"></td>
+        <td></td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="58" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="3" type="1">
+        <li><p><strong>Accept (একসেপ্ট)-গ্রহণ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">accepted (একসেপটেড)</td>
+        <td>accepted (একসেপটেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="59" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="4" type="1">
+        <li><p><strong>Advise (এডভাইস)-উপদেশ দেওয়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">advised (এডভাইস্ড)</td>
+        <td>advised (এডভাইস্স্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="60" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="5" type="1">
+        <li><p><strong>Agree (এগ্রি)-সম্মত হওয়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">agreed (এগ্রিড)</td>
+        <td>agreed (এগ্রিড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="61" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="6" type="1">
+        <li><p><strong>Allot (এলট)-বণ্টন করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">alloted এলটেড।</td>
+        <td>alloted (এলটেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="62" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="7" type="1">
+        <li><p><strong>Apply (এপ্লাই)-প্রয়োগ করা V</strong></p></li>
+        </ol></td>
+        <td colspan="2">applied এপ্লাইড)</td>
+        <td>applied (এপ্লাইড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="63" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="8" type="1">
+        <li><p><strong>Befit (বিফিট)-উপযোগী</strong></p></li>
+        </ol></td>
+        <td colspan="2">befitted (বিফিটেড)</td>
+        <td>befitted (বিফিটেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="64" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="9" type="1">
+        <li><p><strong>Behave (বিহেভ)-আচরণ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">behaved (বিহেড্ড।</td>
+        <td>behaved (বিহেড্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="65" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="10" type="1">
+        <li><p><strong>Believe (বিলিভ)-বিশ্বাস করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">believed (বিলিড্)।</td>
+        <td>believed (বিলিন্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="66" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="11" type="1">
+        <li><p><strong>Breave (ব্রিভ)-নিরাশ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">breaved (ব্রিড)</td>
+        <td>breaved (ব্রিড</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="67" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="12" type="1">
+        <li><p><strong>Blend (ব্রেন্ড) মিশ্রিত করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">blended (ব্লেন্ডেড)</td>
+        <td>blended (ব্লেন্ডেড।</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="68" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="13" type="1">
+        <li><p><strong>Boil (বয়েল)-সিদ্ধ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">boiled (বয়েলড্)</td>
+        <td>boiled (বয়েল্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="69" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="14" type="1">
+        <li><p><strong>Bother (বদার)-সহ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">bothered (বদান্ড)</td>
+        <td>bothered (বদাৰ্ড।</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="70" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="15" type="1">
+        <li><p><strong>Borrow (বরো)-ধার করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">borrowed (বরোড)</td>
+        <td>borrowed (বরোড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="71" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="16" type="1">
+        <li><p><strong>Bend (বেও)-নত করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">bent (বেন্ট)</td>
+        <td>bent (বেন্ট)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="72" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="17" type="1">
+        <li><p><strong>Bite (বাইট)-কামড়ানো</strong></p></li>
+        </ol></td>
+        <td colspan="2">bit (বিট)</td>
+        <td>bitten (বিটেন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="73" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="18" type="1">
+        <li><p><strong>Bleed (ব্লিড)-রক্তপাত করা।</strong></p></li>
+        </ol></td>
+        <td colspan="2">bled (ব্লেড)</td>
+        <td>bled (ব্লেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="74" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="19" type="1">
+        <li><p><strong>Bring (ব্রি)-আনা</strong></p></li>
+        </ol></td>
+        <td colspan="2">brought (ব্রট)</td>
+        <td>brought (ব্রট)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="75" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="20" type="1">
+        <li><p><strong>Breed (ব্রিড)-জন্ম দেয়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">bred (ব্রেড)</td>
+        <td>bred (ব্রেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="76" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="21" type="1">
+        <li><p><strong>Build (বিল্ড)-নির্মাণ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">built (বিন্ট)</td>
+        <td>built (বিন্ট)-</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="77" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="22" type="1">
+        <li><p><strong>Catch (ক্যাচ)-ধরা</strong></p></li>
+        </ol></td>
+        <td colspan="2">caught (কট)</td>
+        <td>caught (কট)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="78" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="23" type="1">
+        <li><p><strong>Flee (ফ্রি)-পলায়ন করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">fled (ফ্রেড)</td>
+        <td>fled-(ফ্রেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="79" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="24" type="1">
+        <li><p><strong>Found (ফাউন্ড)-স্থাপন করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">founded (ফাউন্ডেড)</td>
+        <td>founded (ফাউন্ডেড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="80" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="25" type="1">
+        <li><p><strong>Have (হ্যান্ড)-পাওয়া/আছে</strong></p></li>
+        </ol></td>
+        <td colspan="2">had (হ্যাড)</td>
+        <td>had (হ্যান্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="81" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="26" type="1">
+        <li><p><strong>Hear (হিয়ার)-শূনা/</strong></p></li>
+        </ol></td>
+        <td colspan="2">heard (হার্ড)</td>
+        <td>heard (হার্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="82" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="27" type="1">
+        <li><p><strong>Shoot (সুট)-গুলি করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">shot (শট)</td>
+        <td>shot (শট)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="83" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="28" type="1">
+        <li><p><strong>Teach (টিচ)-শিক্ষা দেওয়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">taught (টট)</td>
+        <td>taught (টট!</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="84" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="29" type="1">
+        <li><p><strong>Freeze (ফ্রিজ)-জমাট বাঁধানো</strong></p></li>
+        </ol></td>
+        <td colspan="2">froze (ফ্রজ)</td>
+        <td>frozen (ফ্রজেন।</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="85" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="30" type="1">
+        <li><p><strong>Forbid (ফরবিড)-নিষেধ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">forbade (ফরবেড।</td>
+        <td>forbidden (ফরবিডেন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="86" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="31" type="1">
+        <li><p><strong>Fling (ফ্লিখ্য-ছুড়িয়া ফেলা</strong></p></li>
+        </ol></td>
+        <td colspan="2">flang (ফ্ল্যা</td>
+        <td>flung (ফ্লাখ)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="87" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="32" type="1">
+        <li><p><strong>Give (গিভ)-দেওয়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">gave (গেইভ)</td>
+        <td>given (গিভেন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="88" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="33" type="1">
+        <li><p><strong>Go (গো।-যাওয়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">went (ওয়েন্ট।</td>
+        <td>gone (গন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="89" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="34" type="1">
+        <li><p><strong>Grind (গ্রিন্ড)-চূর্ণ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">ground (গ্রাউন্ড)</td>
+        <td>ground (গ্রাউন্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="90" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="35" type="1">
+        <li><p><strong>Present tense</strong></p></li>
+        </ol></td>
+        <td colspan="2"><strong>Past tense</strong></td>
+        <td><strong>Past participle</strong></td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="91" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="36" type="1">
+        <li><p><strong>Get (গেট)-পাওয়া (গটেন/গট)</strong></p></li>
+        </ol></td>
+        <td colspan="2">got (গট)</td>
+        <td>gotten/got</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="92" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="37" type="1">
+        <li><p><strong>Grow (গ্রো)-জন্মানো</strong></p></li>
+        </ol></td>
+        <td colspan="2">grew (গ্রিউ)</td>
+        <td>grown (গ্রোন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="93" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="38" type="1">
+        <li><p><strong>Hang (হ্যাথ-ঝুলানো</strong></p></li>
+        </ol></td>
+        <td colspan="2">hung (হাং)</td>
+        <td>hung (হাং)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="94" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="39" type="1">
+        <li><p><strong>Hide (হাইড)-লুকানো</strong></p></li>
+        </ol></td>
+        <td colspan="2">hid (হিড)</td>
+        <td>hidden (হিডেন)-</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="95" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="40" type="1">
+        <li><p><strong>Hold (হোল্ড)-ধরা</strong></p></li>
+        </ol></td>
+        <td colspan="2">held (হেল্ড)</td>
+        <td>held (হেল্ড)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="96" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="41" type="1">
+        <li><p><strong>Know (নো)-জানা</strong></p></li>
+        </ol></td>
+        <td colspan="2">knew (নিউ)</td>
+        <td>known (নোন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="97" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="42" type="1">
+        <li><p><strong>Leave (লিভ)-ত্যাগ করা</strong></p></li>
+        </ol></td>
+        <td colspan="2">left (লেফট)</td>
+        <td>left (লেফট)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="98" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="43" type="1">
+        <li><p><strong>Lie (লাই)-শুয়ে থাকা</strong></p></li>
+        </ol></td>
+        <td colspan="2">lay (লে)</td>
+        <td>laid/lain (লেইড/লেইন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="99" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="44" type="1">
+        <li><p><strong>Ride (রাইড)-ঘোড়ায় চড়া</strong></p></li>
+        </ol></td>
+        <td colspan="2">rode (রোড)</td>
+        <td>ridden (রিডেন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="100" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="45" type="1">
+        <li><p><strong>Ring (রিং)-বাজান</strong></p></li>
+        </ol></td>
+        <td colspan="2">rang (র‍্যাং)</td>
+        <td>rung (রাং)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="101" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="46" type="1">
+        <li><p><strong>Rise (রাইজ)-উঠা</strong></p></li>
+        </ol></td>
+        <td colspan="2">rose (রোজ)</td>
+        <td>risen (রাইজেন্‌)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="102" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="47" type="1">
+        <li><p><strong>Run (রান)-দৌড়ান</strong></p></li>
+        </ol></td>
+        <td colspan="2">ran (র‍্যান)</td>
+        <td>run (রান)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="103" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol start="48" type="1">
+        <li><p><strong>See (সী)-দেখা</strong></p></li>
+        </ol></td>
+        <td colspan="2">saw (সো)</td>
+        <td>seen (সিন)</td>
+        </tr>
+        <tr>
+        <td colspan="2"><ol start="104" type="1">
+        <li></li>
+        </ol></td>
+        <td colspan="3"><ol star

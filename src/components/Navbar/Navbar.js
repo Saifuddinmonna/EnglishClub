@@ -43,7 +43,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user,dbUser,logout } = useAuth();
   const { isMobileMenuOpen, toggleMobileMenu, isStudentPanelVisible, toggleStudentPanel, isSidebarVisible, toggleSidebar } = useApp();
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
@@ -75,7 +75,7 @@ const Navbar = () => {
     { name: 'Home', href: '/' },
     { 
       name: 'Vocabulary', 
-      href: '#',
+      href: '/vocabulary',
       dropdown: [
         {
           name: 'Basic Vocabulary',
@@ -263,17 +263,19 @@ const Navbar = () => {
   ];
 
   // Helper for avatar content
-  const getAvatarContent = (user) => {
-    if (user?.profilePicture) {
+  const getAvatarContent = (dbUser) => {
+    if (dbUser?.profilePicture) {
       return (
         <img
-          src={user.profilePicture}
+          src={dbUser?.profilePicture}
           alt={user?.name || 'User'}
           className="w-10 h-10 rounded-full object-cover border border-blue-200"
         />
       );
-    } else if (user?.firstName && user.firstName.length > 0) {
-      return user.firstName[0].toUpperCase();
+    } else if (dbUser?.name?.length > 0) {
+      return dbUser.name[0].toUpperCase();
+    } else if (user?.name?.length > 0) {
+      return user.name[0].toUpperCase();
     } else if (user?.email && user.email.length > 0) {
       return user.email[0].toUpperCase();
     } else {
@@ -426,7 +428,7 @@ const Navbar = () => {
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                       <div className="px-4 py-3 border-b">
                         <div className="font-semibold text-gray-900 flex items-center gap-2">
-                          {user?.firstName} {user?.lastName}
+                          {user?.name}
                           <span className="ml-2 px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-xs font-medium capitalize">{user?.role}</span>
                         </div>
                         <div className="text-xs text-gray-500">{user?.email}</div>
