@@ -21,6 +21,10 @@ import {
   UserCircleIcon
 } from '@heroicons/react/24/outline';
 
+// Import admin components
+import UserManagement from '../features/adminDashboard/AdminDashBoardComponents/UserManagement';
+import AdminHome from '../features/adminDashboard/AdminDashBoardComponents/adminHome';
+
 const MainDashboardLayout = () => {
   const { user, dbUser, logout } = useAuth();
   const { isSidebarVisible, toggleSidebar } = useApp();
@@ -241,9 +245,14 @@ const MainDashboardLayout = () => {
       }`}>
         <main className="p-6">
           <div className="max-w-7xl mx-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-            {Outlet}
+            {/* Render content based on current route */}
+            {location.pathname === '/dashboard/admin/users' && <UserManagement />}
+            {location.pathname === '/dashboard/admin' && <AdminHome />}
+            {location.pathname === '/dashboard/admin/content' && <div>Content Management</div>}
+            {location.pathname === '/dashboard/admin/analytics' && <div>Analytics Dashboard</div>}
+            {location.pathname === '/dashboard/admin/settings' && <div>Settings</div>}
+            {location.pathname === '/dashboard' && <AdminHome />}
+            <Outlet />
           </div>
         </main>
       </div>

@@ -317,6 +317,7 @@ const UserManagement = () => {
             <option value="admin">Admin</option>
             <option value="teacher">Teacher</option>
             <option value="student">Student</option>
+            <option value="special-student">Special Student</option>
             <option value="guardian">Guardian</option>
           </select>
         </div>
@@ -380,6 +381,7 @@ const UserManagement = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       user.intendedRole === 'student' ? 'bg-blue-100 text-blue-800' :
+                      user.intendedRole === 'special-student' ? 'bg-orange-100 text-orange-800' :
                       user.intendedRole === 'teacher' ? 'bg-green-100 text-green-800' :
                       user.intendedRole === 'guardian' ? 'bg-purple-100 text-purple-800' :
                       'bg-gray-100 text-gray-800'
@@ -503,6 +505,7 @@ const UserManagement = () => {
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="student">Student</option>
+                    <option value="special-student">Special Student</option>
                     <option value="teacher">Teacher</option>
                     <option value="guardian">Guardian</option>
                   </select>
@@ -558,6 +561,7 @@ const UserManagement = () => {
                     className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="student">Student</option>
+                    <option value="special-student">Special Student</option>
                     <option value="teacher">Teacher</option>
                     <option value="guardian">Guardian</option>
                   </select>

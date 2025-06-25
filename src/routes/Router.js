@@ -41,9 +41,90 @@ const AppRouter = () => {
             <Route path="/documents/*" element={<MainLayout><Documents /></MainLayout>} />
             <Route path="/writing/*" element={<MainLayout><Writings /></MainLayout>} />
             <Route path="/grammar/*" element={<MainLayout><Grammar /></MainLayout>} />
-            <Route path="/vocabulary/*" element={<MainLayout><UserManagement /></MainLayout>} /> 
+            <Route path="/vocabulary/*" element={<MainLayout><Vocabulary /></MainLayout>} /> 
             
-           
+            {/* Dashboard routes - nested under MainLayout */}
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Admin specific routes - nested under MainLayout */}
+            <Route path="/dashboard/admin" element={
+              <AdminRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </AdminRoute>
+            } />
+            <Route path="/dashboard/admin/users" element={
+              <AdminRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </AdminRoute>
+            } />
+            <Route path="/dashboard/admin/content" element={
+              <AdminRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </AdminRoute>
+            } />
+            <Route path="/dashboard/admin/analytics" element={
+              <AdminRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </AdminRoute>
+            } />
+            <Route path="/dashboard/admin/settings" element={
+              <AdminRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </AdminRoute>
+            } />
+            
+            {/* Teacher routes */}
+            <Route path="/dashboard/teacher/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Student routes */}
+            <Route path="/dashboard/student/*" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Special Student routes */}
+            <Route path="/dashboard/special-student/*" element={
+              <SpecialStudentRoute>
+                <MainLayout>
+                  <MainDashboardLayout />
+                </MainLayout>
+              </SpecialStudentRoute>
+            } />
+
+            {/* AI Assistant route */}
+            <Route path="/ai-assistant" element={
+              <ProtectedRoute>
+                <AIAssistantLayout><AIAssistant /></AIAssistantLayout>
+              </ProtectedRoute>
+            } />
+            
+            {/* Fallback route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </AppProvider>
