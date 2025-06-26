@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import UserManagement from './AdminDashBoardComponents/UserManagement';
 import AdminHome from './AdminDashBoardComponents/adminHome';
+import AdminCourseManager from './AdminDashBoardComponents/AdminCourseManager';
 import {
   UserGroupIcon,
   AcademicCapIcon,
@@ -89,7 +90,7 @@ const AdminPanel = () => {
       case 'users':
         return <UserManagement />;
       case 'courses':
-        return <div className="bg-white rounded-lg shadow p-6"><h2 className="text-xl font-semibold">Courses Management</h2><p className="text-gray-600">Courses management coming soon...</p></div>;
+        return <AdminCourseManager />;
       case 'content':
         return <div className="bg-white rounded-lg shadow p-6"><h2 className="text-xl font-semibold">Content Management</h2><p className="text-gray-600">Content management coming soon...</p></div>;
       case 'analytics':
@@ -144,6 +145,9 @@ const AdminPanel = () => {
           </div>
         </main>
       </div>
+
+      {/* Course Management Section */}
+      <AdminCourseManager />
     </div>
   );
 };

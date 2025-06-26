@@ -68,15 +68,16 @@ const MainDashboardLayout = () => {
   const getNavigationItems = () => {
     const commonItems = [
       { name: 'Dashboard', icon: HomeIcon, current: activeTab === 'dashboard', path: '/dashboard' },
-      { name: 'Courses', icon: BookOpenIcon, current: activeTab === 'courses', path: '/dashboard/courses' },
-      { name: 'Schedule', icon: CalendarIcon, current: activeTab === 'schedule', path: '/dashboard/schedule' },
-      { name: 'test', icon: CalendarIcon, current: activeTab === 'test', path: '/dashboard/test' },
+      // { name: 'Courses', icon: BookOpenIcon, current: activeTab === 'courses', path: '/dashboard/courses' },
+      // { name: 'Schedule', icon: CalendarIcon, current: activeTab === 'schedule', path: '/dashboard/schedule' },
+      // { name: 'test', icon: CalendarIcon, current: activeTab === 'test', path: '/dashboard/test' },
     ];
 
     const roleSpecificItems = {
       admin: [
         { name: 'Users', icon: UserGroupIcon, current: activeTab === 'users', path: '/dashboard/admin/users' },
         { name: 'Content', icon: DocumentTextIcon, current: activeTab === 'content', path: '/dashboard/admin/content' },
+        { name: 'Courses', icon: DocumentTextIcon, current: activeTab === 'courses', path: '/dashboard/admin/courses' },
         { name: 'Analytics', icon: ChartBarIcon, current: activeTab === 'analytics', path: '/dashboard/admin/analytics' },
         { name: 'Settings', icon: CogIcon, current: activeTab === 'settings', path: '/dashboard/admin/settings' },
       ],
@@ -245,13 +246,6 @@ const MainDashboardLayout = () => {
       }`}>
         <main className="p-6">
           <div className="max-w-7xl mx-auto">
-            {/* Render content based on current route */}
-            {location.pathname === '/dashboard/admin/users' && <UserManagement />}
-            {location.pathname === '/dashboard/admin' && <AdminHome />}
-            {location.pathname === '/dashboard/admin/content' && <div>Content Management</div>}
-            {location.pathname === '/dashboard/admin/analytics' && <div>Analytics Dashboard</div>}
-            {location.pathname === '/dashboard/admin/settings' && <div>Settings</div>}
-            {location.pathname === '/dashboard' && <AdminHome />}
             <Outlet />
           </div>
         </main>

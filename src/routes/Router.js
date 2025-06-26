@@ -24,6 +24,7 @@ import MainDashboardLayout from '../Layouts/MainDashboardLayout';
 // Import admin components
 import UserManagement from '../features/adminDashboard/AdminDashBoardComponents/UserManagement';
 import AdminHome from '../features/adminDashboard/AdminDashBoardComponents/adminHome';
+import AdminCourseManager from '../features/adminDashboard/AdminDashBoardComponents/AdminCourseManager';
 
 const AppRouter = () => {
   return (
@@ -50,7 +51,9 @@ const AppRouter = () => {
                   <MainDashboardLayout />
                 </MainLayout>
               </ProtectedRoute>
-            } />
+            }>
+              <Route index element={<AdminHome />} />
+            </Route>
             
             {/* Admin specific routes - nested under MainLayout */}
             <Route path="/dashboard/admin" element={
@@ -59,35 +62,15 @@ const AppRouter = () => {
                   <MainDashboardLayout />
                 </MainLayout>
               </AdminRoute>
-            } />
-            <Route path="/dashboard/admin/users" element={
-              <AdminRoute>
-                <MainLayout>
-                  <MainDashboardLayout />
-                </MainLayout>
-              </AdminRoute>
-            } />
-            <Route path="/dashboard/admin/content" element={
-              <AdminRoute>
-                <MainLayout>
-                  <MainDashboardLayout />
-                </MainLayout>
-              </AdminRoute>
-            } />
-            <Route path="/dashboard/admin/analytics" element={
-              <AdminRoute>
-                <MainLayout>
-                  <MainDashboardLayout />
-                </MainLayout>
-              </AdminRoute>
-            } />
-            <Route path="/dashboard/admin/settings" element={
-              <AdminRoute>
-                <MainLayout>
-                  <MainDashboardLayout />
-                </MainLayout>
-              </AdminRoute>
-            } />
+            }>
+              <Route index element={<AdminHome />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="content" element={<AdminCourseManager />} />
+              <Route path="analytics" element={<div>Analytics Dashboard</div>} />
+              <Route path="courses" element={<AdminCourseManager />} />
+              <Route path="settings" element={<div>Settings</div>} />
+              <Route path="settings" element={<div>Settings</div>} />
+            </Route>
             
             {/* Teacher routes */}
             <Route path="/dashboard/teacher/*" element={
