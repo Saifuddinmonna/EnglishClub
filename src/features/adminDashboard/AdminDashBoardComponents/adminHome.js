@@ -127,32 +127,32 @@ const AdminHome = ({ activeTab, showDashboard }) => {
 
   if (!showDashboard) {
     return (
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <p className="text-gray-600">Content for {activeTab} will be displayed here.</p>
+      <div style={{ background: 'var(--color-bg-card)', borderRadius: '0.75rem', boxShadow: '0 1px 3px 0 var(--color-shadow)', padding: 'var(--standard-padding)', margin: 0 }}>
+        <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>Content for {activeTab} will be displayed here.</p>
       </div>
     );
   }
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">
+      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--color-section-title)', marginBottom: 'var(--standard-margin)' }}>
         {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
       </h1>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--standard-gap)', marginBottom: 'var(--standard-margin)' }}>
         {getStats().map((item) => (
           <div
             key={item.name}
-            className="bg-white rounded-xl shadow-sm p-6 transform transition-all duration-300 hover:scale-105 border border-gray-100"
+            style={{ background: 'var(--color-bg-card)', borderRadius: '0.75rem', boxShadow: '0 1px 3px 0 var(--color-shadow)', padding: 'var(--standard-padding)', transition: 'transform 0.3s', border: '1px solid var(--color-border)' }}
           >
-            <div className="flex items-center">
-              <div className={`p-3 rounded-lg ${item.bgColor}`}>
-                <item.icon className={`h-6 w-6 ${item.color}`} />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ padding: '0.75rem', borderRadius: '0.5rem', background: 'var(--color-hover-bg)', marginRight: '1rem' }}>
+                <item.icon style={{ height: '1.5rem', width: '1.5rem', color: 'var(--color-primary)' }} />
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">{item.name}</p>
-                <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
+              <div>
+                <p style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--color-text-muted)', margin: 0 }}>{item.name}</p>
+                <p style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--color-section-title)', margin: 0 }}>{item.value}</p>
               </div>
             </div>
           </div>
@@ -160,48 +160,48 @@ const AdminHome = ({ activeTab, showDashboard }) => {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
-          <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+      <div style={{ background: 'var(--color-bg-card)', borderRadius: '0.75rem', boxShadow: '0 1px 3px 0 var(--color-shadow)', padding: 'var(--standard-padding)', marginBottom: 'var(--standard-margin)', border: '1px solid var(--color-border)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--standard-margin)' }}>
+          <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--color-section-title)', margin: 0 }}>Recent Activity</h2>
+          <button style={{ color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 500, textDecoration: 'underline' }}>
             View All
           </button>
         </div>
-        <div className="space-y-4">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--standard-gap)' }}>
           {isLoading ? (
-            <div className="flex items-center justify-center py-8">
+            <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--standard-padding)' }}>
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             </div>
           ) : recentActivity.length > 0 ? (
             recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                <div className="flex-shrink-0">
-                  <activity.icon className="h-5 w-5 text-gray-400" />
+              <div key={activity.id} style={{ display: 'flex', alignItems: 'center', padding: 'var(--standard-padding)', borderRadius: '0.5rem', transition: 'background-color 0.3s' }}>
+                <div style={{ marginRight: '0.75rem' }}>
+                  <activity.icon style={{ height: '1.25rem', width: '1.25rem', color: 'var(--color-text-muted)' }} />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-900">{activity.message}</p>
-                  <p className="text-xs text-gray-500">{activity.time}</p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--color-section-title)', margin: 0 }}>{activity.message}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', margin: 0 }}>{activity.time}</p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-600 text-center py-4">No recent activity to display.</p>
+            <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: 'var(--standard-padding)' }}>No recent activity to display.</p>
           )}
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div style={{ background: 'var(--color-bg-card)', borderRadius: '0.75rem', boxShadow: '0 1px 3px 0 var(--color-shadow)', padding: 'var(--standard-padding)', marginBottom: 'var(--standard-margin)', border: '1px solid var(--color-border)' }}>
+        <h2 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--color-section-title)', marginBottom: 'var(--standard-margin)' }}>Quick Actions</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--standard-gap)' }}>
           {quickActions.map((action) => (
             <button
               key={action.name}
               onClick={action.action}
-              className={`p-4 ${action.bgColor} ${action.textColor} ${action.hoverColor} rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2`}
+              style={{ padding: 'var(--standard-padding)', background: 'var(--color-hover-bg)', color: 'var(--color-primary)', fontWeight: 500, borderRadius: '0.5rem', transition: 'all 0.3s, transform 0.3s', transform: 'scale(1)', flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}
             >
-              <action.icon className="h-5 w-5" />
-              <span className="font-medium">{action.name}</span>
+              <action.icon style={{ height: '1.25rem', width: '1.25rem' }} />
+              <span style={{ fontWeight: 500 }}>{action.name}</span>
             </button>
           ))}
         </div>

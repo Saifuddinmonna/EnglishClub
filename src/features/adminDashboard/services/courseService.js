@@ -9,9 +9,27 @@ export const getAllCourses = async ({ search = '', page = 1, limit = 10 } = {}) 
   if (page) params.page = page;
   if (limit) params.limit = limit;
   const res = await axios.get(API_BASE, { params });
-  // Return the data as-is (with pagination)
-  console.log("res.data from courseService",res.data);
-  return res.data;
+  // If no courses, return a sudo (sample) course
+  let data = res.data;
+  if (!data?.data || data.data.length === 0) {
+    data = {
+      data: [
+        {
+          _id: 'sudo-course-id',
+          title: 'Sample Course',
+          instructor: 'Admin',
+          level: 'Beginner',
+          category: 'General',
+          status: 'Active',
+        },
+      ],
+      pagination: {
+        currentPage: 1,
+        totalPages: 1,
+      },
+    };
+  }
+  return data;
 };
 
 export const getCourseById = async (id) => {

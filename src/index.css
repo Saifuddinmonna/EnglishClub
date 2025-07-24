@@ -2,106 +2,346 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-bg: #F8F9FA;
+  --color-bg-card: #FFFFFF;
+  --color-text: #212529;
+  --color-text-muted: #6C757D;
+  --color-primary: #007BFF;
+  --color-primary-hover: #0056b3;
+  --color-secondary: #6C757D;
+  --color-secondary-hover: #5a6268;
+  --color-border: #6C757D;
+  --color-nav-link: #6C757D;
+  --color-nav-link-hover: #0056b3;
+  --color-section-title: #212529;
+  --color-section-description: #6C757D;
+  --color-footer-bg: #2D3748;
+  --color-footer-text: #FFFFFF;
+  --color-overlay: #000000;
+  --color-hover-bg: #F8F9FA;
+  --color-form-label: #212529;
+  --color-gradient-start: #2563eb;
+  --color-gradient-end: #7c3aed;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-light: rgba(0, 0, 0, 0.04);
+  --standard-padding: 1.25rem;
+  --standard-padding-lg: 2rem;
+  --standard-margin: 1.25rem;
+  --standard-margin-lg: 2rem;
+  --standard-radius: 0.5rem;
+  --standard-gap: 1.25rem;
+  --standard-font-size: 1rem;
+  --standard-line-height: 1.5;
+}
+
+/* --- Dark Mode Variables --- */
+body.dark-mode {
+  --color-bg: #1A202C;
+  --color-bg-card: #2D3748;
+  --color-text: #E2E8F0;
+  --color-text-muted: #A0AEC0;
+  --color-primary: #4299E1;
+  --color-primary-hover: #2B6CB0;
+  --color-secondary: #718096;
+  --color-secondary-hover: #4A5568;
+  --color-border: #4A5568;
+  --color-nav-link: #A0AEC0;
+  --color-nav-link-hover: #4299E1;
+  --color-section-title: #E2E8F0;
+  --color-section-description: #A0AEC0;
+  --color-footer-bg: #1A202C;
+  --color-footer-text: #E2E8F0;
+  --color-overlay: #000000;
+  --color-hover-bg: #1A202C;
+  --color-form-label: #E2E8F0;
+  --color-gradient-start: #2563eb;
+  --color-gradient-end: #7c3aed;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-shadow-light: rgba(0, 0, 0, 0.12);
+}
+
+/* --- Global Overrides --- */
+body.dark-mode {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+}
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode .section-title,
+body.dark-mode .form-label {
+  color: var(--color-section-title) !important;
+}
+
+/* --- Component Overrides --- */
+body.dark-mode .btn-primary {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+}
+body.dark-mode .btn-primary:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+body.dark-mode .btn-secondary {
+  background-color: var(--color-secondary) !important;
+}
+body.dark-mode .btn-secondary:hover {
+  background-color: var(--color-secondary-hover) !important;
+}
+body.dark-mode .nav-link {
+  color: var(--color-nav-link) !important;
+}
+body.dark-mode .nav-link:hover {
+  color: var(--color-nav-link-hover) !important;
+}
+body.dark-mode .nav-link-active {
+  background-color: var(--color-primary) !important;
+}
+body.dark-mode .card,
+body.dark-mode .navbar,
+body.dark-mode .nav-menu-mobile,
+body.dark-mode .nav-dropdown,
+body.dark-mode .course-card {
+  background-color: var(--color-bg-card) !important;
+  border-color: var(--color-border) !important;
+}
+body.dark-mode .input-field {
+  background-color: var(--color-bg-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+body.dark-mode .input-field:focus {
+  border-color: var(--color-primary) !important;
+  --tw-ring-color: var(--color-primary) !important;
+}
+body.dark-mode .section-description {
+  color: var(--color-section-description) !important;
+}
+body.dark-mode .nav-dropdown-item {
+  color: var(--color-nav-link) !important;
+}
+body.dark-mode .nav-dropdown-item:hover {
+  background-color: var(--color-bg) !important;
+}
+body.dark-mode .footer {
+  background-color: var(--color-footer-bg) !important;
+}
+/* Optional: Make images less bright in dark mode */
+body.dark-mode img,
+body.dark-mode svg {
+  filter: brightness(0.85);
+}
+
+/* Standardize all padding and margin for all elements */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body, main, section, article, aside, header, footer, nav, div, ul, ol, li, form, input, textarea, button {
+  padding: 0;
+  margin: 0;
+  font-size: var(--standard-font-size);
+  line-height: var(--standard-line-height);
+}
+
 @layer base {
   body {
-    @apply bg-[#F8F9FA] dark:bg-[#1A202C] text-[#212529] dark:text-[#E2E8F0];
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    padding: var(--standard-padding);
+    margin: 0;
   }
-
   h1 {
-    @apply text-3xl font-bold text-[#212529] dark:text-[#E2E8F0];
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: bold;
+    color: var(--color-section-title);
+    margin-bottom: var(--standard-margin);
   }
-
   h2 {
-    @apply text-2xl font-semibold text-[#212529] dark:text-[#E2E8F0];
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-section-title);
+    margin-bottom: var(--standard-margin);
   }
-
   h3 {
-    @apply text-xl font-semibold text-[#212529] dark:text-[#E2E8F0];
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--color-section-title);
+    margin-bottom: var(--standard-margin);
+  }
+  p {
+    margin-bottom: var(--standard-margin);
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+    padding: var(--standard-padding) var(--standard-padding-lg);
+    border-radius: var(--standard-radius);
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
   }
-
   .btn-primary {
-    @apply bg-[#007BFF] text-white hover:bg-[#0056b3] dark:bg-[#4299E1] dark:hover:bg-[#2B6CB0];
+    background-color: var(--color-primary);
+    color: #fff;
   }
-
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+  }
   .btn-secondary {
-    @apply px-6 py-2 bg-[#6C757D] text-white font-semibold rounded-lg 
-           hover:bg-[#5a6268] transition-colors duration-200 
-           focus:outline-none focus:ring-2 focus:ring-[#6C757D] focus:ring-offset-2
-           dark:bg-[#718096] dark:hover:bg-[#4A5568];
+    background-color: var(--color-secondary);
+    color: #fff;
+    font-weight: 600;
+    border-radius: var(--standard-radius);
+    transition: background-color 0.2s;
   }
-
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
+  }
   .nav-link {
-    @apply text-[#6C757D] hover:text-[#0056b3] transition-colors duration-200
-           dark:text-[#718096] dark:hover:text-[#63B3ED];
+    color: var(--color-nav-link);
+    transition: color 0.2s;
   }
-
+  .nav-link:hover {
+    color: var(--color-nav-link-hover);
+  }
   .nav-link-active {
-    @apply bg-[#007BFF] dark:bg-[#4299E1];
+    background-color: var(--color-primary);
   }
-
   .card {
-    @apply bg-white dark:bg-[#2D3748] rounded-lg shadow-md overflow-hidden transition-transform duration-200 hover:shadow-lg;
+    background-color: var(--color-bg-card);
+    border-radius: var(--standard-radius);
+    box-shadow: 0 1px 3px 0 var(--color-shadow), 0 1px 2px 0 var(--color-shadow-light);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: var(--standard-margin-lg);
+    padding: var(--standard-padding-lg);
   }
-
   .input-field {
-    @apply w-full px-4 py-2 border border-[#6C757D] rounded-lg focus:outline-none 
-           focus:ring-2 focus:ring-[#007BFF] focus:border-transparent
-           dark:border-[#718096] dark:focus:ring-[#4299E1];
+    width: 100%;
+    padding: var(--standard-padding);
+    border: 1px solid var(--color-border);
+    border-radius: var(--standard-radius);
+    outline: none;
+    transition: border-color 0.2s;
   }
-
+  .input-field:focus {
+    border-color: var(--color-primary);
+  }
   .form-label {
-    @apply block text-sm font-medium text-[#212529] mb-1 dark:text-[#E2E8F0];
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-form-label);
+    margin-bottom: 0.25rem;
   }
-
   .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--standard-padding);
+    padding-right: var(--standard-padding);
   }
-
   .section {
-    @apply py-12 sm:py-16;
+    padding-top: clamp(1.25rem, 5vw, 3.125rem);
+    padding-bottom: clamp(1.25rem, 5vw, 3.125rem);
   }
-
   .section-title {
-    @apply text-3xl font-bold text-center mb-8 text-[#212529] dark:text-[#E2E8F0];
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: var(--standard-margin-lg);
+    color: var(--color-section-title);
   }
-
   .section-description {
-    @apply text-[#6C757D] text-center max-w-3xl mx-auto mb-12 dark:text-[#718096];
+    color: var(--color-section-description);
+    text-align: center;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--standard-margin-lg);
   }
-
-  .nav-dropdown {
-    @apply absolute top-full left-0 w-48 bg-white dark:bg-[#2D3748] rounded-md shadow-lg py-1 z-50
-           transform opacity-0 scale-95 invisible
-           transition-all duration-200 ease-in-out
-           group-hover:opacity-100 group-hover:scale-100 group-hover:visible;
-  }
-
-  .nav-dropdown-item {
-    @apply block px-4 py-2 text-sm text-[#6C757D] hover:bg-[#F8F9FA] 
-           transition-colors duration-150 ease-in-out
-           dark:text-[#718096] dark:hover:bg-[#1A202C];
-  }
-
   .footer {
-    @apply bg-[#2D3748] text-white py-8 mt-12 dark:bg-[#1A202C];
+    background-color: var(--color-footer-bg);
+    color: var(--color-footer-text);
+    padding-top: var(--standard-padding-lg);
+    padding-bottom: var(--standard-padding-lg);
+    margin-top: var(--standard-margin-lg);
   }
-
   .footer-content {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--standard-padding);
+    padding-right: var(--standard-padding);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--standard-gap);
   }
-
   .footer-links {
-    @apply space-y-2;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-
   .footer-social {
-    @apply flex space-x-4;
+    display: flex;
+    gap: var(--standard-margin);
+  }
+  .course-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: var(--standard-radius);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: var(--standard-margin-lg);
+    padding: var(--standard-padding-lg);
+  }
+  .course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px var(--color-shadow), 0 10px 10px -5px var(--color-shadow-light);
+  }
+  .course-image {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+  }
+  .course-content {
+    padding: var(--standard-padding-lg);
+    width: 100%;
+  }
+  .navbar {
+    background-color: var(--color-bg-card);
+    box-shadow: 0 1px 3px 0 var(--color-shadow), 0 1px 2px 0 var(--color-shadow-light);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: var(--standard-padding);
+  }
+  .nav-container {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--standard-padding);
+    padding-right: var(--standard-padding);
+    padding-top: var(--standard-padding);
+    padding-bottom: var(--standard-padding);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-menu {
+    display: flex;
+    gap: var(--standard-margin);
+  }
+  .nav-menu-mobile {
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg-card);
+    z-index: 50;
+    transform: translateX(0);
+    transition: transform 0.3s;
   }
 }
 
@@ -121,140 +361,61 @@
   animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* Course card specific styles */
-.course-card {
-  @apply flex flex-col md:flex-row border border-[#6C757D] dark:border-[#718096] rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200;
-}
-
-.course-image {
-  @apply md:w-2/5 h-48 md:h-full object-cover;
-}
-
-.course-content {
-  @apply p-6 md:w-3/5;
-}
-
-/* Carousel styles */
-.carousel-container {
-  @apply relative h-[500px] overflow-hidden rounded-lg;
-}
-
-.carousel-slide {
-  @apply absolute w-full h-full transition-transform duration-500 ease-in-out;
-}
-
-.carousel-overlay {
-  @apply absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center;
-}
-
-.carousel-content {
-  @apply text-center text-white px-4;
-}
-
-/* Navigation styles */
-.navbar {
-  @apply bg-white dark:bg-[#2D3748] shadow-md sticky top-0 z-50;
-}
-
-.nav-container {
-  @apply container mx-auto px-4 py-3 flex items-center justify-between;
-}
-
-.nav-menu {
-  @apply hidden md:flex space-x-6;
-}
-
-.nav-menu-mobile {
-  @apply md:hidden fixed inset-0 bg-white dark:bg-[#2D3748] z-50 transform transition-transform duration-300;
-}
-
-/* Responsive utilities */
-@media (max-width: 768px) {
-  .container {
-    @apply px-4;
-  }
-
-  .section {
-    @apply py-8;
-  }
-
-  .course-card {
-    @apply flex-col;
-  }
-
-  .course-image {
-    @apply w-full h-48;
-  }
-
-  .course-content {
-    @apply w-full;
-  }
-}
-
-/* Add smooth transitions for all interactive elements */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
-
-/* Add hover effects for cards */
-.course-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.course-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-/* Add gradient text effect */
+/* Gradient text effect */
 .gradient-text {
-  background: linear-gradient(to right, #2563eb, #7c3aed);
+  background: linear-gradient(to right, var(--color-gradient-start), var(--color-gradient-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Add smooth image transitions */
+/* Smooth transitions for interactive elements */
 img {
   transition: transform 0.3s ease;
 }
-
-/* Add button hover effects */
 button {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 button:hover {
   transform: scale(1.05);
 }
-
 button:active {
   transform: scale(0.95);
 }
-
-/* Add smooth opacity transitions */
 .opacity-transition {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s;
 }
-
-/* Add smooth transform transitions */
 .transform-transition {
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
 }
-
-/* Add smooth background transitions */
 .bg-transition {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
-
-/* Add smooth color transitions */
 .color-transition {
-  transition: color 0.3s ease;
+  transition: color 0.3s;
+}
+.shadow-transition {
+  transition: box-shadow 0.3s;
 }
 
-/* Add smooth shadow transitions */
-.shadow-transition {
-  transition: box-shadow 0.3s ease;
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .container {
+    padding-left: var(--standard-padding);
+    padding-right: var(--standard-padding);
+  }
+  .section {
+    padding-top: var(--standard-padding);
+    padding-bottom: var(--standard-padding);
+  }
+  .course-card {
+    flex-direction: column;
+  }
+  .course-image {
+    width: 100%;
+    height: 12rem;
+  }
+  .course-content {
+    width: 100%;
+  }
 } 

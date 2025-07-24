@@ -151,6 +151,7 @@ const UnifiedDashboard = () => {
                   }`} />
                   <span className="font-medium">{item.name}</span>
                 </button>
+                
               ))}
             </nav>
           </div>
@@ -163,65 +164,7 @@ const UnifiedDashboard = () => {
       }`}>
         <main className="p-6">
           <div className="max-w-7xl mx-auto">
-            {showDashboard ? (
-              <>
-                <h1 className="text-2xl font-bold text-gray-900 mb-8">
-                  {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-                </h1>
-
-                {/* Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {getStats().map((item) => (
-                    <div
-                      key={item.name}
-                      className="bg-white rounded-xl shadow-sm p-6 transform transition-all duration-300 hover:scale-105"
-                    >
-                      <div className="flex items-center">
-                        <div className={`p-3 rounded-lg ${item.color} bg-opacity-10`}>
-                          <item.icon className={`h-6 w-6 ${item.color}`} />
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-sm font-medium text-gray-600">{item.name}</p>
-                          <p className="text-2xl font-semibold text-gray-900">{item.value}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Recent Activity */}
-                <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
-                  <div className="space-y-4">
-                    {/* Add your recent activity content here */}
-                    <p className="text-gray-600">No recent activity to display.</p>
-                  </div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <button className="p-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
-                      View Courses
-                    </button>
-                    <button className="p-4 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
-                      Check Assignments
-                    </button>
-                    <button className="p-4 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
-                      View Progress
-                    </button>
-                    <button className="p-4 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100 transition-colors">
-                      Schedule
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <p className="text-gray-600">Content for {activeTab} will be displayed here.</p>
-              </div>
-            )}
+            
           </div>
         </main>
       </div>

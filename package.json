@@ -19,6 +19,8 @@
     "firebase": "^11.9.1",
     "framer-motion": "^12.12.1",
     "html-entities": "^2.6.0",
+    "mammoth": "^1.9.1",
+    "pdfjs-dist": "^5.3.93",
     "react": "^18.2.0",
     "react-doc-viewer": "^0.1.14",
     "react-dom": "^18.2.0",

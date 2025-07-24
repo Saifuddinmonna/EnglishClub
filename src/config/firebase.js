@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -27,4 +27,24 @@ const analytics = getAnalytics(app);
 // Initialize services
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+// Set persistence to LOCAL for longer session (7 days)
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log('Firebase Auth persistence set to LOCAL');
+  })
+  .catch((error) => {
+    console.error('Error setting Firebase Auth persistence:', error);
+  });
+
+// Custom token expiry configuration
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    // Force token refresh every 6 days (before 7-day expiry)
+    setInterval(() => {
+      user.getIdToken(true); // Force refresh
+    }, 6 * 24 * 60 * 60 * 1000); // 6 days in milliseconds
+  }
+});
+
 export default app; 

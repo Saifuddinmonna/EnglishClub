@@ -78,6 +78,7 @@ const MainDashboardLayout = () => {
         { name: 'Users', icon: UserGroupIcon, current: activeTab === 'users', path: '/dashboard/admin/users' },
         { name: 'Content', icon: DocumentTextIcon, current: activeTab === 'content', path: '/dashboard/admin/content' },
         { name: 'Courses', icon: DocumentTextIcon, current: activeTab === 'courses', path: '/dashboard/admin/courses' },
+        { name: 'Catagories', icon: DocumentTextIcon, current: activeTab === 'catagories', path: '/dashboard/admin/catagories' },
         { name: 'Analytics', icon: ChartBarIcon, current: activeTab === 'analytics', path: '/dashboard/admin/analytics' },
         { name: 'Settings', icon: CogIcon, current: activeTab === 'settings', path: '/dashboard/admin/settings' },
       ],
@@ -141,111 +142,92 @@ const MainDashboardLayout = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)' }}>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--color-primary)' }}></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)' }}>
       {/* Sidebar */}
       <div 
         className={`fixed top-20 left-0 h-[calc(100vh-5rem)] transition-all duration-300 ease-in-out z-30 ${
           isSidebarVisible ? 'w-64' : 'w-0'
         }`}
       >
-        <div className={`h-full bg-white border-r border-gray-200 shadow-lg transition-opacity duration-300 ${
+        <div style={{ height: '100%', background: 'var(--color-bg-card)', borderRight: '1px solid var(--color-border)', boxShadow: '0 1px 3px 0 var(--color-shadow)', color: 'var(--color-text)' }} className={`transition-opacity duration-300 ${
           isSidebarVisible ? 'opacity-100' : 'opacity-0'
         }`}>
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full" style={{ color: 'var(--color-text)' }}>
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h1 className="text-xl font-bold text-gray-900">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', borderBottom: '1px solid var(--color-border)', color: 'var(--color-section-title)' }}>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--color-section-title)' }}>
                 {user?.role
                   ? user.role.charAt(0).toUpperCase() + user.role.slice(1) + ' Portal'
                   : 'User Portal'}
               </h1>
             </div>
-
             {/* User Profile Section */}
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
-              <div className="flex items-center space-x-3">
+            <div style={{ padding: '1rem', borderBottom: '1px solid var(--color-border)', background: 'var(--color-hover-bg)', color: 'var(--color-text)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--color-text)' }}>
                 {/* User Picture */}
-                <div className="flex-shrink-0">
+                <div style={{ flexShrink: 0 }}>
                   {dbUser?.profilePicture ? (
                     <img
                       src={dbUser.profilePicture}
                       alt="Profile"
-                      className="h-10 w-10 rounded-full object-cover border-2 border-white shadow-sm"
+                      style={{ height: '2.5rem', width: '2.5rem', borderRadius: '9999px', objectFit: 'cover', border: '2px solid var(--color-bg-card)', boxShadow: '0 1px 2px 0 var(--color-shadow)' }}
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.nextSibling.style.display = 'flex';
                       }}
                     />
                   ) : null}
-                  <div className={`h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center border-2 border-white shadow-sm ${
-                    dbUser?.profilePicture ? 'hidden' : 'flex'
-                  }`}>
-                    <UserCircleIcon className="h-6 w-6 text-white" />
+                  <div style={{ height: '2.5rem', width: '2.5rem', borderRadius: '9999px', background: 'var(--color-primary)', display: dbUser?.profilePicture ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--color-bg-card)', boxShadow: '0 1px 2px 0 var(--color-shadow)' }}>
+                    <UserCircleIcon className="h-6 w-6" style={{ color: '#fff' }} />
                   </div>
                 </div>
-                
                 {/* User Info */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {dbUser?.name || dbUser?.name || user?.displayName || 'User'}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">
-                    {dbUser?.email || user?.email || 'user@example.com'}
-                  </p>
-                  <p className="text-xs text-blue-600 font-medium capitalize">
-                    {user?.role || 'User'}
-                  </p>
+                <div style={{ flex: 1, minWidth: 0, color: 'var(--color-text)' }}>
+                  <p style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--color-section-title)', marginBottom: 0 }}>{dbUser?.name || dbUser?.name || user?.displayName || 'User'}</p>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: 0 }}>{dbUser?.email || user?.email || 'user@example.com'}</p>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--color-primary)', fontWeight: 500, textTransform: 'capitalize', marginBottom: 0 }}>{user?.role || 'User'}</p>
                 </div>
               </div>
             </div>
-
             {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto p-4">
+            <nav style={{ flex: 1, overflowY: 'auto', padding: '1rem', color: 'var(--color-text)' }}>
               {getNavigationItems().map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleTabClick(item)}
-                  className={`w-full flex items-center px-4 py-3 mb-2 rounded-lg transition-all duration-200 ${
-                    item.current
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', padding: '1rem', marginBottom: '0.5rem', borderRadius: '0.5rem', background: item.current ? 'var(--color-hover-bg)' : 'transparent', color: item.current ? 'var(--color-primary)' : 'var(--color-text-muted)', transition: 'background 0.2s, color 0.2s' }}
                 >
-                  <item.icon className={`h-5 w-5 mr-3 ${
-                    item.current ? 'text-blue-500' : 'text-gray-400'
-                  }`} />
-                  <span className="font-medium">{item.name}</span>
+                  <item.icon className="h-5 w-5 mr-3" style={{ color: item.current ? 'var(--color-primary)' : 'var(--color-border)' }} />
+                  <span style={{ fontWeight: 500 }}>{item.name}</span>
                 </button>
               ))}
             </nav>
-
             {/* Logout Section */}
-            <div className="p-4 border-t border-gray-200">
+            <div style={{ padding: '1rem', borderTop: '1px solid var(--color-border)', color: 'var(--color-text)' }}>
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200"
+                style={{ width: '100%', display: 'flex', alignItems: 'center', padding: '1rem', borderRadius: '0.5rem', color: 'var(--color-secondary)', background: 'transparent', transition: 'background 0.2s, color 0.2s' }}
               >
                 <ArrowRightOnRectangleIcon className="h-5 w-5 mr-3" />
-                <span className="font-medium">Logout</span>
+                <span style={{ fontWeight: 500 }}>Logout</span>
               </button>
             </div>
           </div>
         </div>
       </div>
-
       {/* Main content */}
       <div className={`transition-all duration-300 ${
         isSidebarVisible ? 'ml-64' : 'ml-0'
       }`}>
-        <main className="p-6">
-          <div className="max-w-7xl mx-auto">
+        <main style={{ padding: '1.5rem', background: 'var(--color-bg)', color: 'var(--color-text)' }}>
+          <div className="max-w-7xl mx-auto" style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}>
             <Outlet />
           </div>
         </main>

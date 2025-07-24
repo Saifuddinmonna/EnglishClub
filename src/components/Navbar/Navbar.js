@@ -36,7 +36,9 @@ import {
   DocumentMinusIcon as DocumentMinusIcon2,
   ChevronLeftIcon,
   ChevronRightIcon,
-  HomeIcon
+  HomeIcon,
+  MoonIcon,
+  SunIcon
 } from '@heroicons/react/24/outline';
 import AIButton from '../AIAssistant/AIButton';
 import { Menu, Transition } from '@headlessui/react';
@@ -48,6 +50,14 @@ const Navbar = () => {
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [openNestedSubmenu, setOpenNestedSubmenu] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      // Always default to light mode (no dark-mode class)
+      document.body.classList.remove('dark-mode');
+      return false;
+    }
+    return false;
+  });
 
   const toggleSubmenu = (menuName) => {
     setOpenSubmenu(openSubmenu === menuName ? null : menuName);
@@ -56,6 +66,18 @@ const Navbar = () => {
 
   const toggleNestedSubmenu = (menuName) => {
     setOpenNestedSubmenu(openNestedSubmenu === menuName ? null : menuName);
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const next = !prev;
+      if (next) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -401,6 +423,31 @@ const Navbar = () => {
           </div>
 
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
+            {/* Dark mode toggle button */}
+            <button
+              onClick={toggleDarkMode}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              style={{
+                background: 'var(--color-bg-card)',
+                color: 'var(--color-text)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--standard-radius)',
+                padding: '0.5rem',
+                marginRight: '0.5rem',
+                transition: 'background 0.2s, color 0.2s',
+                boxShadow: '0 1px 3px 0 var(--color-shadow)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {isDarkMode ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+            </button>
             {user ? (
               <div className="flex items-center space-x-2">
                 {/* AI Button as compact icon */}
@@ -492,6 +539,31 @@ const Navbar = () => {
           </div>
 
           <div className="-mr-2 flex items-center sm:hidden">
+            {/* Mobile dark mode toggle */}
+            <button
+              onClick={toggleDarkMode}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              style={{
+                background: 'var(--color-bg-card)',
+                color: 'var(--color-text)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--standard-radius)',
+                padding: '0.5rem',
+                marginRight: '0.5rem',
+                transition: 'background 0.2s, color 0.2s',
+                boxShadow: '0 1px 3px 0 var(--color-shadow)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {isDarkMode ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
+            </button>
             <button
               onClick={toggleMobileMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-all duration-2000 ease-in-out"

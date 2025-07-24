@@ -29,12 +29,17 @@ const AdminCourseManager = () => {
   };
 
   return (
-    <div>
-      {!showForm ? (
-        <CourseListPage key={refreshKey} onAdd={handleAdd} onEdit={handleEdit} />
-      ) : (
-        <CourseFormPage course={selectedCourse} onSuccess={handleSuccess} onCancel={handleCancel} />
-      )}
+    <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-gray-100 py-8 px-2 sm:px-4">
+        <div className="w-[98%] lg:w-4/5 mx-auto bg-white rounded-xl shadow-lg p-4 sm:p-8">
+          <h2 className="text-2xl font-bold mb-6 text-center text-blue-700 tracking-wide">Course Management</h2>
+          {!showForm ? (
+            <CourseListPage key={refreshKey} onAdd={handleAdd} onEdit={handleEdit} />
+          ) : (
+            <CourseFormPage course={selectedCourse} onSuccess={handleSuccess} onCancel={handleCancel} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

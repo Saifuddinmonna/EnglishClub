@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { useApp } from '../../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../../context/AppContext';
 import {
   BookOpenIcon,
   AcademicCapIcon,

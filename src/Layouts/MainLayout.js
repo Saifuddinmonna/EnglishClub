@@ -9,12 +9,10 @@ const MainLayout = ({ children }) => {
 
  if (user) {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <Navbar />
-      
-      <main className="flex-1 pt-20">
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-       
+      <main className="flex-1 pt-20" style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}>
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}>
           {children} 
         </div>
       </main>
@@ -24,10 +22,10 @@ const MainLayout = ({ children }) => {
 };
  
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <Navbar />
-      <main className="flex-1 pt-20">
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className="flex-1 pt-20" style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}>
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}>
           {children} 
         </div>
       </main>

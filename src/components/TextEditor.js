@@ -3,14 +3,8 @@ import { Editor } from '@tinymce/tinymce-react';
 
 const DEFAULT_API_KEY = process.env.REACT_APP_TINYMCE_API_KEY;
 
-const DEFAULT_PLUGINS = [
-  'advlist autolink lists link image charmap preview anchor',
-  'searchreplace visualblocks code fullscreen',
-  'insertdatetime media table help wordcount'
-];
-
-const DEFAULT_TOOLBAR =
-  'undo redo | blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help';
+const DEFAULT_PLUGINS = ['image'];
+const DEFAULT_TOOLBAR = 'image';
 
 const DEFAULT_MENUBAR = 'file edit view insert format tools table help';
 

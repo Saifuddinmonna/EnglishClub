@@ -25,6 +25,10 @@ import MainDashboardLayout from '../Layouts/MainDashboardLayout';
 import UserManagement from '../features/adminDashboard/AdminDashBoardComponents/UserManagement';
 import AdminHome from '../features/adminDashboard/AdminDashBoardComponents/adminHome';
 import AdminCourseManager from '../features/adminDashboard/AdminDashBoardComponents/AdminCourseManager';
+import AdminContentComingSoon from '../features/adminDashboard/AdminDashBoardComponents/AdminContentComingSoon';
+import CategoryManagerPage from '../features/adminDashboard/pages/CategoryManagerPage';
+import ContentManagerPage from '../features/adminDashboard/pages/ContentManagerPage';
+import ContentDetailsPage from '../features/adminDashboard/pages/ContentDetailsPage';
 
 const AppRouter = () => {
   return (
@@ -65,10 +69,11 @@ const AppRouter = () => {
             }>
               <Route index element={<AdminHome />} />
               <Route path="users" element={<UserManagement />} />
-              <Route path="content" element={<AdminCourseManager />} />
+              <Route path="content" element={<ContentManagerPage />} />
+              <Route path="content/:id/details" element={<ContentDetailsPage />} />
               <Route path="analytics" element={<div>Analytics Dashboard</div>} />
               <Route path="courses" element={<AdminCourseManager />} />
-              <Route path="settings" element={<div>Settings</div>} />
+              <Route path="catagories" element={<CategoryManagerPage />} />
               <Route path="settings" element={<div>Settings</div>} />
             </Route>
             

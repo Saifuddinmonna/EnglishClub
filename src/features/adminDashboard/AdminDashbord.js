@@ -103,30 +103,22 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', color: 'var(--color-text)', padding: 'var(--standard-padding)' }}>
       {/* Sidebar */}
       <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-        <div className="flex-1 flex flex-col min-h-0 bg-white border-r border-gray-200">
-          <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-4">
-              <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+        <div className="flex-1 flex flex-col min-h-0" style={{ background: 'var(--color-bg-card)', borderRight: '1px solid var(--color-border)', padding: 'var(--standard-padding)' }}>
+          <div className="flex-1 flex flex-col overflow-y-auto" style={{ padding: 0 }}>
+            <div className="flex items-center flex-shrink-0" style={{ padding: 'var(--standard-padding)' }}>
+              <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--color-section-title)', margin: 0 }}>Admin Dashboard</h1>
             </div>
-            <nav className="mt-5 flex-1 px-2 space-y-1">
+            <nav style={{ flex: 1, padding: 0, margin: 0 }}>
               {navigation.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => setActiveTab(item.name.toLowerCase())}
-                  className={`${
-                    item.current
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  } group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full`}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', padding: 'var(--standard-padding)', marginBottom: 'var(--standard-margin)', borderRadius: '0.5rem', background: item.current ? 'var(--color-hover-bg)' : 'transparent', color: item.current ? 'var(--color-primary)' : 'var(--color-text-muted)', transition: 'background 0.2s, color 0.2s', fontWeight: 500 }}
                 >
-                  <item.icon
-                    className={`${
-                      item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500'
-                    } mr-3 flex-shrink-0 h-6 w-6`}
-                  />
+                  <item.icon style={{ marginRight: '0.75rem', color: item.current ? 'var(--color-primary)' : 'var(--color-border)' }} />
                   {item.name}
                 </button>
               ))}
@@ -134,20 +126,18 @@ const AdminPanel = () => {
           </div>
         </div>
       </div>
-
       {/* Main content */}
       <div className="md:pl-64 flex flex-col flex-1">
-        <main className="flex-1">
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              {renderContent()}
-            </div>
+        <main className="flex-1" style={{ padding: 'var(--standard-padding)' }}>
+          <div style={{ maxWidth: '80rem', margin: '0 auto', padding: 0 }}>
+            {renderContent()}
           </div>
         </main>
       </div>
-
       {/* Course Management Section */}
-      <AdminCourseManager />
+      <div style={{ padding: 0 }}>
+        <AdminCourseManager />
+      </div>
     </div>
   );
 };
