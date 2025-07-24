@@ -108,7 +108,7 @@ export const createContent = (data) => {
 // Update content text (admin, PATCH, supports FormData, normal timeout)
 export const updateContentText = (contentId, data) => {
   console.log("[apiService] updateContentText called with ID:", contentId, "and data:", data);
-  return apiContent.patch(`/${contentId}`, data, {
+  return apiContent.put(`/${contentId}`, data, {
     timeout: 10000,
     headers: data instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : undefined,
   }).then(res => res.data);

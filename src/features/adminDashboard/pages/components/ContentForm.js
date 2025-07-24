@@ -101,24 +101,37 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
     }
   }, [content]);
 
-  // --- File change: add new files, keep existing in form state ---
+  // --- File change: add new files, merge with existing in form state ---
   const handleFileChange = (type, files) => {
-    if (type === 'images') setImageFiles(files);
-    if (type === 'pdfFiles') setPdfFiles(files);
-    if (type === 'docFiles') setDocFiles(files);
-    if (type === 'htmlFiles') setHtmlFiles(files);
+    setForm(prev => ({
+      ...prev,
+      [type]: [
+        // keep existing (object with _id)
+        ...(prev[type]?.filter(f => typeof f === 'object' && f._id)),
+        // add new (File/Blob)
+        ...Array.from(files)
+      ]
+    }));
   };
 
   // --- Remove existing file: add to remove list, remove from form state ---
   const handleRemoveExistingFile = (type, fileId) => {
     setForm(prev => ({
       ...prev,
-      [type]: prev[type].filter(f => f._id !== fileId)
+      [type]: prev[type].filter(f => (f._id ? f._id !== fileId : true))
     }));
     if (type === 'images') setRemovedImages(prev => [...prev, fileId]);
     if (type === 'pdfFiles') setRemovedPdfFiles(prev => [...prev, fileId]);
     if (type === 'docFiles') setRemovedDocFiles(prev => [...prev, fileId]);
     if (type === 'htmlFiles') setRemovedHtmlFiles(prev => [...prev, fileId]);
+  };
+
+  // --- Remove new file (not yet uploaded): remove from form state only ---
+  const handleRemoveNewFile = (type, fileIdx) => {
+    setForm(prev => ({
+      ...prev,
+      [type]: prev[type].filter((f, i) => !(i === fileIdx && !f._id))
+    }));
   };
 
   // --- Submit: always send all current (not removed) + new files ---
@@ -145,11 +158,11 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
       form.pdfFiles?.forEach(pdf => { if (pdf._id && !removedPdfFiles.includes(pdf._id)) formData.append('existingPdfFiles', pdf._id); });
       form.docFiles?.forEach(doc => { if (doc._id && !removedDocFiles.includes(doc._id)) formData.append('existingDocFiles', doc._id); });
       form.htmlFiles?.forEach(html => { if (html._id && !removedHtmlFiles.includes(html._id)) formData.append('existingHtmlFiles', html._id); });
-      // New files
-      imageFiles.forEach((file) => { if (file) formData.append('images', file); });
-      pdfFiles.forEach((file) => { if (file) formData.append('pdfFiles', file); });
-      docFiles.forEach((file) => { if (file) formData.append('docFiles', file); });
-      htmlFiles.forEach((file) => { if (file) formData.append('htmlFiles', file); });
+      // New files (File/Blob only)
+      form.images?.forEach(img => { if (!img._id) formData.append('images', img); });
+      form.pdfFiles?.forEach(pdf => { if (!pdf._id) formData.append('pdfFiles', pdf); });
+      form.docFiles?.forEach(doc => { if (!doc._id) formData.append('docFiles', doc); });
+      form.htmlFiles?.forEach(html => { if (!html._id) formData.append('htmlFiles', html); });
       // Removed file IDs
       removedImages.forEach(id => formData.append('removedImages', id));
       removedPdfFiles.forEach(id => formData.append('removedPdfFiles', id));
