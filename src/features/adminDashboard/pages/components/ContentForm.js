@@ -431,41 +431,30 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
     }
     setLoading(true);
     const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) => {
-      if (["images", "pdfFiles", "docFiles", "htmlFiles"].includes(key)) return;
-      if (key === 'categories') value.forEach((v) => formData.append('categories', v));
-      else if (key === 'tags') value.forEach((v) => formData.append('tags', v));
-      else if (key === 'parent' && value) formData.append('parent', value);
-      else if (key === 'accessLevel') formData.append('accessLevel', value);
-      else if (key === 'visibility') formData.append('visibility', value);
-      else if (key === 'isDownloadable') formData.append('isDownloadable', value);
-      else if (key === 'isCopyable') formData.append('isCopyable', value);
-      else formData.append(key, value);
-    });
+    // Only file fields
+    form.images?.forEach(img => { if (!img._id) formData.append('images', img); });
+    form.pdfFiles?.forEach(pdf => { if (!pdf._id) formData.append('pdfFiles', pdf); });
+    form.docFiles?.forEach(doc => { if (!doc._id) formData.append('docFiles', doc); });
+    form.htmlFiles?.forEach(html => { if (!html._id) formData.append('htmlFiles', html); });
     // Existing files (not removed)
     form.images?.forEach(img => { if (img._id && !removedImages.includes(img._id)) formData.append('existingImages', img._id); });
     form.pdfFiles?.forEach(pdf => { if (pdf._id && !removedPdfFiles.includes(pdf._id)) formData.append('existingPdfFiles', pdf._id); });
     form.docFiles?.forEach(doc => { if (doc._id && !removedDocFiles.includes(doc._id)) formData.append('existingDocFiles', doc._id); });
     form.htmlFiles?.forEach(html => { if (html._id && !removedHtmlFiles.includes(html._id)) formData.append('existingHtmlFiles', html._id); });
-    // New files (File/Blob only)
-    form.images?.forEach(img => { if (!img._id) formData.append('images', img); });
-    form.pdfFiles?.forEach(pdf => { if (!pdf._id) formData.append('pdfFiles', pdf); });
-    form.docFiles?.forEach(doc => { if (!doc._id) formData.append('docFiles', doc); });
-    form.htmlFiles?.forEach(html => { if (!html._id) formData.append('htmlFiles', html); });
     // Removed file IDs
     removedImages.forEach(id => formData.append('removedImages', id));
     removedPdfFiles.forEach(id => formData.append('removedPdfFiles', id));
     removedDocFiles.forEach(id => formData.append('removedDocFiles', id));
     removedHtmlFiles.forEach(id => formData.append('removedHtmlFiles', id));
-    console.log('Calling updateContentTextMultipart with:', content._id, formData);
+    console.log('Calling updateContentTextMultipart (files only) with:', content._id, formData);
     updateContentTextMultipart(content._id, formData)
       .then(() => {
-        toast.showSuccess('Content updated successfully (multipart).');
+        toast.showSuccess('Files updated successfully (multipart).');
         queryClient.invalidateQueries(['contents']);
         onClose();
       })
       .catch(err => {
-        toast.showError(`Failed to update content (multipart): ${err.message}`);
+        toast.showError(`Failed to update files (multipart): ${err.message}`);
       })
       .finally(() => setLoading(false));
   };
