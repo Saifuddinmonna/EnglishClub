@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createContent, updateContentText, getAllContents } from '../../../../services/apiService';
+import { createContent, getAllContents, updateContentTextJson, updateContentTextMultipart, addImageToContent, addPdfToContent, addDocToContent, addHtmlToContent, deleteImageFromContent, deletePdfFromContent, deleteDocFromContent, deleteHtmlFromContent } from '../../../../services/apiService';
 import toast from '../../../../services/toastService';
 import TinyMCEEditor from '../../../../components/TextEditor/TinyMCEEditor';
 import ContentFileUpload from './ContentFileUpload';
@@ -187,7 +187,7 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, formData }) => updateContentText(id, formData),
+    mutationFn: ({ id, formData }) => updateContentTextJson(id, formData),
     onSuccess: () => {
       toast.showSuccess('Content updated successfully');
       queryClient.invalidateQueries(['contents']);
@@ -238,6 +238,198 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
     queryFn: fetchAllContents,
   });
 
+  // New handlers for file updates
+  const handleAddImages = () => {
+    if (imageFiles.length === 0) {
+      toast.showError('No images selected for upload.');
+      return;
+    }
+    const formData = new FormData();
+    imageFiles.forEach(file => formData.append('images', file));
+    addImageToContent(formData)
+      .then(() => {
+        toast.showSuccess('Images added to content successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setImageFiles([]); // Clear selected files
+      })
+      .catch(err => {
+        toast.showError(`Failed to add images: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleDeleteImage = (imageId) => {
+    if (!window.confirm('Are you sure you want to delete this image?')) return;
+    deleteImageFromContent(imageId)
+      .then(() => {
+        toast.showSuccess('Image deleted successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setRemovedImages(prev => [...prev, imageId]); // Add to removed list
+      })
+      .catch(err => {
+        toast.showError(`Failed to delete image: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleAddPdf = () => {
+    if (pdfFiles.length === 0) {
+      toast.showError('No PDF files selected for upload.');
+      return;
+    }
+    const formData = new FormData();
+    pdfFiles.forEach(file => formData.append('pdfFiles', file));
+    addPdfToContent(formData)
+      .then(() => {
+        toast.showSuccess('PDF files added to content successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setPdfFiles([]); // Clear selected files
+      })
+      .catch(err => {
+        toast.showError(`Failed to add PDF files: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleDeletePdf = (pdfId) => {
+    if (!window.confirm('Are you sure you want to delete this PDF file?')) return;
+    deletePdfFromContent(pdfId)
+      .then(() => {
+        toast.showSuccess('PDF file deleted successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setRemovedPdfFiles(prev => [...prev, pdfId]); // Add to removed list
+      })
+      .catch(err => {
+        toast.showError(`Failed to delete PDF file: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleAddDoc = () => {
+    if (docFiles.length === 0) {
+      toast.showError('No DOCX files selected for upload.');
+      return;
+    }
+    const formData = new FormData();
+    docFiles.forEach(file => formData.append('docFiles', file));
+    addDocToContent(formData)
+      .then(() => {
+        toast.showSuccess('DOCX files added to content successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setDocFiles([]); // Clear selected files
+      })
+      .catch(err => {
+        toast.showError(`Failed to add DOCX files: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleDeleteDoc = (docId) => {
+    if (!window.confirm('Are you sure you want to delete this DOCX file?')) return;
+    deleteDocFromContent(docId)
+      .then(() => {
+        toast.showSuccess('DOCX file deleted successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setRemovedDocFiles(prev => [...prev, docId]); // Add to removed list
+      })
+      .catch(err => {
+        toast.showError(`Failed to delete DOCX file: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleAddHtml = () => {
+    if (htmlFiles.length === 0) {
+      toast.showError('No HTML files selected for upload.');
+      return;
+    }
+    const formData = new FormData();
+    htmlFiles.forEach(file => formData.append('htmlFiles', file));
+    addHtmlToContent(formData)
+      .then(() => {
+        toast.showSuccess('HTML files added to content successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setHtmlFiles([]); // Clear selected files
+      })
+      .catch(err => {
+        toast.showError(`Failed to add HTML files: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleDeleteHtml = (htmlId) => {
+    if (!window.confirm('Are you sure you want to delete this HTML file?')) return;
+    deleteHtmlFromContent(htmlId)
+      .then(() => {
+        toast.showSuccess('HTML file deleted successfully.');
+        queryClient.invalidateQueries(['contents']);
+        setRemovedHtmlFiles(prev => [...prev, htmlId]); // Add to removed list
+      })
+      .catch(err => {
+        toast.showError(`Failed to delete HTML file: ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  // New handlers for text updates
+  const handleTextUpdate = () => {
+    setLoading(true);
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, value]) => {
+      if (["images", "pdfFiles", "docFiles", "htmlFiles"].includes(key)) return;
+      if (key === 'categories') value.forEach((v) => formData.append('categories', v));
+      else if (key === 'tags') value.forEach((v) => formData.append('tags', v));
+      else if (key === 'parent' && value) formData.append('parent', value);
+      else if (key === 'accessLevel') formData.append('accessLevel', value);
+      else if (key === 'visibility') formData.append('visibility', value);
+      else if (key === 'isDownloadable') formData.append('isDownloadable', value);
+      else if (key === 'isCopyable') formData.append('isCopyable', value);
+      else formData.append(key, value);
+    });
+    updateMutation.mutate({ id: content._id, formData });
+  };
+
+  const handleMainUpdate = () => {
+    setLoading(true);
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, value]) => {
+      if (["images", "pdfFiles", "docFiles", "htmlFiles"].includes(key)) return;
+      if (key === 'categories') value.forEach((v) => formData.append('categories', v));
+      else if (key === 'tags') value.forEach((v) => formData.append('tags', v));
+      else if (key === 'parent' && value) formData.append('parent', value);
+      else if (key === 'accessLevel') formData.append('accessLevel', value);
+      else if (key === 'visibility') formData.append('visibility', value);
+      else if (key === 'isDownloadable') formData.append('isDownloadable', value);
+      else if (key === 'isCopyable') formData.append('isCopyable', value);
+      else formData.append(key, value);
+    });
+    // Existing files (not removed)
+    form.images?.forEach(img => { if (img._id && !removedImages.includes(img._id)) formData.append('existingImages', img._id); });
+    form.pdfFiles?.forEach(pdf => { if (pdf._id && !removedPdfFiles.includes(pdf._id)) formData.append('existingPdfFiles', pdf._id); });
+    form.docFiles?.forEach(doc => { if (doc._id && !removedDocFiles.includes(doc._id)) formData.append('existingDocFiles', doc._id); });
+    form.htmlFiles?.forEach(html => { if (html._id && !removedHtmlFiles.includes(html._id)) formData.append('existingHtmlFiles', html._id); });
+    // New files (File/Blob only)
+    form.images?.forEach(img => { if (!img._id) formData.append('images', img); });
+    form.pdfFiles?.forEach(pdf => { if (!pdf._id) formData.append('pdfFiles', pdf); });
+    form.docFiles?.forEach(doc => { if (!doc._id) formData.append('docFiles', doc); });
+    form.htmlFiles?.forEach(html => { if (!html._id) formData.append('htmlFiles', html); });
+    // Removed file IDs
+    removedImages.forEach(id => formData.append('removedImages', id));
+    removedPdfFiles.forEach(id => formData.append('removedPdfFiles', id));
+    removedDocFiles.forEach(id => formData.append('removedDocFiles', id));
+    removedHtmlFiles.forEach(id => formData.append('removedHtmlFiles', id));
+    updateContentTextMultipart({ id: content._id, formData })
+      .then(() => {
+        toast.showSuccess('Content updated successfully (multipart).');
+        queryClient.invalidateQueries(['contents']);
+        onClose();
+      })
+      .catch(err => {
+        toast.showError(`Failed to update content (multipart): ${err.message}`);
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50" style={{ background: 'rgba(0,0,0,0.3)' }}>
       <div
@@ -248,6 +440,10 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
         <h2 className="text-xl font-bold mb-4">{content ? 'Edit Content' : 'Add Content'}</h2>
         <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex gap-2 mb-4">
+              <button type="button" className="btn btn-primary" onClick={handleMainUpdate} disabled={loading}>Update All (multipart)</button>
+              <button type="button" className="btn btn-secondary" onClick={handleTextUpdate} disabled={loading}>Update Text Only</button>
+            </div>
             <div>
               <label className="block font-bold text-lg mb-1">Title</label>
               <input name="title" value={form.title} onChange={handleChange} className="input w-full border border-gray-400 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-300 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-400 transition" required />
@@ -357,80 +553,69 @@ const ContentForm = ({ content, onClose, modalWidth = "max-w-6xl" }) => {
             {content && (
               <>
                 {/* Images Preview */}
-                {content.images && content.images.length > 0 && (
-                  <div>
-                    <label className="block font-bold text-lg mb-1">Existing Images</label>
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {content.images.filter(img => !removedImages.includes(img._id)).map(img => (
-                        <div key={img._id} className="relative group">
-                          <img src={img.url} alt={img.altText} className="w-24 h-24 object-cover rounded shadow border dark:border-gray-700" />
-                          <button type="button" className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 text-xs opacity-80 group-hover:opacity-100" onClick={() => handleRemoveExistingFile('images', img._id)}>x</button>
-                        </div>
-                      ))}
-                    </div>
+                <div>
+                  <label className="block font-bold text-lg mb-1">Images</label>
+                  <ContentFileUpload files={form.images.filter(f => !f._id)} onChange={files => handleFileChange('images', files)} type="images" />
+                  <button type="button" className="btn btn-success mt-2" onClick={handleAddImages} disabled={loading}>Add Images to DB</button>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {form.images.map((img, idx) => (
+                      <div key={img._id || idx} className="relative group">
+                        <img src={img.url ? img.url : URL.createObjectURL(img)} alt={img.altText || ''} className="w-24 h-24 object-cover rounded shadow border dark:border-gray-700" />
+                        {img._id ? (
+                          <button type="button" className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 text-xs opacity-80 group-hover:opacity-100" onClick={() => handleDeleteImage(img._id)} disabled={loading}>x</button>
+                        ) : (
+                          <button type="button" className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 text-xs opacity-80 group-hover:opacity-100" onClick={() => handleRemoveNewFile('images', idx)} disabled={loading}>x</button>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                )}
+                </div>
                 {/* PDF Preview */}
-                {content.pdfFiles && content.pdfFiles.length > 0 && (
-                  <div>
-                    <label className="block font-bold text-lg mb-1">Existing PDF Files</label>
-                    <ul className="mb-2">
-                      {content.pdfFiles.filter(pdf => !removedPdfFiles.includes(pdf._id)).map(pdf => (
-                        <li key={pdf._id} className="flex items-center gap-2">
-                          <a href={pdf.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-300 underline">{pdf.title || pdf.url}</a>
-                          <button type="button" className="bg-red-600 text-white rounded-full p-1 text-xs" onClick={() => handleRemoveExistingFile('pdfFiles', pdf._id)}>x</button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <div>
+                  <label className="block font-bold text-lg mb-1">PDF Files</label>
+                  <ul className="mb-2">
+                    {content.pdfFiles?.filter(pdf => !removedPdfFiles.includes(pdf._id)).map(pdf => (
+                      <li key={pdf._id} className="flex items-center gap-2">
+                        <a href={pdf.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-300 underline">{pdf.title || pdf.url}</a>
+                        <button type="button" className="bg-red-600 text-white rounded-full p-1 text-xs" onClick={() => handleRemoveExistingFile('pdfFiles', pdf._id)}>x</button>
+                      </li>
+                    ))}
+                  </ul>
+                  <ContentFileUpload files={pdfFiles} onChange={files => handleFileChange('pdfFiles', files)} type="pdfFiles" />
+                  <button type="button" className="btn btn-success mt-2" onClick={handleAddPdf} disabled={loading}>Add PDF Files to DB</button>
+                </div>
                 {/* DOC Preview */}
-                {content.docFiles && content.docFiles.length > 0 && (
-                  <div>
-                    <label className="block font-bold text-lg mb-1">Existing DOCX Files</label>
-                    <ul className="mb-2">
-                      {content.docFiles.filter(doc => !removedDocFiles.includes(doc._id)).map(doc => (
-                        <li key={doc._id} className="flex items-center gap-2">
-                          <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-300 underline">{doc.title || doc.url}</a>
-                          <button type="button" className="bg-red-600 text-white rounded-full p-1 text-xs" onClick={() => handleRemoveExistingFile('docFiles', doc._id)}>x</button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <div>
+                  <label className="block font-bold text-lg mb-1">DOCX Files</label>
+                  <ul className="mb-2">
+                    {content.docFiles?.filter(doc => !removedDocFiles.includes(doc._id)).map(doc => (
+                      <li key={doc._id} className="flex items-center gap-2">
+                        <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-300 underline">{doc.title || doc.url}</a>
+                        <button type="button" className="bg-red-600 text-white rounded-full p-1 text-xs" onClick={() => handleRemoveExistingFile('docFiles', doc._id)}>x</button>
+                      </li>
+                    ))}
+                  </ul>
+                  <ContentFileUpload files={docFiles} onChange={files => handleFileChange('docFiles', files)} type="docFiles" />
+                  <button type="button" className="btn btn-success mt-2" onClick={handleAddDoc} disabled={loading}>Add DOCX Files to DB</button>
+                </div>
                 {/* HTML Preview */}
-                {content.htmlFiles && content.htmlFiles.length > 0 && (
-                  <div>
-                    <label className="block font-bold text-lg mb-1">Existing HTML Files</label>
-                    <ul className="mb-2">
-                      {content.htmlFiles.filter(html => !removedHtmlFiles.includes(html._id)).map(html => (
-                        <li key={html._id} className="flex items-center gap-2">
-                          <a href={html.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-300 underline">{html.title || html.url}</a>
-                          <button type="button" className="bg-red-600 text-white rounded-full p-1 text-xs" onClick={() => handleRemoveExistingFile('htmlFiles', html._id)}>x</button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <div>
+                  <label className="block font-bold text-lg mb-1">HTML Files</label>
+                  <ul className="mb-2">
+                    {content.htmlFiles?.filter(html => !removedHtmlFiles.includes(html._id)).map(html => (
+                      <li key={html._id} className="flex items-center gap-2">
+                        <a href={html.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-300 underline">{html.title || html.url}</a>
+                        <button type="button" className="bg-red-600 text-white rounded-full p-1 text-xs" onClick={() => handleRemoveExistingFile('htmlFiles', html._id)}>x</button>
+                      </li>
+                    ))}
+                  </ul>
+                  <ContentFileUpload files={htmlFiles} onChange={files => handleFileChange('htmlFiles', files)} type="htmlFiles" />
+                  <button type="button" className="btn btn-success mt-2" onClick={handleAddHtml} disabled={loading}>Add HTML Files to DB</button>
+                </div>
               </>
             )}
             {/* File Uploads */}
-            <div>
-              <label className="block font-bold text-lg mb-1">Images</label>
-              <ContentFileUpload files={imageFiles} onChange={files => handleFileChange('images', files)} type="images" />
-            </div>
-            <div>
-              <label className="block font-bold text-lg mb-1">PDF Files</label>
-              <ContentFileUpload files={pdfFiles} onChange={files => handleFileChange('pdfFiles', files)} type="pdfFiles" />
-            </div>
-            <div>
-              <label className="block font-bold text-lg mb-1">DOCX Files</label>
-              <ContentFileUpload files={docFiles} onChange={files => handleFileChange('docFiles', files)} type="docFiles" />
-            </div>
-            <div>
-              <label className="block font-bold text-lg mb-1">HTML Files</label>
-              <ContentFileUpload files={htmlFiles} onChange={files => handleFileChange('htmlFiles', files)} type="htmlFiles" />
-            </div>
+            {/* Removed File Uploads section as per new_code */}
             <div className="flex gap-2 mt-4">
               <button type="submit" className="btn btn-primary" disabled={loading || createMutation.isLoading || updateMutation.isLoading}>
                 {(loading || createMutation.isLoading || updateMutation.isLoading) ? 'Saving...' : (content ? 'Update' : 'Create')}
