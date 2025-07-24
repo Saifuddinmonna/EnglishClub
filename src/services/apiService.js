@@ -93,6 +93,10 @@ export const getAllContents = (params) =>
 export const getContentBySlug = (slug) =>
   api.get(`/v1/content/${slug}`).then(res => res.data);
 
+// Get content by ID (admin/private)
+export const getContentById = (id) =>
+  api.get(`/v1/content/${id}`).then(res => res.data);
+
 // Create content (admin, long timeout, supports FormData)
 export const createContent = (data) => {
   console.log("[apiService] createContent called with:", data);
@@ -109,7 +113,7 @@ export const updateContentText = (contentId, data) => {
     headers: data instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : undefined,
   }).then(res => res.data);
 };
-
+    
 // Delete content (admin)
 export const deleteContent = (contentId) =>
   api.delete(`/v1/content/${contentId}`).then(res => res.data);

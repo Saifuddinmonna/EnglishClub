@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getContentById } from '../../../services/apiService';
+import ContentForm from './components/ContentForm';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -10,30 +12,24 @@ const TABS = [
 
 const ContentDetailsPage = () => {
   const { id } = useParams();
-  const [content, setContent] = useState(null);
-  const [tab, setTab] = useState('overview');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const { data: content, isLoading, error } = useQuery({
+    queryKey: ['content', id],
+    queryFn: () => getContentById(id),
+  });
+  const [tab, setTab] = React.useState('overview');
+  const [showEdit, setShowEdit] = React.useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    axios.get(`/api/v1/content/${id}`)
-      .then(res => {
-        setContent(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to fetch content details');
-        setLoading(false);
-      });
-  }, [id]);
-
-  if (loading) return <div className="p-8 text-center">Loading...</div>;
-  if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
+  if (isLoading) return <div className="p-8 text-center">Loading...</div>;
+  if (error) return <div className="p-8 text-center text-red-500">Failed to fetch content details</div>;
   if (!content) return <div className="p-8 text-center">No content found.</div>;
 
   return (
     <div className="container mx-auto px-2 py-4">
+      <div className="flex justify-between items-center mb-4">
+        <button className="btn btn-secondary" onClick={() => navigate('/dashboard/admin/content')}>Back</button>
+        <button className="btn btn-info" onClick={() => setShowEdit(true)}>Edit</button>
+      </div>
       <div className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
         <h2 className="text-2xl font-bold text-blue-800">{content.title}</h2>
         <div className="flex gap-2">
@@ -118,6 +114,9 @@ const ContentDetailsPage = () => {
           </div>
         )}
       </div>
+      {showEdit && (
+        <ContentForm content={content} onClose={() => setShowEdit(false)} modalWidth="max-w-4xl" />
+      )}
     </div>
   );
 };
