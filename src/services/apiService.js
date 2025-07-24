@@ -134,31 +134,34 @@ export const addImageToContent = (contentId, formData) =>
 export const deleteImageFromContent = (contentId, fileId) =>
   api.delete(`/v1/content/${contentId}/images/${fileId}`).then(res => res.data);
 
-// Add PDF file to content (student/teacher/admin)
+// Add PDF to content
 export const addPdfToContent = (contentId, formData) =>
   apiContent.post(`/${contentId}/pdfs`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }).then(res => res.data);
 
+// Delete PDF from content
 export const deletePdfFromContent = (contentId, fileId) =>
-  api.delete(`/v1/content/${contentId}/pdfs/${fileId}`).then(res => res.data);
+  apiContent.delete(`/${contentId}/pdfs/${fileId}`).then(res => res.data);
 
-// Add DOC file to content (teacher/admin)
+// Add DOCX to content
 export const addDocToContent = (contentId, formData) =>
   apiContent.post(`/${contentId}/docs`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }).then(res => res.data);
 
+// Delete DOCX from content
 export const deleteDocFromContent = (contentId, fileId) =>
-  api.delete(`/v1/content/${contentId}/docs/${fileId}`).then(res => res.data);
+  apiContent.delete(`/${contentId}/docs/${fileId}`).then(res => res.data);
 
-// Add HTML file to content (teacher/admin)
+// Add HTML to content
 export const addHtmlToContent = (contentId, formData) =>
   apiContent.post(`/${contentId}/htmls`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }).then(res => res.data);
 
+// Delete HTML from content
 export const deleteHtmlFromContent = (contentId, fileId) =>
-  api.delete(`/v1/content/${contentId}/htmls/${fileId}`).then(res => res.data);
+  apiContent.delete(`/${contentId}/htmls/${fileId}`).then(res => res.data);
 
 export default api; 
